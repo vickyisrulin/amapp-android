@@ -1,0 +1,436 @@
+***********************************************
+Important Links and commnads
+************************************************
+
+
+Generate KeyHash Facebook
+---------------------------
+Release : keytool -exportcert -alias IjoomerAdvance -keystore IjoomerAdvance | openssl sha1 -binary | openssl base64
+
+Debug : keytool -exportcert -alias androiddebugkey -keystore debug.keystore | openssl sha1 -binary | openssl base64
+--------------------------------
+
+Generate SHA-1
+--------------------------
+Release : keytool -list -v -keystore IjoomerAdvance
+
+Debug : keytool -list -v -keystore debug.keystore
+
+-------------------------------
+
+Change Keystore password and alias name
+-----------------------------------------
+http://blog.blundell-apps.com/tut-change-alias-passwords-of-your-android-keystore/
+
+Generate KeyStore From Command prompt and Sign apk
+--------------------------------------------------
+1)keytool -genkey -v -keystore <keystorename.keystore> -alias <AliaseName> -keyalg RSA -keysize 2048 -validity 10000
+2)Right Click On Project -> AndroidTools -> Export Unsigned Application Package
+3)jarsigner -keystore <path to keystore> -storepass <storepass> -keypass <keypass> <path to unsigned apk> <Aliase Name>
+4)./zipalign  -v 4  <path to apk>  <NewNameofapk>
+
+jarsigner -keystore eososelite_keystore -storepass eososelite -keypass eososelite EOSOS.apk eososelite
+
+./zipalign  -v 4  EOSOS.apk  EOSOSSigned.apk
+
+
+Android open the last activity from which you left
+--------------------------------------------------
+protected void onCreate(Bundle savedInstanceState) { 
+    super.onCreate(savedInstanceState); 
+    if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) { 
+        // Activity was brought to front and not created, 
+        // Thus finishing this will get us to the last viewed activity 
+        finish(); 
+        return; 
+    } 
+
+    // Regular activity creation code... 
+} 
+
+
+In-App Purchage
+----------------------
+http://www.techotopia.com/index.php/Integrating_Google_Play_In-app_Billing_into_an_Android_Application_%E2%80%93_A_Tutorial
+
+Sqlite Tute
+--------------------------
+http://www.tutorialspoint.com/sqlite/sqlite_glob_clause.htm
+
+Facebook Restrict Mobile api
+----------------------------
+http://www.theguardian.com/technology/2011/jan/18/facebook-privacy-data
+
+Shadow Effects on Textview
+-----------------------------
+http://blog.stylingandroid.com/archives/378
+http://android-er.blogspot.in/2011/06/place-shadow-behind-text.html
+http://s2jp.com/2011/04/textview-dropshadow/
+http://eridem.net/android-tip-027-add-shadow-to-lables-buttons-and-other-view/
+http://belencruz.com/2012/12/rounded-button-with-shadow-in-android/
+http://www.uifuel.com/android-creating-a-drop-shadow-in-xml-layout/
+http://stackoverflow.com/questions/5197892/add-shadow-to-custom-shape-on-android
+http://fxrlabs.com/google/android-button-xml-drop-shadow/
+http://www.anotherandroidblog.com/2011/06/29/drop-shadow-linearlayout/
+
+textview with curve effect
+--------------------------------
+http://stackoverflow.com/questions/13153201/how-to-show-circular-text-using-textview-in-android
+
+Calculate Distance Sqlite
+-----------------------------
+http://stackoverflow.com/questions/3126830/query-to-get-records-based-on-radius-in-sqlite
+
+Install Spark In Ubuntu 14.04
+-----------------------------
+http://www.2daygeek.com/how-to-install-spark-im-client-in-ubuntu-14-04/
+
+Android Clear All Activities 
+-----------------------------
+Intent intent = new Intent(activity, LoginGateway.class);
+ComponentName cn = intent.getComponent();
+Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
+activity.startActivity(mainIntent);
+
+Android Alarm Service
+--------------------------
+http://vikinghammer.com/2012/04/22/android-use-alarmmanager-instead-of-a-service-with-a-timertask/
+http://stackoverflow.com/questions/16534122/how-to-create-persistent-alarms-even-after-rebooting
+
+Facebook Ad Integration
+-------------------------------
+https://developers.facebook.com/docs/ads-for-apps/mobile-app-ads/
+
+Webrtc Turn RestApi
+-------------------
+https://github.com/alfreddatakillen/computeengineondemand
+
+Webrtc Example
+-------------------
+https://github.com/fycth/webrtcexample/tree/master/www/js
+
+AppLocker
+----------------
+https://github.com/wordpress-mobile/Android-PasscodeLock
+https://github.com/glory-zeng/AppLocker
+https://github.com/ankitdaf/LockApp
+https://github.com/commonsguy/LockscreenLocker
+https://github.com/dalbz/doodle-lock
+
+
+Moving Snake Cocos2dx
+--------------------------
+http://stackoverflow.com/questions/20904171/how-to-create-snake-like-body-in-box2d-and-cocos2dx
+
+Circular Seekbar
+-----------------
+http://devadvance.com/circularseekbar/
+
+Horizontal Scrollable GridView
+-----------------------------
+https://github.com/jess-anders/two-way-gridview
+
+Install windows on Linux VMware
+----------------------------------
+http://www.howtogeek.com/howto/18768/run-windows-in-ubuntu-with-vmware-player/
+
+how to create openfire plugin 
+----------------------------
+http://community.igniterealtime.org/docs/DOC-1200
+
+Email Client
+----------------
+https://github.com/k9mail
+
+WebRtc
+--------------------
+WebRtc Native Source
+https://chromium.googlesource.com/external/webrtc/stable/talk/+/fbb1efa61417540336cf52976d4ff4394bfa795b/app/webrtc
+
+Android:
+1)https://codeload.github.com/SDkie/Webrtc-for-Android/zip/master
+
+Iphone : 
+1) https://code.google.com/p/libjingle/source/browse/trunk/talk/examples/ios/AppRTCDemo?r=325&spec=svn377#AppRTCDemo%253Fstate%253Dclosed
+
+2)http://code.google.com/p/webrtc/source/browse/trunk/talk/examples/ios/AppRTCDemo/?r=4466
+
+WEB: 
+1)https://code.google.com/p/webrtc/
+
+Reference For WEBRTC setup 
+-----------------------------
+http://forums.udacity.com/questions/6004229/google-app-engine-launcher
+https://sites.google.com/site/barbarahohensee/google-app-engine-on-ubuntu
+http://www.webrtc.org/reference/getting-started
+http://www.webrtc.org/reference/getting-started/prerequisite-sw
+
+http://www.haihongyuan.com/hulianwang/157770.html
+http://blog.csdn.net/dotphoenix/article/details/7784218
+http://www.wikihow.com/Setup-Your-Java_Home-Path-in-Ubuntu
+
+Iphone language converter 
+--------------------------------
+http://members.home.nl/bas.de.reuver/files/stringsconvert.html
+http://www.freeformatter.com/xml-formatter.html#ad-output
+http://translate.google.com/
+
+
+Record Audio to byte array and playback with 
+----------------------------------------
+http://stackoverflow.com/questions/10511753/how-can-i-transfer-audio-buffer-to-play-it-directly
+
+RTMP Library
+--------------
+Android : http://www.aftek.com/afteklab/aftek-RTMP-library.shtml
+Iphone : http://www.aftek.com/afteklab/aftek-iphone-RTMP-library.shtml
+
+Jingle
+----------
+http://beem-project.com/projects/beem/files?sort=size%3Adesc%2Ccreated_on%3Adesc%2Cdownloads%3Adesc
+
+Generate Hashkey android
+-----------------------
+keytool -list -alias androiddebugkey \-keystore .android/debug.keystore \-storepass android -keypass android
+keytool -exportcert -alias <aliasName> -keystore <keystoreFilePath> | openssl sha1 -binary | openssl base64
+
+UI Design
+--------------
+http://onlinedataposting.in/contact_us.php
+http://www.chimply.com/Generator#classic-spinner,turningArrow
+http://preloaders.net/en/all
+http://stackoverflow.com/questions/14067339/create-video-from-screen-grabs-in-android
+
+Google Map API
+------------------
+https://developers.google.com/maps/documentation/staticmaps/?hl=it-IT#Paths
+https://developers.google.com/maps/documentation/javascript/libraries
+http://statsciolist.blogspot.in/2013/05/java-google-maps-polyline-encoding.html
+http://jeffreysambells.com/2010/05/27/decoding-polylines-from-google-maps-direction-api-with-java
+
+jakson
+------------------
+https://github.com/martinadamek/json-android-compare/blob/master/src/com/martinadamek/jsonandroid/JacksonJson.java
+https://github.com/martinadamek/json-android-compare
+
+https://developers.google.com/places/training/autocomplete-android
+
+Get thumb from Remote video url
+-------------------------------------
+http://api.embed.ly/1/oembed?url=http://www.youtube.com/watch?v=kyt_V_UZfvI
+
+private directories
+----------------------
+String dir = getPackageManager().getPackageInfo("com.example.app", 0).applicationInfo.dataDir;
+
+Internal file sorage
+http://developer.android.com/guide/topics/data/data-storage.html#filesInternal
+
+https://github.com/chrisbanes/ActionBar-PullToRefresh/tree/master/library/src/uk/co/senab/actionbarpulltorefresh/library
+
+Find Unused resource
+https://code.google.com/p/android-unused-resources/
+
+
+Voice Detection Android (detect when user start to speak and when he stops)
+--------------------------
+http://stackoverflow.com/questions/7955041/voice-detection-in-android-application
+
+Etho Settings
+--------------------
+http://www.cyberciti.biz/tips/ubuntu-linux-creating-ethernet-alias-for-eth0-network-device.html
+
+Multiple screen Support
+----------------------
+http://stackoverflow.com/questions/21361285/android-xml-layout-for-all-devices-small-normal-large-xlarge-etc
+
+Button Spark Effect 
+-------------------------
+http://stackoverflow.com/questions/7175873/click-effect-on-button-in-android
+
+
+Wheel Menu
+------------------------
+https://github.com/anupcowkur/Android-Wheel-Menu
+
+
+Crop Video
+--------------------
+https://github.com/dmytrodanylyk/video-crop
+
+Image-Magic For Android
+------------------------
+https://github.com/paulasiimwe/Android-ImageMagick
+
+KVM AndroidStudio Emulator
+----------------------------
+http://techtach.com/2014/05/boost-android-emulator-performanceon-linux-speeding-up-android-emulator-on-ubuntu/
+
+ScaleImageView
+--------------------------------------
+https://github.com/maurycyw/StaggeredGridViewDemo/blob/master/src/com/example/staggeredgridviewdemo/views/ScaleImageView.java
+
+Install Oracle For studio
+--------------------------------
+http://stackoverflow.com/questions/17474963/android-studio-tools-jar-file-is-not-present-in-classpath
+
+CheckBox Issue
+--------------------------------
+http://stackoverflow.com/questions/4037795/android-spacing-between-checkbox-and-text
+
+
+FFMPEG Player
+--------------------------
+https://github.com/appunite/AndroidFFmpeg
+
+Build FFMPEG for android
+-------------------------
+http://www.roman10.net/how-to-build-ffmpeg-with-ndk-r9/
+
+Build FFMPEG with libx264 for android
+------------------------------------
+https://github.com/halfninja/android-ffmpeg-x264
+http://ffmpeg-users.933282.n4.nabble.com/cross-compile-ffmpeg-for-mips-get-llrint-error-td1748878.html
+$NDK/build/tools/make-standalone-toolchain.sh --toolchain=arm-linux-androideabi-4.8 --install-dir=./toolchain
+
+Build FFMPEG with libx264 for android Trouble shooting
+-------------------------------------------------------
+https://github.com/jhotovy/android-ffmpeg/blob/master/Project/jni/ffmpeg_invoke/ffmpeg_invoke.c
+http://stackoverflow.com/questions/10649119/calling-native-method-twice-of-third-party-library-in-an-activity-causes-the-and
+
+Ubuntu apt-get intruppetd
+---------------------------
+http://askubuntu.com/questions/483611/message-edpkg-was-interrupted-you-must-manually-run-sudo-dpkg-configure-a
+
+VR android Oculus
+-------------------------
+https://developer.oculus.com/downloads/#sdk=mobile&status=active
+http://static.oculus.com/sdk-downloads/documents/Oculus_Mobile_v0.4.3_SDK_Documentation.pdf
+
+Oculus Rift with Kinect to track body movements
+-----------------------------------------------
+https://forums.oculus.com/viewtopic.php?t=6624
+
+
+Beacon
+-------
+http://techcrunch.com/2015/07/14/google-introduces-open-format-and-developer-tools-for-bluetooth-le-beacons/#.dknzxf:cCi0
+http://stackoverflow.com/questions/26253996/determining-distance-accuracy-from-beacon
+http://developer.radiusnetworks.com/2014/12/04/fundamentals-of-beacon-ranging.html
+
+Android CommandLine Imgage resiger wil worked in iphone2x images
+------------------------------------------------------------------
+https://pypi.python.org/pypi/android-asset-resizer/1.1.0
+
+1)  sudo apt-get install python-pip
+2)  sudo pip install android-asset-resizer --allow-external PIL --allow-unverified PIL
+3)  aaresize *.png -d xxxhdpi
+
+Tiny PNG
+------------------
+https://pngquant.org/
+sudo apt-get install pngquant
+pngquant --ext .png --force 256  *.png
+
+
+Phone layout convert to tablet
+-------------------------------
+http://of-electric-sheep.blogspot.dk/2012/04/how-to-scale-your-android-layouts-to.html
+
+Android layout finder
+-------------------------------
+https://www.buzzingandroid.com/tools/android-layout-finder/
+https://github.com/jesperborgstrup/android-layout-finder
+
+
+Oculus VR using Unity
+-------------------------
+https://www.youtube.com/watch?v=rAef7ZJ7ViI
+https://www.youtube.com/watch?v=Er0IMK94R44
+
+VR using Cardboard by google
+------------------------------
+https://developers.google.com/cardboard/android/
+
+Login History
+-------------------------
+last -f /var/log/wtmp.1 tasol
+
+Android Enable MoveToSDcard option
+------------------------------------
+$ ./adb devices
+$ ./adb shell pm set-install-location 2
+$ ./adb shell pm get-install-location
+
+
+Cluster multiple markers at same location
+-------------------------------------------
+https://github.com/mg6maciej/android-maps-extensions/tree/develop/android-maps-extensions-demo/src/main/java/pl/mg6/android/maps/extensions/demo
+
+Install TeamViewer
+--------------------------
+http://www.itzgeek.com/how-tos/linux/ubuntu-how-tos/how-to-install-teamviewer-on-ubuntu-14-10.html#axzz3cSupDKHq
+
+
+NFC
+------------------
+http://code.tutsplus.com/tutorials/reading-nfc-tags-with-android--mobile-17278
+http://stackoverflow.com/questions/5945100/android-changing-nfc-settings-on-off-programmatically
+http://www.developer.com/ws/android/nfc-programming-in-android.html
+
+
+YouTube data api
+------------------
+Get ChannelList from Username
+------------------------------
+https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forUsername=OneDirectionVEVO&key=AIzaSyBAkh3U3FLGrcSDaYqURoRuN2H14LdzT_I
+
+get playlist from channelid
+-----------------------------
+https://www.googleapis.com/youtube/v3/search?key=AIzaSyBAkh3U3FLGrcSDaYqURoRuN2H14LdzT_I&channelId=UCbW18JZRgko_mOGm5er8Yzg&part=snippet,id&order=date&maxResults=20
+
+get videolist from playlistid
+----------------------------
+https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL0zTBP9-UnPajs9AqBYtN56TclpAsgY2q&key=AIzaSyBAkh3U3FLGrcSDaYqURoRuN2H14LdzT_I
+
+Zoom Crop Like FB
+----------------------
+https://github.com/ozeetee/AndroidImageZoomCrop
+
+Android Transitions
+-------------------------
+https://github.com/rey5137/material
+https://github.com/andkulikov/Transitions-Everywhere
+https://github.com/lgvalle/Material-Animations
+http://www.andevcon.com/news/android-libraries-animations
+https://github.com/navasmdc/MaterialDesignLibrary
+
+Android Tools
+-------------------------
+http://www.android4devs.com/2014/07/5-tools-every-android-developer-must.html
+
+Material Design
+-------------------------
+http://www.google.co.in/design/spec/material-design/introduction.html
+
+Compatible Ripple Effect:
+    https://github.com/traex/RippleEffect(used)
+    https://github.com/balysv/material-ripple
+Material Widget demos:
+    https://github.com/rey5137/material
+Material Color Pallete:
+    http://mcg.mbitson.com/#/
+Appcompact library:
+    https://chris.banes.me/2015/04/22/support-libraries-v22-1-0/
+Material design icons:
+    https://github.com/google/material-design-icons
+    https://www.google.com/design/icons/#ic_search
+    https://romannurik.github.io/AndroidAssetStudio/
+Design suport library:
+    https://github.com/Suleiman19/Android-Material-Design-for-pre-Lollipop (all example using mentioned library)
+
+Facebook Integration
+-------------------------
+https://developers.facebook.com/docs/android/getting-started
+
+

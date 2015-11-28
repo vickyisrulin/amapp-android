@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <!--Google Cloud Messaging-->
+    <string name="gcm_server_key">AIzaSyB3Rv3gwTpzvL4Jbn7FtiUBXvo_SaI-2sM</string>
+    <string name="gcm_sender_id">563286821474</string>
+
+
+    <!-- Server Error Code -->
+    <string name="code108">Bad Data In Server Response.</string>
+    <string name="code599">Connection Problem Please Try Again.</string>
+    <string name="code204">No Content Found.</string>
+    <string name="code400">Wrong Data.</string>
+    <string name="code401">Invalid Username or Password.</string>
+    <string name="code404">No Such Request Found.</string>
+    <string name="code415">Unsupported File Type.</string>
+    <string name="code416">Upload Limit Exceeded.</string>
+    <string name="code500">Server Error.</string>
+    <string name="code501">Server Error.</string>
+    <string name="code701">Username Already Exists.</string>
+    <string name="code702">Email Already Exists.</string>
+    <string name="code703">Facebook User Not Found.</string>
+    <string name="code704">Session Expired.</string>
+    <string name="code705">Permission Denied.</string>
+    <string name="code706">Restricted Access.</string>
+    <string name="code707">Request already exists.</string>
+    <string name="code708">Awaiting approval.</string>
+    <string name="app_name">AMApp</string>
+    <!-- General String -->
+    <string name="remember">Remember</string>
+    <string name="gps_turn_on">Turn On GPS</string>
+    <string name="gps_turn_on_msg">GPS seems to be disabled, please turn it on.</string>
+    <string name="apply">Apply</string>
+    <string name="apply_capital">APPLY</string>
+    <string name="mail_hint">android.ijoomer@gmail.com</string>
+    <string name="back">Back</string>
+    <string name="retry">Retry</string>
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="of">of</string>
+    <string name="no">No</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancel_all">Cancel All</string>
+    <string name="upload_all">Upload All</string>
+    <string name="caption">Caption</string>
+    <string name="see_more">See More</string>
+    <string name="browse">Browse</string>
+    <string name="close">Close</string>
+    <string name="capture">\u0020\u0020\u0020 Capture</string>
+    <string name="change">Change</string>
+    <string name="gallery">\u0020\u0020\u0020 Phone Gallery</string>
+    <string name="continues">Continue</string>
+    <string name="save">Save</string>
+    <string name="submit">Submit</string>
+    <string name="send">Send</string>
+    <string name="push_to_talk">Hold And Speak</string>
+    <string name="done">Done</string>
+    <string name="download">Download</string>
+    <string name="pending">Pending</string>
+    <string name="upload">Upload</string>
+    <string name="category">Category</string>
+    <string name="next">Next</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Logout</string>
+    <string name="logout_message">Are you sure you want to logout ?</string>
+    <string name="loging_out">Logging Out</string>
+    <string name="edit">Edit</string>
+    <string name="add_photo">Add photo</string>
+    <string name="edit_photo">Edit photo</string>
+    <string name="remove">Remove</string>
+    <string name="invite">Invite</string>
+    <string name="report">Report</string>
+    <string name="ignor">Ignore</string>
+    <string name="what_is_on_your_mind"> What\’s On Your Mind? …</string>
+    <string name="say_about_photo">Say something about this photo …</string>
+    <string name="are_you_sure">Are you sure you want to remove this ?</string>
+    <string name="are_you_sure_set_profile_cover">Do you want to set this as cover photo ?</string>
+    <string name="view_all">View All</string>
+    <string name="twitter_authorisation">Twitter Authorization …</string>
+    <string name="twitter_sending_twitt">Sending Tweet …</string>
+    <string name="more">More</string>
+    <string name="home">Home</string>
+    <string name="lat_long_not_found">Latitude-Longitude Not Found</string>
+    <string name="address_from_map">Location</string>
+    <string name="tap_on_map_get_address">Tap the map to enter location</string>
+    <string name="minimum_zoom_level_requires_map_address">Minimum zoom level not reached. Please zoom in and try again. </string>
+    <string name="registration">Registration</string>
+    <string name="splash">Splash</string>
+    <string name="approval">Approval</string>
+    <string name="onsite">On-site</string>
+    <string name="push">Push</string>
+    <string name="share_email_subject">IjoomerAdvance Email : \/%s</string>
+    <string name="share_email_no_client">Sorry, no email clients are installed on your device.</string>
+    <string name="sayabout_story">What is this post about … ?</string>
+    <string name="saw_this_story_on_the">saw this story on the</string>
+    <string name="android_app">Android App</string>
+    <string name="thought_you_should_see_it">and thought you should see it.</string>
+    <string name="try_ijoomeradvance">** Try iJoomer Advance Now :: Its Free ** More information can be found at</string>
+    <string name="site_url">http://www.ijoomer.com</string>
+    <string name="terms_n_condition_first">	I have read and agree to the </string>
+    <string name="terms_n_condition_second">Terms and Conditions.</string>
+    <string name="accept_terms_and_condition">Plesae accept Terms and Conditions</string>
+    <string name="authenticating_user">Authenticating User …</string>
+    <string name="select_all">Select All</string>
+    <string name="none">None</string>
+    <string name="share">Share</string>
+    <string name="share_capital">SHARE</string>
+    <string name="size">Size</string>
+    <string name="play">Play</string>
+    <string name="play_all">Play All</string>
+    <string name="stop">Stop</string>
+    <string name="max_audio_length">Max Audio Length Reached.</string>
+    <string name="no_space">No Space Left on Device.</string>
+    <string name="message">Message</string>
+    <string name="sync_with_server">Syncing with server …</string>
+    <string name="signin">Sign In</string>
+    <string name="signout">Sign Out</string>
+    <string name="share_googleplus">Share on Google+</string>
+    <string name="login_as">Login as</string>
+    <string name="signin_with_google_account"> Please Sign-in with google Account</string>
+    <string name="share_googleplus_successfully">Share on Google+ successfully …</string>
+    <string name="no_pending_approval">You have no pending approval</string>
+    <string name="no_new_messages"> There are no new messages</string>
+
+    <string-array name="wall_post_type">
+        <item>Public</item>
+        <item>Site Members</item>
+        <item>Friends</item>
+        <item>Only me</item>
+    </string-array>
+    <string-array name="report_type">
+        <item>Spamming / Advertisement</item>
+        <item>Profanity / Inappropriate content</item>
+        <item>Abusive</item>
+    </string-array>
+    <!-- Registration dynamic page caption -->
+    <string name="state">state</string>
+    <string name="city_town">City / Town</string>
+    <string name="phone">phone</string>
+    <string name="year">Year</string>
+    <string name="email">Email</string>
+    <string name="website">Website</string>
+    <string name="country">country</string>
+    <string name="registration_successfully">Registration successful. Activation link sent to your mail …</string>
+
+    <!-- Forget Password -->
+    <string name="step1">Step:1</string>
+    <string name="step2">Step:2</string>
+    <string name="step3">Step:3</string>
+    <string name="reset_password">To Reset Your Password, Please First Identify Your Account.</string>
+    <string name="token_mail">Token From Your Mail</string>
+
+    <!-- Custom Dialog String -->
+    <string name="dialog_loading_registration">Registration</string>
+    <string name="dialog_http_access_credentials">Http Accress Credentials</string>
+    <string name="dialog_contact">Contact</string>
+    <string name="dialog_contact_not_found">No contact found</string>
+    <string name="dialog_loading_profile">Profile</string>
+    <string name="dialog_loading_facebook_login">Facebook login</string>
+    <string name="dialog_title_urlsetting">Ijoomer Domain Url setting</string>
+    <string name="dialog_domain_urlsetting">Domain Name</string>
+    <string name="dialog_title_forget_username">Forget User Name</string>
+    <string name="dialog_title_share">Share</string>
+    <string name="dialog_title_contact">Contact</string>
+    <string name="dialog_title_select_address"> address</string>
+    <string name="dialog_title_select_image">Select Image</string>
+    <string name="dialog_loading_connect_facebook">Connect with Facebook …</string>
+    <string name="dialog_loading_verifying_emailid">Verifying User Email-id …</string>
+    <string name="dialog_loading_verifying_token">Verifying UserName and Token …</string>
+    <string name="dialog_loading_resetiing_password">Resetting password …</string>
+    <string name="dialog_loading_register_newuser">Registering User …</string>
+    <string name="dialog_loading_register_user_profile_type">Getting Profile Type …</string>
+    <string name="dialog_loading_privacy_setting">Privacy Settings …</string>
+    <string name="dialog_loading_please_wait">Please wait</string>
+    <string name="dialog_loading_sending_request">Sending Request …</string>
+    <string name="dialog_loading_uploading_photos">Uploading photos…</string>
+    <string name="dialog_share_write_message_hint">Write Message Here …</string>
+    <string name="dialog_title_report">Report this</string>
+    <string name="report_message_hint">Report message</string>
+    <string name="report_successfully">Reported successfully …</string>
+    <!-- Alert/validation message String -->
+    <string name="validation_value_required">Value Required</string>
+    <string name="validation_invalid_email">Invalid email</string>
+    <string name="validation_invalid_birth_date">Invalid Birth Date</string>
+    <string name="validation_passwod_not_match">Password Not Matches</string>
+    <string name="alert_loading">Loading …</string>
+    <string name="alert_check_email">User Name Sent To Your Email-Id.</string>
+    <string name="alert_title_forget_password">\u0020\u0020 Forgot password</string>
+    <string name="alert_message_forget_password">Password reset successfully.</string>
+    <string name="alert_title_registration">\u0020\u0020 Registration.</string>
+    <string name="alert_title_low_memory">\u0020\u0020 Low Memory</string>
+    <string name="alert_message_low_memory">Please close other applications running in the background.</string>
+    <string name="alert_title_login">\u0020\u0020 Login</string>
+    <string name="alert_title_fblogin">\u0020\u0020 Login using Facebook</string>
+    <string name="alert_title_twitter">\u0020\u0020 Twitter</string>
+    <string name="alert_message_twitter_error">Whoops! You already tweeted that …</string>
+    <string name="alert_message_twitter_success">Your tweet has been posted …</string>
+    <string name="alert_message_frined_request_accept">Friend Request Accepted</string>
+    <string name="alert_title_friend_list">\u0020\u0020 Friend List</string>
+    <string name="alert_facebook_login_not_work">There seems to be a problem in loading your Facebook login, please try again later!</string>
+    <string name="alert_twitter_duplicate_sharing">Whoops! You already tweeted that …</string>
+    <string name="alert_message_file_downloaded">File Downloaded successfully.</string>
+    <string name="alert_message_file_uploaded">File Uploaded successfully.</string>
+    <!-- Login Screen -->
+    <string name="username">User Name</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="create_account">&lt;u>Create Account&lt;/u></string>
+    <string name="forget_password">Forgot Password?</string>
+    <string name="forget_password_c">FORGOT PASSWORD?</string>
+    <string name="forget_username">&lt;u>Forgot UserName?&lt;/u></string>
+    <string name="facebook_connect">Connect With Facebook</string>
+    <string name="resetpassword_step1">Identify Your Account</string>
+    <string name="resetpassword_token">Token</string>
+    <string name="resetpassword_retype">Retype Password</string>
+    <string name="resetpassword_finish">Finish</string>
+    <string name="resetpassword_step3">Reset Your Password</string>
+    <!-- Facebook SignUp -->
+    <string name="facebook_user_data_fetching">Fetching Facebook user data </string>
+    <string name="facebook_wall_posting">Posting data …</string>
+    <string name="facebook_welcome">Hi, &lt;b> \/%s &lt;/b> You Are Currently Connecting To The Site With Facebook Connect.</string>
+    <string name="facebook_signup_details_info">Since This Is The First Time You Are Logging In To This Site, You Are Required To Fill Up Some Of The Details Before We Can Proceed With Your Account Creation.</string>
+    <string name="facebook_signup_details_existing_info">If You Already Have An Account With This Site, All You Need To Do Is To Provide Your Existing Login Credentials And We Will Connect Your Facebook Login ID With Your Existing Account.</string>
+    <string name="facebook_signup_alert">* If You Are Linking Your Account, Your Facebook Data Will Be Imported And Overwritten To Your Existing Profile Including Your Password.</string>
+    <string name="facebook_currently">I Am Currently …</string>
+    <string name="facebook_new_user">A New User</string>
+    <string name="facebook_existing_user">A Member Of This Site</string>
+    <string name="facebook_new_member">New Member Of Site</string>
+    <string name="facebook_existing_member">Existing Member Of Site</string>
+    <string name="facebook_share_success">Facebook Sharing Successfully</string>
+    <string name="facebook_share_error">Facebook sharing error.</string>
+    <string name="facebook_share_title">Facebook sharing</string>
+    <!-- Registration -->
+    <string name="name">Name</string>
+    <string name="header_registration">Registration</string>
+
+    <!-- Pull To Refresh -->
+    <string name="pull_to_refresh_pull_label">Pull to refresh</string>
+    <string name="pull_to_refresh_release_label">Release to refresh</string>
+    <string name="pull_to_refresh_loading">Loading</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+    <string name="service_not_available">No geocoder available</string>
+    <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
+    <string name="no_address_found">no address found</string>
+    <string name="address_found">address found</string>
+    <string name="no_geocoder_available">no geocoder available</string>
+    <string name="no_location_data_provided">no location data provided</string>
+    <string name="network_available">Network available</string>
+    <string name="network_not_available">Network not available</string>
+
+    <!--
+    DailyPass
+    -->
+
+
+    <string name="sing_in_with_google">Log in with Google</string>
+    <string name="facebook_app_id">1074765922558372</string>
+    <string name="mag_email">Email</string>
+    <string name="mag_password">Password</string>
+    <string name="mag_login">LOGIN</string>
+    <string name="mag_forgot_password">&lt;u>Forgot password?&lt;/u></string>
+    <string name="mag_signup">Sign up</string>
+    <string name="mag_signup_c">NEW ACCOUNT</string>
+    <string name="search_hint">Search</string>
+    <string name="accessibility_overflow">overflow</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="username_required">Username cannot be empty</string>
+    <string name="password_required">Password cannot be empty</string>
+    <string name="email_required">Email cannot be empty</string>
+    <string name="phone_number_required">Phone number cannot be empty</string>
+    <string name="nav_home">HOME</string>
+    <string name="nav_home_title">Home</string>
+    <string name="nav_booking_history">BOOKING HISTORY</string>
+    <string name="nav_booking_history_title">Booking History</string>
+    <string name="nav_promotions">PROMOTIONS</string>
+    <string name="nav_promotions_title">Promotions</string>
+    <string name="nav_Free_passes">FREE PASSES</string>
+    <string name="nav_Free_passes_title">Free passes</string>
+    <string name="nav_rate_us">RATE US</string>
+    <string name="nav_rate_us_title">Rate us</string>
+    <string name="nav_contact_us">CONTACT US</string>
+    <string name="nav_contact_us_title">Contact us</string>
+    <string name="action_search">Search</string>
+    <string name="toggle_map_list">Change view</string>
+    <string name="label_activities">Activities</string>
+    <string name="label_amenities">Amenities</string>
+    <string name="label_equipments">Equipments</string>
+    <string name="map_key">AIzaSyChELNA0WztA64kQfVtGmpvCi-fLGw5MQ8</string>
+    <string name="no_gym_found">No business around you</string>
+    <string name="no_plan_found">No plan available</string>
+    <string name="invalid_latlong">Invalid latitude-longitude found</string>
+    <string name="get_pass_u">GET PASS</string>
+    <string name="get_pass">Get Pass</string>
+    <string name="select_date">Select date</string>
+    <string name="select_date_c">SELECT DATE</string>
+    <string name="coupon_code">Coupon code</string>
+    <string name="apply_coupon">APPLY COUPON</string>
+    <string name="select_time_slot">Select timings</string>
+    <string name="tap_to_reply">Tap to apply.</string>
+    <string name="km">km</string>
+    <string name="rupee">₹</string>
+    <string name="rupee2">₹₹</string>
+    <string name="rupee3">₹₹₹</string>
+    <string name="rupee4">₹₹₹₹</string>
+    <string name="daily">/day</string>
+    <string name="monthly">/month</string>
+    <string name="yearly">/year</string>
+
+    <plurals name="numberOfPasses">
+        <!--
+             As a developer, you should always supply "one" and "other"
+             strings. Your translators will know which strings are actually
+             needed for their language. Always include %d in "one" because
+             translators will need to use %d for languages where "one"
+             doesn't mean 1 (as explained above).
+          -->
+
+        <item quantity="one">@string/single_pass</item>
+        <item quantity="other">@string/multiple_passes</item>
+
+    </plurals>
+
+    <plurals name="seconds">
+        <!--
+             As a developer, you should always supply "one" and "other"
+             strings. Your translators will know which strings are actually
+             needed for their language. Always include %d in "one" because
+             translators will need to use %d for languages where "one"
+             doesn't mean 1 (as explained above).
+          -->
+
+        <item quantity="one">@string/second</item>
+        <item quantity="other">@string/seconds</item>
+
+    </plurals>
+
+    <string name="single_pass"><![CDATA[You have <b><font color="#4AB5AB"> %d </font></b> free pass.]]></string>
+    <string name="multiple_passes"><![CDATA[You have <b><font color="#4AB5AB"> %d </font></b> free passes.]]></string>
+    <string name="second">second></string>
+    <string name="seconds">seconds</string>
+    <string name="no_booking_history_found">No booking history found</string>
+    <string name="share_free_passes">Share your code to get free pass</string>
+    <string name="enter_promotion_code">Enter your promotional code</string>
+    <string name="please_select_day_timing">Select day and timing</string>
+    <string name="dd_mm_yy">DD-MM-YY</string>
+    <string name="nav_logout">LOGOUT</string>
+    <string name="enable_gcm">GPS is disabled in your device. Would you like to enable it?</string>
+    <string name="empty_booking_history">No booking history available</string>
+    <string name="empty_passes">No pass available</string>
+    <string name="signin_in">Signing in</string>
+    <string name="login_with_facebook">Log in with Facebook</string>
+    <string name="login_with_google">Log in with Google</string>
+    <string name="daily_tab">Daily</string>
+    <string name="other_tab">Other plans</string>
+    <string name="no_plan_available">No plan available</string>
+    <string name="book">Select Plan</string>
+    <string name="book_now">Book now</string>
+    <string name="app_subtitle">simplifying fitness</string>
+    <string name="invalid_response">Invalid response received</string>
+    <string name="generic_server_down">Server may be down please try again later.</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="generic_error">Error while receiving response</string>
+    <string name="no_content_found">No content found</string>
+    <string name="can_not_launch_market">Couldn\'t launch the market</string>
+    <string name="filter">Filter by price</string>
+    <string name="action_filter1">All</string>
+    <string name="actionFilterAll">All</string>
+    <string name="user_registration">User Registration</string>
+    <string name="phone_hint">Phone number</string>
+    <string name="phone_hint_old">Enter registered phone number</string>
+    <string name="verify_user_detail">Verify User Detail</string>
+    <string name="email_hint">Email</string>
+    <string name="validation_invalid_phone">Invalid phone number</string>
+    <string name="submit_otp">submit otp</string>
+    <string name="enter_otp">Please enter OTP</string>
+    <!--<string name="otp_info">We\'ve sent an one time password(OTP) via email to your email %1$s, please enter it here within %2$s seconds to continue</string>-->
+    <string name="otp_info">We\'ve sent an one time password(OTP) to your email %1$s, please enter it here to continue</string>
+    <string name="otp_required">OTP cannot be empty</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="verify_your_phone_number">Verify your phone number</string>
+    <string name="email_already_exists">Email already exists</string>
+    <string name="phone_number_exists">Phone number already exists</string>
+    <string name="incorrect_otp">Incorrect OTP</string>
+    <string name="email_verification">Email Verification</string>
+    <string name="email_hint_old">Enter registered email</string>
+    <string name="registration_email_verify">Your entered phone number is already registered with other email id. Please enter the registered email id to proceed</string>
+    <string name="registration_phone_verify">Your entered email id is already registered with other phone number. Please enter the registered phone number to proceed</string>
+    <string name="updating">Updating user information</string>
+    <string name="verifying_otp">Verifying OTP</string>
+    <string name="verifying_user_detail">Verifying user information</string>
+    <string name="create_booking">Creating booking</string>
+    <string name="incorrect_phone_number">Incorrect registered phone number</string>
+    <string name="booking_created_sucessfully">Booking created sucessfully</string>
+
+    <string-array name="filter_price_array">
+        <item>All</item>
+        <item>₹₹</item>
+        <item>₹₹₹</item>
+        <item>₹₹₹₹</item>
+    </string-array>
+
+
+</resources>

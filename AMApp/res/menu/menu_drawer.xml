@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:yourapp="http://schemas.android.com/tools">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navHome"
+            android:icon="@drawable/ic_home_variant_white_24dp"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/navBookingHistory"
+            android:icon="@drawable/ic_history_white_24dp"
+            android:title="@string/nav_booking_history" />
+        <item
+            android:id="@+id/navPromotions"
+            android:icon="@drawable/ic_soundcloud_white_24dp"
+            android:title="@string/nav_promotions" />
+        <item
+            android:id="@+id/navFreePasses"
+            android:icon="@drawable/ic_share_variant_white_24dp"
+            android:title="@string/nav_Free_passes"
+
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/navRateUs"
+            android:icon="@drawable/ic_star_half_white_24dp"
+            android:title="@string/nav_rate_us" />
+        <item
+            android:id="@+id/navContactUs"
+            android:icon="@drawable/ic_contact_phone_white_24dp"
+            android:title="@string/nav_contact_us" />
+
+        <item
+            android:id="@+id/navLogout"
+            android:icon="@drawable/ic_logout_white_24dp"
+            android:title="@string/nav_logout" />
+
+    </group>
+
+
+</menu>

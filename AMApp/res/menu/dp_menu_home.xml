@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/actionSearch"
+        android:title="@string/action_search"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
+
+    <item
+        android:id="@+id/actionFilter"
+        android:icon="@drawable/ic_filter_outline_white_24dp"
+        android:title="@string/filter"
+        app:actionViewClass="android.support.v7.widget.AppCompatSpinner"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/actionToggleListMap"
+        android:icon="@drawable/ic_action_action_view_list"
+        android:title="@string/toggle_map_list"
+        app:showAsAction="ifRoom" />
+
+</menu>

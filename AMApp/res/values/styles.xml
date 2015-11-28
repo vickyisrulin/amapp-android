@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+
+
+        <!-- Both of these are needed -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryColorDark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:textColorPrimary">@color/textPrimary</item>
+        <item name="android:textColorSecondary">@color/textSecondary</item>
+        <item name="android:textColor">@color/defaultTextColor</item>
+        <item name="android:windowBackground">@color/windowBgColor</item>
+        <item name="android:navigationBarColor">@color/primaryColorDark</item>
+
+        <item name="colorControlNormal">@color/primaryColor</item>
+        <item name="colorControlActivated">@color/primaryColorDark</item>
+        <item name="colorControlHighlight">@color/accent</item>
+
+        <item name="colorButtonNormal">@color/primary900</item>
+
+        <!--<item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+
+        <item name="android:spinnerItemStyle">@style/SpinnerItemStyle</item>-->
+        <!--<item name="android:spinnerStyle">@style/Spinner</item>-->
+
+        <item name="alertDialogTheme">@style/AppCompatAlertDialogStyle</item>
+
+        <!-- <item name="searchViewStyle">@style/MySearchViewStyle</item>-->
+
+        <!--<item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>-->
+
+        <!--&lt;!&ndash;Content & Shared Transition&ndash;&gt;
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
+        <item name="android:windowEnterTransition">@android:transition/move</item>
+        <item name="android:windowReturnTransition">@android:transition/move</item>
+        &lt;!&ndash; specify shared element transitions &ndash;&gt;
+        <item name="android:windowSharedElementEnterTransition">
+            @transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition">
+            @transition/change_image_transform</item>-->
+
+    </style>
+
+    <style name="toolbarTheme" parent="AppTheme">
+
+        <item name="colorControlNormal">@color/textSecondary</item>
+
+    </style>
+
+    <style name="TextLabel" parent="TextAppearance.AppCompat">
+
+        <item name="android:textColorHint">@color/primary900</item>
+        <item name="colorControlNormal">@color/primaryColor</item>
+        <item name="colorControlActivated">@color/primaryColorDark</item>
+        <item name="colorControlHighlight">@color/accent</item>
+    </style>
+
+
+    <style name="Button" parent="android:Widget.Material.Button">
+        <item name="android:textColor">@color/textSecondary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ButtonBorderless" parent="android:Widget.Material.Button.Borderless">
+
+
+        <item name="android:textColor">@color/defaultTextColor</item>
+    </style>
+
+
+    <style name="counterText">
+        <item name="android:textColor">@color/accent</item>
+    </style>
+
+    <style name="counterOverride">
+        <item name="android:textColor">#ff0000</item>
+    </style>
+
+
+    <style name="Spinner" parent="Widget.AppCompat.Spinner.DropDown">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="android:dropDownSelector">@color/accent</item>
+        <item name="android:divider">@null</item>
+        <item name="android:overlapAnchor">true</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+   <!-- <style name="SpinnerDropDownItem">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+        <item name="android:background">@drawable/dp_filter_price_spinner_dropdown_selector</item>
+        <item name="android:padding">10dp</item>
+
+    </style>
+
+    <style name="SpinnerItemStyle">
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>-->
+
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/primaryColor</item>
+        <item name="android:textColorPrimary">@color/defaultTextColor</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">#FFC107</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <!-- Used for the background -->
+        <item name="android:background">#4CAF50</item>
+    </style>
+
+    <style name="TextViewShadow">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextViewShadowTint">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:shadowColor">#000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!-- The layout for the search view. Be careful. -->
+        <!--<item name="layout">@layout/search_bar</item>-->
+        <!-- Background for the search query section (e.g. EditText) -->
+        <!--<item name="queryBackground">@color/defaultTextColor</item>-->
+        <!-- Background for the actions section (e.g. voice, submit) -->
+        <!--<item name="submitBackground">@color/textSecondary</item>-->
+        <!-- Close button icon -->
+        <!-- <item name="closeIcon">@drawable/ic_drawer</item>-->
+        <!-- Search button icon -->
+        <!--<item name="searchIcon">@drawable/abc_ic_search_api_mtrl_alpha</item>-->
+        <!-- Go/commit button icon -->
+        <!--<item name="goIcon">@drawable/abc_ic_go_search_api_mtrl_alpha</item>-->
+        <!-- Voice search button icon -->
+        <!--<item name="voiceIcon">@drawable/abc_ic_voice_search_api_mtrl_alpha</item>-->
+        <!-- Commit icon shown in the query suggestion row -->
+        <!--<item name="commitIcon">@drawable/abc_ic_commit_search_api_mtrl_alpha</item>-->
+        <!-- Layout for query suggestion rows -->
+        <!-- <item name="suggestionRowLayout">@layout/search_bar_row</item>-->
+        <!--
+         The default state of the SearchView. If true, it will be iconified when not in
+         use and expanded when clicked.
+    -->
+        <!-- <attr name="iconifiedByDefault" format="boolean" />
+         &lt;!&ndash; An optional maximum width of the SearchView. &ndash;&gt;
+         <attr name="android:maxWidth" />
+         &lt;!&ndash; An optional query hint string to be displayed in the empty query field. &ndash;&gt;
+         <attr name="queryHint" format="string" />
+         &lt;!&ndash; The IME options to set on the query text field. &ndash;&gt;
+         <attr name="android:imeOptions" />
+         &lt;!&ndash; The input type to set on the query text field. &ndash;&gt;
+         <attr name="android:inputType" />
+
+         <attr name="android:focusable" />-->
+    </style>
+
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+
+        <item name="tabIndicatorColor">@color/primary900</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabPaddingStart">20dp</item>
+        <item name="tabPaddingEnd">20dp</item>
+        <item name="tabBackground">@color/primary50</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/primaryColor</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/defaultTextColor</item>
+
+    </style>
+
+    <style name="getPassTabStyle" parent="Widget.Design.TabLayout">
+
+        <item name="tabIndicatorColor">@color/textSecondary</item>
+        <item name="tabBackground">@color/primaryColor</item>
+        <item name="tabTextAppearance">@style/getPassTabStyleText</item>
+        <item name="tabSelectedTextColor">?android:attr/textColorSecondary</item>
+    </style>
+
+    <style name="getPassTabStyleText" parent="TextAppearance.Design.Tab">
+
+        <item name="android:textColor">@color/grey_light</item>
+
+    </style>
+
+
+    <style name="MyCustomTabLayout1" parent="Widget.Design.TabLayout">
+
+        <item name="tabIndicatorColor">@color/primaryColor</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabTextAppearance">@style/MyCustomTabTextAppearance1</item>
+        <item name="tabSelectedTextColor">@color/primaryColor</item>
+    </style>
+
+    <style name="MyCustomTabTextAppearance1" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/defaultTextColor</item>
+        <item name="textAllCaps">true</item>
+
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/primary900</item>
+
+    </style>
+
+    <style name="textInputLogin" parent="Theme.AppCompat">
+
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/accent</item>
+
+    </style>
+
+
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+
+</resources>
