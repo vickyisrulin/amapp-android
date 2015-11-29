@@ -9,7 +9,7 @@
             android:title="@string/nav_home" />
         <item
             android:id="@+id/navBookingHistory"
-            android:icon="@drawable/ic_history_white_24dp"
+            android:icon="@drawable/ic_action_action_view_list"
             android:title="@string/nav_booking_history" />
         <item
             android:id="@+id/navPromotions"
@@ -17,9 +17,8 @@
             android:title="@string/nav_promotions" />
         <item
             android:id="@+id/navFreePasses"
-            android:icon="@drawable/ic_share_variant_white_24dp"
+            android:icon="@drawable/ic_calendar_white_24dp"
             android:title="@string/nav_Free_passes"
-
             app:showAsAction="always" />
         <item
             android:id="@+id/navRateUs"
@@ -29,12 +28,6 @@
             android:id="@+id/navContactUs"
             android:icon="@drawable/ic_contact_phone_white_24dp"
             android:title="@string/nav_contact_us" />
-
-        <item
-            android:id="@+id/navLogout"
-            android:icon="@drawable/ic_logout_white_24dp"
-            android:title="@string/nav_logout" />
-
     </group>
 
 
