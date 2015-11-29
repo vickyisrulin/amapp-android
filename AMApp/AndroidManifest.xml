@@ -81,48 +81,11 @@
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
-        <service
-            android:name="com.smart.GCM.MyGcmListenerService"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.smart.GCM.MyInstanceIDListenerService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID"/>
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name="com.smart.GCM.MainActivity"
-            android:label="@string/app_name" >
-
-        </activity>
-
-        <!--<service
-            android:name="GcmIntentService"
-            android:enabled="true" />-->
-
-        <!--GCM Component Ends-->
 
         <service
             android:name="com.smart.framework.FetchAddressIntentService"
 
             android:exported="false" />
-
-        <!--Facebook Integration-->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-
-        <!-- GCM RECEIVER And SERVICE END -->
-
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <!-- Crash Handler Activity START-->
         <activity android:name="com.smart.framework.CrashReportActivity" />
