@@ -73,15 +73,12 @@ public class TempleListFragment extends SmartFragment {
         this.temples = temples;
 
         if(isCachedDataDisplayed && mRecyclerView.getChildCount()>0){
-
             mAdapter.notifyDataSetChanged();
         }else{
-
             mRecyclerView.setAdapter(mAdapter);
             emptyView.setText("No Temples Found");
             mRecyclerView.setEmptyView(emptyView);
         }
-
     }
 
     class TempleAdapter extends RecyclerView.Adapter<TempleAdapter.ViewHolder> implements Constants {
@@ -110,20 +107,18 @@ public class TempleListFragment extends SmartFragment {
 
             final ViewHolder vh = new ViewHolder(v);
             if(SmartUtils.isOSPreLollipop()){
-
                 ((CardView)v.findViewById(R.id.cardView)).setPreventCornerOverlap(false);
             }
             v.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-
-                    int index = mRecyclerView.getChildAdapterPosition(view);
-                    Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
-                    intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
-                    Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgTemple), IMAGE);
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
-                    ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+                int index = mRecyclerView.getChildAdapterPosition(view);
+                Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
+                intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
+                Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgTemple), IMAGE);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
                 }
             });
             return vh;
@@ -141,11 +136,7 @@ public class TempleListFragment extends SmartFragment {
 
         @Override
         public int getItemCount() {
-
             return temples.size();
         }
-
-
     }
-
 }

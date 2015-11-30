@@ -101,18 +101,12 @@ public class TempleListActivity extends AMAppMaster {
                 getCachedTemples();
             }
         }, 500);
-
-
     }
-
 
     @Override
     public void setActionListeners() {
         super.setActionListeners();
     }
-
-
-
 
     @Override
     protected void onResume() {
@@ -122,7 +116,6 @@ public class TempleListActivity extends AMAppMaster {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-
         /*toolbar.setTitle(SmartUtils.getApplicationName(this));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);

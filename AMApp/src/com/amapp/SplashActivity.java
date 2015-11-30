@@ -51,14 +51,6 @@ public class SplashActivity extends AMAppMaster {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-               /* ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashActivity.this);
-                Intent intent = new Intent();
-                boolean isFBUserLoggedIn=SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getBoolean(IS_USER_LOGGED_IN,false);
-                intent.setClass(SplashActivity.this,isFBUserLoggedIn?DPHomeActivity.class:LoginActivity.class);
-                ActivityCompat.startActivity(SplashActivity.this,intent, options.toBundle());
-                finish();*/
-
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashActivity.this);
                 Intent intent = new Intent();
                 intent.setClass(SplashActivity.this,TempleListActivity.class);
