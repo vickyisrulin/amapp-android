@@ -36,7 +36,7 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public String getAppName() {
-        return "AMApp";
+        return "Anoopam Mission";
     }
 
     @Override
