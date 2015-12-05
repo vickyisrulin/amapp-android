@@ -59,15 +59,12 @@ public class TempleGalleryActivity extends AMAppMaster implements Constants {
 
     }
 
-
     @Override
     public void prepareViews() {
 
         processIntent();
         viewPager.setAdapter(new TemplePagerAdapter(templeImages));
     }
-
-
 
     private void processIntent() {
 
@@ -84,9 +81,7 @@ public class TempleGalleryActivity extends AMAppMaster implements Constants {
             }
 
         }
-
     }
-
 
     @Override
     public void setActionListeners() {
@@ -141,7 +136,4 @@ public class TempleGalleryActivity extends AMAppMaster implements Constants {
         }
 
     }
-
-
-
 }
