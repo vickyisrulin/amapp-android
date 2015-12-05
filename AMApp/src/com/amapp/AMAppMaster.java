@@ -1,6 +1,9 @@
 package com.amapp;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
 import android.view.MenuItem;
@@ -85,8 +88,6 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 
     @Override
     public void prepareViews() {
-
-
     }
 
     private void setLogoutIcon() {
@@ -113,13 +114,13 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 
                 closeDrawer();
                 menuItem.setChecked(true);
-//                switch (menuItem.getItemId()) {
-//                    case R.id.navHome:
-//                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        Intent intent = new Intent(AMAppMaster.this, TempleListActivity.class);
-//                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
-//
-//                        return true;
+                switch (menuItem.getItemId()) {
+                    case R.id.navHome:
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
+                        Intent intent = new Intent(AMAppMaster.this, TempleListActivity.class);
+                        ActivityCompat.startActivity(AMAppMaster.this, intent, options.toBundle());
+
+                        return true;
 //                    case R.id.navBookingHistory:
 //                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
 //                        intent = new Intent(AMAppMaster.this, DPGymBookingHistoryActivity.class);
@@ -154,9 +155,8 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 //                        }
 //                        return true;
 //                    case R.id.navContactUs:
-//
 //                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        intent = new Intent(AMAppMaster.this, DPGymContactUsActivity.class);
+//                        intent = new Intent(AMAppMaster.this, SplashActivity.class);
 //                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
 //                        return true;
 //                    case R.id.navLogout:
@@ -166,10 +166,9 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 //                        finish();
 //                        return true;
 //
-//                    default:
-//                        return true;
-//                }
-                return true;
+                    default:
+                        return true;
+                }
             }
         });
     }
@@ -190,13 +189,9 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
         return R.layout.drawer;
     }
 
-
-
     protected void selectDrawerItem(NAVIGATION_ITEMS item) {
 
         navigationView.getMenu().getItem(item.ordinal()).setChecked(true);
 
     }
-
-
 }
