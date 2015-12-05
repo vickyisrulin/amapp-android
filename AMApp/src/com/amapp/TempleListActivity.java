@@ -1,11 +1,14 @@
 package com.amapp;
 
 import android.content.ContentValues;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
@@ -116,10 +119,10 @@ public class TempleListActivity extends AMAppMaster {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-        /*toolbar.setTitle(SmartUtils.getApplicationName(this));
+        toolbar.setTitle(SmartApplication.REF_SMART_APPLICATION.APP_NAME);
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
-        toolbar.setSubtitle(spannableString);*/
+        toolbar.setSubtitle(spannableString);
     }
 
 
@@ -159,7 +162,7 @@ public class TempleListActivity extends AMAppMaster {
                             @Override
                             public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                 temples = mapTableNameAndData.get("temples");
-                                setGymDataInFragments(temples,isCachedDataDisplayed);
+                                setTempleDataInFragments(temples,isCachedDataDisplayed);
                             }
                         }, "images");
 
@@ -194,13 +197,13 @@ public class TempleListActivity extends AMAppMaster {
             getTemples();
         } else {
             this.temples = temples;
-            setGymDataInFragments(temples,isCachedDataDisplayed);
+            setTempleDataInFragments(temples,isCachedDataDisplayed);
             isCachedDataDisplayed = true;
         }
     }
 
 
-    private void setGymDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
+    private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
 
         templeListFragment.setTemples(temples, isCachedDataDisplayed);
 
