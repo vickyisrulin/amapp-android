@@ -8,27 +8,29 @@
             android:icon="@drawable/ic_home_variant_white_24dp"
             android:title="@string/nav_home" />
         <item
-            android:id="@+id/navBookingHistory"
+            android:id="@+id/navThakorjiToday"
             android:icon="@drawable/ic_action_action_view_list"
-            android:title="@string/nav_booking_history" />
+            android:title="@string/nav_thakorji_today" />
         <item
-            android:id="@+id/navPromotions"
+            android:id="@+id/navMantralekhan"
             android:icon="@drawable/ic_soundcloud_white_24dp"
-            android:title="@string/nav_promotions" />
+            android:title="@string/nav_mantralekhan" />
         <item
-            android:id="@+id/navFreePasses"
-            android:icon="@drawable/ic_calendar_white_24dp"
-            android:title="@string/nav_Free_passes"
-            app:showAsAction="always" />
+            android:id="@+id/navQuoteOfTheDay"
+            android:icon="@drawable/ic_soundcloud_white_24dp"
+            android:title="@string/nav_quote_of_the_day" />
         <item
-            android:id="@+id/navRateUs"
+            android:id="@+id/navAudio"
             android:icon="@drawable/ic_star_half_white_24dp"
-            android:title="@string/nav_rate_us" />
+            android:title="@string/nav_audio" />
+        <item
+            android:id="@+id/navAbout"
+            android:icon="@drawable/ic_calendar_white_24dp"
+            android:title="@string/nav_about"
+            app:showAsAction="always" />
         <item
             android:id="@+id/navContactUs"
             android:icon="@drawable/ic_contact_phone_white_24dp"
             android:title="@string/nav_contact_us" />
     </group>
-
-
 </menu>
