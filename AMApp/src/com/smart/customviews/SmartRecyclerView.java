@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.amapp.AMAppMaster;
+import com.amapp.AMAppMasterActivity;
 
 public class SmartRecyclerView extends RecyclerView {
    private View emptyView;
@@ -55,7 +55,7 @@ public class SmartRecyclerView extends RecyclerView {
 
   public void setEmptyView( int emptyViewID) {
 
-    this.emptyView = ((AMAppMaster)this.context).getLayoutInflater().from(context).inflate(emptyViewID,null);
+    this.emptyView = ((AMAppMasterActivity)this.context).getLayoutInflater().from(context).inflate(emptyViewID,null);
     checkIfEmpty();
   }
 }

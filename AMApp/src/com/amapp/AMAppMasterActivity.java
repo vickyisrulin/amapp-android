@@ -21,7 +21,7 @@ import com.smart.framework.SmartSuperMaster;
 /**
  * Created by tasol on 23/6/15.
  */
-public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
+public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants{
 
     enum NAVIGATION_ITEMS{HOME,HISTORY,PROMOTIONS,FREE_PASSES,RATE_US,CONTACT_US,LOGOUT}
     protected enum LOGIN_OPTIONS {LOCAL_SERVER, FACEBOOK, GOOGLE_PLUS}
@@ -63,7 +63,7 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 
     @Override
     public void initComponents() {
-        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this).toBundle();
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         navigationView= (NavigationView) findViewById(R.id.navigationView);
         profilePic = (NetworkImageView) navigationView.findViewById(R.id.imgProfilePic);
         profileName= (SmartTextView) navigationView.findViewById(R.id.txtProfileName);
@@ -151,8 +151,8 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
     }
 
     private void invokeHome() {
-        Intent intent = new Intent(AMAppMaster.this, TempleListActivity.class);
-        ActivityCompat.startActivity(AMAppMaster.this, intent, activityInvocationOptionsBunble);
+        Intent intent = new Intent(AMAppMasterActivity.this, TempleListActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
     private void invokeAudioFlow() {
@@ -174,12 +174,12 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
     private void gotoMantralekhanApp() {
         try {
             Intent mantralekhanAppIntent = getPackageManager().getLaunchIntentForPackage(AM_MANTRALEKHAN_APP_PACKANGE_NAME);
-            ActivityCompat.startActivity(AMAppMaster.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
+            ActivityCompat.startActivity(AMAppMasterActivity.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
         } catch (Exception e) {
             try {
-                ActivityCompat.startActivity(AMAppMaster.this, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)),activityInvocationOptionsBunble);
+                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)),activityInvocationOptionsBunble);
             } catch (android.content.ActivityNotFoundException anfe) {
-                ActivityCompat.startActivity(AMAppMaster.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
+                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
             }
         }
     }

@@ -30,7 +30,7 @@ import java.util.HashMap;
  * Created by tasol on 16/7/15.
  */
 
-public class TempleListActivity extends AMAppMaster {
+public class TempleListActivity extends AMAppMasterActivity {
 
     private static final String TAG = "TempleListActivity";
 
@@ -162,7 +162,7 @@ public class TempleListActivity extends AMAppMaster {
                             @Override
                             public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                 temples = mapTableNameAndData.get("temples");
-                                setTempleDataInFragments(temples,isCachedDataDisplayed);
+                                setTempleDataInFragments(temples, isCachedDataDisplayed);
                             }
                         }, "images");
 
@@ -197,7 +197,7 @@ public class TempleListActivity extends AMAppMaster {
             getTemples();
         } else {
             this.temples = temples;
-            setTempleDataInFragments(temples,isCachedDataDisplayed);
+            setTempleDataInFragments(temples, isCachedDataDisplayed);
             isCachedDataDisplayed = true;
         }
     }

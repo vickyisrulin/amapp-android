@@ -14,14 +14,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 
-import com.amapp.AMAppMaster;
+import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 
 /**
  * Created by tasol on 16/7/15.
  */
 
-public class SmartSearchActivity extends AMAppMaster {
+public class SmartSearchActivity extends AMAppMasterActivity {
 
     @Override
     public View getLayoutView() {

@@ -14,7 +14,7 @@ import android.view.View;
  * Created by tasol on 23/6/15.
  */
 
-public class SplashActivity extends AMAppMaster {
+public class SplashActivity extends AMAppMasterActivity {
 
     Handler handler=new Handler();
 

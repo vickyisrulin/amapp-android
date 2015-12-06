@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by tasol on 23/7/15.
  */
 
-public class TempleGalleryActivity extends AMAppMaster implements Constants {
+public class TempleGalleryActivity extends AMAppMasterActivity implements Constants {
 
     public static final String TEMPLE_DETAIL = "TEMPLE_DETAIL";
     private ContentValues templeDetail;
