@@ -1,6 +1,8 @@
 package com.amapp;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -23,10 +25,12 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 
     enum NAVIGATION_ITEMS{HOME,HISTORY,PROMOTIONS,FREE_PASSES,RATE_US,CONTACT_US,LOGOUT}
     protected enum LOGIN_OPTIONS {LOCAL_SERVER, FACEBOOK, GOOGLE_PLUS}
+    private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 
     protected NavigationView navigationView;
     private NetworkImageView profilePic;
     private SmartTextView profileName;
+    private Bundle activityInvocationOptionsBunble;
 
 
     @Override
@@ -59,7 +63,7 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
 
     @Override
     public void initComponents() {
-
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this).toBundle();
         navigationView= (NavigationView) findViewById(R.id.navigationView);
         profilePic = (NetworkImageView) navigationView.findViewById(R.id.imgProfilePic);
         profileName= (SmartTextView) navigationView.findViewById(R.id.txtProfileName);
@@ -81,7 +85,7 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
         String s= navigationView.getMenu().getItem(NAVIGATION_ITEMS.FREE_PASSES.ordinal()).getTitle().toString()+"              "+"5";
         int freePasses=Integer.parseInt(s.replaceAll("[\\D]", ""));
         SpannableString ss1=  new SpannableString(s);
-        ss1.setSpan(new RelativeSizeSpan(1.3f), s.indexOf(String.valueOf(freePasses)),s.length(), 0); // set size
+        ss1.setSpan(new RelativeSizeSpan(1.3f), s.indexOf(String.valueOf(freePasses)), s.length(), 0); // set size
 //        ss1.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.primary900)), s.indexOf(String.valueOf(freePasses)),s.length(), 0);// set color
         navigationView.getMenu().getItem(NAVIGATION_ITEMS.FREE_PASSES.ordinal()).setTitle(ss1);
     }
@@ -111,66 +115,73 @@ public abstract class AMAppMaster extends SmartSuperMaster implements Constants{
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
                 closeDrawer();
                 menuItem.setChecked(true);
+
                 switch (menuItem.getItemId()) {
                     case R.id.navHome:
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-                        Intent intent = new Intent(AMAppMaster.this, TempleListActivity.class);
-                        ActivityCompat.startActivity(AMAppMaster.this, intent, options.toBundle());
-
+                        invokeHome();
                         return true;
-//                    case R.id.navBookingHistory:
-//                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        intent = new Intent(AMAppMaster.this, DPGymBookingHistoryActivity.class);
-//                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
-//
-//                        return true;
-//                    case R.id.navPromotions:
-//
-//                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        intent = new Intent(AMAppMaster.this, DPGymPromotionsActivity.class);
-//                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
-//
-//                        return true;
-//                    case R.id.navFreePasses:
-//
-//                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        intent = new Intent(AMAppMaster.this, DPGymFreePassActivity.class);
-//                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
-//
-//                        return true;
-//                    case R.id.navRateUs:
-//
-//                        Uri uri = Uri.parse("market://details?id=" + getPackageName());
-//                        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-//                        try {
-//                            startActivity(goToMarket);
-//                        } catch (ActivityNotFoundException e) {
-//
-//                            SmartUtils.showSnackBar(AMAppMaster.this, getString(R.string.can_not_launch_market), Snackbar.LENGTH_INDEFINITE);
-//
-//
-//                        }
-//                        return true;
-//                    case R.id.navContactUs:
-//                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMaster.this);
-//                        intent = new Intent(AMAppMaster.this, SplashActivity.class);
-//                        ActivityCompat.startActivity(AMAppMaster.this,intent, options.toBundle());
-//                        return true;
-//                    case R.id.navLogout:
-//
-//                        intent=new Intent(AMAppMaster.this, LoginActivity.class);
-//                        SmartUtils.clearActivityStack(AMAppMaster.this,intent);
-//                        finish();
-//                        return true;
-//
+
+                    case R.id.navMantralekhan:
+                        gotoMantralekhanApp();
+                        return true;
+
+                    case R.id.navAudio:
+                        invokeAudioFlow();
+                        return true;
+
+                    case R.id.navQuoteOfTheDay:
+                        invokeQuoteOfTheDayFlow();
+                        return true;
+
+                    case R.id.navAbout:
+                        invokeAboutFlow();
+                        return true;
+
+                    case R.id.navContactUs:
+                        invokeContactUsFlow();
+                        return true;
+
                     default:
                         return true;
                 }
             }
         });
+    }
+
+    private void invokeHome() {
+        Intent intent = new Intent(AMAppMaster.this, TempleListActivity.class);
+        ActivityCompat.startActivity(AMAppMaster.this, intent, activityInvocationOptionsBunble);
+    }
+
+    private void invokeAudioFlow() {
+    }
+
+    private void invokeQuoteOfTheDayFlow() {
+    }
+
+    private void invokeAboutFlow() {
+    }
+
+    private void invokeContactUsFlow() {
+    }
+
+    /**
+     * 1) Invokes the Mantralekhan app if it's already available on the phone
+     * 2) If not, takes the user to the App store to download the app
+     */
+    private void gotoMantralekhanApp() {
+        try {
+            Intent mantralekhanAppIntent = getPackageManager().getLaunchIntentForPackage(AM_MANTRALEKHAN_APP_PACKANGE_NAME);
+            ActivityCompat.startActivity(AMAppMaster.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
+        } catch (Exception e) {
+            try {
+                ActivityCompat.startActivity(AMAppMaster.this, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)),activityInvocationOptionsBunble);
+            } catch (android.content.ActivityNotFoundException anfe) {
+                ActivityCompat.startActivity(AMAppMaster.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
+            }
+        }
     }
 
     @Override
