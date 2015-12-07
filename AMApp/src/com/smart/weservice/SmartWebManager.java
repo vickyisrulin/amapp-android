@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.design.widget.Snackbar;
 import android.util.LruCache;
+import android.widget.ImageView;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
@@ -12,7 +13,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.Volley;
-import com.amapp.TouchImageView;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartUtils;
 
@@ -138,7 +138,7 @@ public class SmartWebManager implements Constants{
         getRequestQueue().add(jsObjRequest);
     }
 
-    public <T> void addToRequestQueueForImage(Context context,String URL,String tag, final TouchImageView networkImageView) {
+    public <T> void addToRequestQueueForImage(Context context,String URL,String tag, final ImageView networkImageView) {
 
         ImageRequest request = new ImageRequest(URL,new Response.Listener<Bitmap>() {
                     @Override
