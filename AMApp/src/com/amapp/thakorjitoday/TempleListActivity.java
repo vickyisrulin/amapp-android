@@ -16,9 +16,8 @@ import android.widget.FrameLayout;
 
 import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
+import com.amapp.common.AMConstants;
 import com.smart.caching.SmartCaching;
-import com.smart.framework.Constants;
-import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
 
@@ -121,21 +120,11 @@ public class TempleListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-        toolbar.setTitle(SmartApplication.REF_SMART_APPLICATION.APP_NAME);
+        toolbar.setTitle(AMConstants.AM_Application_Title);
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
     }
-
-
-
-
-
-
-
-
-
-
 
     @Override
     public boolean shouldKeyboardHideOnOutsideTouch() {
@@ -148,8 +137,8 @@ public class TempleListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG,Constants.WEB_GET_TEMPLES);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, SmartApplication.REF_SMART_APPLICATION.DOMAIN_NAME);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, AMConstants.AMS_Domain_Url+AMConstants.AMS_ThakorjiToday_Endpoint);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
             @Override
@@ -187,7 +176,7 @@ public class TempleListActivity extends AMAppMasterActivity {
     protected void onStop() {
         super.onStop();
 
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(Constants.WEB_GET_TEMPLES);
+        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Temples_Tag);
     }
 
     private void getCachedTemples() {
