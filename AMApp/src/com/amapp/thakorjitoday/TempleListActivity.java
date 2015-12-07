@@ -138,7 +138,7 @@ public class TempleListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, AMConstants.AMS_Domain_Url+AMConstants.AMS_ThakorjiToday_Endpoint);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, environment.getThakorjiTodayEndpoint());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
             @Override
