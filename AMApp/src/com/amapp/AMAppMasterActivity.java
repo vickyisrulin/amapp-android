@@ -33,6 +33,9 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     private SmartTextView profileName;
     private Bundle activityInvocationOptionsBunble;
 
+    // change this to MOCK or LIVE to change all service calls
+    protected Environment environment = Environment.ENV_MOCK;
+
 
     @Override
     public View getFooterLayoutView() {
