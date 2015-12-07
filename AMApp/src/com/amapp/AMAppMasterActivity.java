@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 
+import com.amapp.thakorjitoday.TempleListActivity;
 import com.android.volley.toolbox.NetworkImageView;
 import com.smart.customviews.SmartTextView;
 import com.smart.framework.Constants;
@@ -23,7 +24,7 @@ import com.smart.framework.SmartSuperMaster;
  */
 public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants{
 
-    enum NAVIGATION_ITEMS{HOME,HISTORY,PROMOTIONS,FREE_PASSES,RATE_US,CONTACT_US,LOGOUT}
+    public enum NAVIGATION_ITEMS{HOME,HISTORY,PROMOTIONS,FREE_PASSES,RATE_US,CONTACT_US,LOGOUT}
     protected enum LOGIN_OPTIONS {LOCAL_SERVER, FACEBOOK, GOOGLE_PLUS}
     private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 

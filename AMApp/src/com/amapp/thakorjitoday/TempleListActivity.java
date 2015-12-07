@@ -1,4 +1,4 @@
-package com.amapp;
+package com.amapp.thakorjitoday;
 
 import android.content.ContentValues;
 import android.graphics.Typeface;
@@ -14,6 +14,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.amapp.AMAppMasterActivity;
+import com.amapp.R;
 import com.smart.caching.SmartCaching;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartApplication;

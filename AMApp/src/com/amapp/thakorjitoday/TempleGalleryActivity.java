@@ -1,4 +1,4 @@
-package com.amapp;
+package com.amapp.thakorjitoday;
 
 import android.content.ContentValues;
 import android.support.v4.view.PagerAdapter;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.amapp.AMAppMasterActivity;
+import com.amapp.common.ExtendedViewPager;
+import com.amapp.R;
 import com.android.volley.toolbox.NetworkImageView;
 import com.smart.caching.SmartCaching;
 import com.smart.framework.Constants;

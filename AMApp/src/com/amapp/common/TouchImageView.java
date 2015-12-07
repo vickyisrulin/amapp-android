@@ -1,4 +1,4 @@
-package com.amapp;
+package com.amapp.common;
 
 import android.annotation.TargetApi;
 import android.content.Context;

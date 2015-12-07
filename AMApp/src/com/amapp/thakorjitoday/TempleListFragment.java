@@ -1,4 +1,4 @@
-package com.amapp;
+package com.amapp.thakorjitoday;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amapp.R;
 import com.android.volley.toolbox.NetworkImageView;
 import com.smart.customviews.SmartRecyclerView;
 import com.smart.customviews.SmartTextView;

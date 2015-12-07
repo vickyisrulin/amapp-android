@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.View;
 
+import com.amapp.thakorjitoday.TempleListActivity;
+
 /**
  * Created by tasol on 23/6/15.
  */

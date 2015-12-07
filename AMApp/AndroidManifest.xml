@@ -120,13 +120,13 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".TempleListActivity"
+            android:name=".thakorjitoday.TempleListActivity"
             android:screenOrientation="portrait">
         </activity>
 
 
         <activity
-            android:name=".TempleGalleryActivity"
+            android:name=".thakorjitoday.TempleGalleryActivity"
             android:configChanges="orientation"
             >
 
