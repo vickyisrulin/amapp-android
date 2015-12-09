@@ -18,4 +18,10 @@ public class AMConstants {
     public static final String AM_Application_Title = "Anoopam Mission";
     public static final String AMS_Request_Get_Temples_Tag = "ams_get_temples";
     public static final String AMS_Request_Get_Quotes_Tag = "ams_get_quotes";
+
+    // AMS params
+    public static final String AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp = "lastUpdatedTimestamp";
+
+    // KEYS
+    public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
 }
