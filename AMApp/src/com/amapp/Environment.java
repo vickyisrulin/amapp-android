@@ -7,10 +7,15 @@ import com.amapp.common.AMConstants;
  */
 public enum Environment {
 
-    ENV_MOCK(AMConstants.MOCK_Domain_Url,
-            AMConstants.MOCK_ThakorjiToday_Endpoint_Suffix,
-            AMConstants.MOCK_QuoteOfTheWeek_Endpoint_Suffix
+    ENV_MOCK_MOCKY(AMConstants.MOCK_MOCKY_Domain_Url,
+            AMConstants.MOCK_MOCKY_ThakorjiToday_Endpoint_Suffix,
+            AMConstants.MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix
             ),
+
+    ENV_MOCK_APIARY(AMConstants.MOCK_APIARY_Domain_Url,
+            AMConstants.MOCK_APIARY_ThakorjiToday_Endpoint_Suffix,
+            AMConstants.MOCK_APIARY_QuoteOfTheWeek_Endpoint_Suffix
+    ),
 
     ENV_LIVE(AMConstants.LIVE_Domain_Url,
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
