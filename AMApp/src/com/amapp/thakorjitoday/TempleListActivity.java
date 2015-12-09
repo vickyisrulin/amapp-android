@@ -18,6 +18,7 @@ import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
 import com.smart.caching.SmartCaching;
+import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
 
@@ -147,7 +148,6 @@ public class TempleListActivity extends AMAppMasterActivity {
                 if (errorMessage != null && errorMessage.equalsIgnoreCase(getString(R.string.no_content_found))) {
                     SmartUtils.showSnackBar(TempleListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
                 } else {
-
                     try {
                         smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
                             @Override
@@ -156,21 +156,18 @@ public class TempleListActivity extends AMAppMasterActivity {
                                 setTempleDataInFragments(temples, isCachedDataDisplayed);
                             }
                         }, "images");
-
+                        SmartApplication.REF_SMART_APPLICATION
+                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp,response
+                                        .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             }
         });
 
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams,null, !isCachedDataDisplayed);
-
     }
-
-
 
     @Override
     protected void onStop() {
