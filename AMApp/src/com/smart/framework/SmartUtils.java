@@ -740,7 +740,7 @@ public class SmartUtils implements Constants{
                     removeUnnacessaryFields(response);
 
 
-                    if (code == 200 || code == 703) {
+                    if (code >= 200 && code < 300 || code == 703) {
                         errorMessage=null;
                     } else {
 
