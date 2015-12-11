@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -139,7 +140,7 @@ public class TempleListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, String.format(environment.getThakorjiTodayEndpoint(), "DDMMYYYYHHMM")); //Passing parameter
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getThakorjiTodayUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
@@ -188,9 +189,19 @@ public class TempleListActivity extends AMAppMasterActivity {
             this.temples = temples;
             setTempleDataInFragments(temples, isCachedDataDisplayed);
             isCachedDataDisplayed = true;
+            // after using cached data, check to see if there is an update
+            getTemples();
         }
     }
 
+    // gets the latest timestamp cached on the client side
+    // and addes it into the ThakorjiToday endpoint as param
+    private String getThakorjiTodayUrlWithLatestCachedTimestamp() {
+        String endpoint = environment.getThakorjiTodayEndpoint();
+        String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
+                .readSharedPreferences().getString(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, "");
+        return String.format(endpoint, lastUpdatedTimeStamp);
+    }
 
     private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
 
