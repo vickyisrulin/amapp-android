@@ -7,6 +7,7 @@ import android.util.LruCache;
 import android.widget.ImageView;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -24,8 +25,8 @@ public class SmartWebManager implements Constants{
 
     private static final int TIMEOUT = 5000;
 
-    public enum REQUEST_TYPE{JSON_OBJECT,JSON_ARRAY,IMAGE};
-    public enum REQUEST_METHOD_PARAMS{CONTEXT,PARAMS,REQUEST_TYPES,TAG,URL,TABLE_NAME,UN_NORMALIZED_FIELDS,RESPONSE_LISTENER};
+    public enum REQUEST_TYPE{JSON_OBJECT,JSON_ARRAY,IMAGE,GET,POST};
+    public enum REQUEST_METHOD_PARAMS{CONTEXT,PARAMS,REQUEST_TYPES,REQUEST_METHOD,TAG,URL,TABLE_NAME,UN_NORMALIZED_FIELDS,RESPONSE_LISTENER};
 
     private static SmartWebManager mInstance;
     private RequestQueue mRequestQueue;
@@ -91,7 +92,11 @@ public class SmartWebManager implements Constants{
         }
         if(requestParams.get(REQUEST_METHOD_PARAMS.REQUEST_TYPES)==REQUEST_TYPE.JSON_OBJECT){
 
-            jsObjRequest = new CustomJsonObjectRequest((String)requestParams.get(REQUEST_METHOD_PARAMS.URL),jsonParam , new Response.Listener<JSONObject>() {
+            jsObjRequest = new CustomJsonObjectRequest(
+                    requestParams.get(REQUEST_METHOD_PARAMS.REQUEST_METHOD)==REQUEST_TYPE.GET?
+                            Request.Method.GET:
+                            Request.Method.POST,
+                    (String)requestParams.get(REQUEST_METHOD_PARAMS.URL),jsonParam, new Response.Listener<JSONObject>() {
 
 
                 @Override

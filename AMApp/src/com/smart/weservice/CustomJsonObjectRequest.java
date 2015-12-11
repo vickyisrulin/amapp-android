@@ -3,12 +3,14 @@ package com.smart.weservice;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartApplication;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,17 +34,29 @@ public class CustomJsonObjectRequest extends JsonObjectRequest {
         Map headers = response.headers;
         String cookie = (String) headers.get("Set-Cookie");
         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(Constants.COOKIE, cookie);
+        try {
+            String utf8String = new String(response.data, "UTF-8");
+            return Response.success(new JSONObject(utf8String), HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException e) {
+            // log error
+        } catch (Exception e) {
+            // log error
+        }
         return super.parseNetworkResponse(response);
     }
 
     @Override
     public Map getHeaders() throws AuthFailureError {
         Map headers = new HashMap();
+        headers.put("User-agent", "android");
         String cookie=SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(Constants.COOKIE,"");
         if(!cookie.equals(""))
             headers.put(Constants.COOKIE, cookie);
         return headers;
     }
 
-
+    @Override
+    public int getMethod() {
+        return super.getMethod();
+    }
 }

@@ -7,7 +7,7 @@
         android:layout_width="45dip"
         android:layout_height="45dip"
         android:layout_gravity="center" />
-    <com.android.volley.toolbox.NetworkImageView
+    <com.amapp.common.NetworkImageTouchView
         android:id="@+id/imgTemple"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

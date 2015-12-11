@@ -89,7 +89,6 @@ public class TempleListFragment extends SmartFragment {
             public View view;
             public NetworkImageView imgTemple;
             public SmartTextView txtName;
-            public SmartTextView txtCount;
 
             public ViewHolder(View view) {
                 super(view);
@@ -97,7 +96,6 @@ public class TempleListFragment extends SmartFragment {
                 this.view = view;
                 imgTemple = (NetworkImageView) view.findViewById(R.id.imgTemple);
                 txtName = (SmartTextView) view.findViewById(R.id.txtName);
-                txtCount = (SmartTextView) view.findViewById(R.id.txtCount);
             }
         }
 
@@ -117,7 +115,7 @@ public class TempleListFragment extends SmartFragment {
                 int index = mRecyclerView.getChildAdapterPosition(view);
                 Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
                 intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
-                Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgTemple), IMAGE);
+                Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgTemple), "image");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
                 ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
                 }
@@ -132,7 +130,6 @@ public class TempleListFragment extends SmartFragment {
 
             holder.imgTemple.setImageUrl(temple.getAsString("mainImage"), SmartWebManager.getInstance(getActivity()).getImageLoader());
             holder.txtName.setText(temple.getAsString("templePlace"));
-            holder.txtCount.setText(temple.getAsString("imageCount"));
         }
 
         @Override
