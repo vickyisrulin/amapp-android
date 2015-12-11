@@ -2,6 +2,7 @@ package com.amapp.thakorjitoday;
 
 import android.content.ContentValues;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -11,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.amapp.AMAppMasterActivity;
-import com.amapp.common.ExtendedViewPager;
 import com.amapp.R;
-import com.android.volley.toolbox.NetworkImageView;
+import com.amapp.common.NetworkImageTouchView;
 import com.smart.caching.SmartCaching;
 import com.smart.framework.Constants;
 import com.smart.weservice.SmartWebManager;
@@ -32,7 +32,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     public static final String TEMPLE_DETAIL = "TEMPLE_DETAIL";
     private ContentValues templeDetail;
     private ArrayList<ContentValues> templeImages;
-    private ExtendedViewPager viewPager;
+    private ViewPager viewPager;
 
     @Override
     public View getLayoutView() {
@@ -58,7 +58,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public void initComponents() {
-        viewPager= (ExtendedViewPager) findViewById(R.id.viewPager);
+        viewPager= (ViewPager) findViewById(R.id.viewPager);
 
     }
 
@@ -124,7 +124,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
-            final NetworkImageView imgTemple= (NetworkImageView) itemView.findViewById(R.id.imgTemple);
+            final NetworkImageTouchView imgTemple= (NetworkImageTouchView) itemView.findViewById(R.id.imgTemple);
             if(position==0){
                 setViewTransitionName(imgTemple,"image");
             }
