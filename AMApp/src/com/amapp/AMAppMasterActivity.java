@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.amapp.anoopamaudio.AudioCatListActivity;
+import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartSuperMaster;
@@ -21,7 +22,7 @@ import com.smart.framework.SmartSuperMaster;
  */
 public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants{
 
-    public enum NAVIGATION_ITEMS{THAKORJI_TODAY,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US}
+    public enum NAVIGATION_ITEMS{THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US}
     private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 
     protected NavigationView navigationView;
@@ -92,6 +93,10 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
                         invokeThakorjiTodayFlow();
                         return true;
 
+                    case R.id.navSahebjiDarshan:
+                        invokeSahebjiDarshan();
+                        return true;
+
                     case R.id.navMantralekhan:
                         gotoMantralekhanApp();
                         return true;
@@ -119,8 +124,16 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         });
     }
 
+
+
+
     private void invokeThakorjiTodayFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, TempleListActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+    }
+
+    private void invokeSahebjiDarshan() {
+        Intent intent = new Intent(AMAppMasterActivity.this, SahebjiAlbumListActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 

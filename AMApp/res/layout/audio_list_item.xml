@@ -26,14 +26,13 @@
             android:gravity="center"
             >
 
-            <com.amapp.common.NetworkCircularImageView
+            <com.amapp.common.CircleImageView
                 android:id="@+id/imgAudio"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 card_view:border_color="@color/primary50"
                 card_view:border_width="1dp"
                 android:src="@drawable/tabla"
-
                 />
 
             <LinearLayout

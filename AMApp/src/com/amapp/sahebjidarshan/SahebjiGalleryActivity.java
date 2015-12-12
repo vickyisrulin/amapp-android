@@ -1,4 +1,4 @@
-package com.amapp.thakorjitoday;
+package com.amapp.sahebjidarshan;
 
 import android.content.ContentValues;
 import android.graphics.Bitmap;
@@ -32,11 +32,11 @@ import java.util.ArrayList;
  * Created by tasol on 23/7/15.
  */
 
-public class TempleGalleryActivity extends AMAppMasterActivity implements Constants {
+public class SahebjiGalleryActivity extends AMAppMasterActivity implements Constants {
 
-    public static final String TEMPLE_DETAIL = "ALBUM_DETAIL";
-    private ContentValues templeDetail;
-    private ArrayList<ContentValues> templeImages;
+    public static final String ALBUM_DETAIL = "ALBUM_DETAIL";
+    private ContentValues albumDetail;
+    private ArrayList<ContentValues> albumImages;
     private ViewPager viewPager;
 
     @Override
@@ -46,7 +46,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public int getLayoutID() {
-        return R.layout.temple_gallery_activity;
+        return R.layout.sahebji_gallery_activity;
     }
 
     @Override
@@ -71,18 +71,18 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     public void prepareViews() {
 
         processIntent();
-        viewPager.setAdapter(new TemplePagerAdapter(templeImages));
+        viewPager.setAdapter(new AlbumPagerAdapter(albumImages));
     }
 
     private void processIntent() {
 
         if(getIntent()!=null && getIntent().getExtras()!=null){
 
-            if(getIntent().getExtras().get(TEMPLE_DETAIL)!=null){
+            if(getIntent().getExtras().get(ALBUM_DETAIL)!=null){
 
-                templeDetail = (ContentValues) getIntent().getExtras().get(TEMPLE_DETAIL);
+                albumDetail = (ContentValues) getIntent().getExtras().get(ALBUM_DETAIL);
                 try {
-                    templeImages =new SmartCaching(this).parseResponse(new JSONArray(templeDetail.getAsString("images")),"images").get("images");
+                    albumImages =new SmartCaching(this).parseResponse(new JSONArray(albumDetail.getAsString("images")),"images").get("images");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -107,11 +107,11 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         return 0;
     }
 
-    public class TemplePagerAdapter extends PagerAdapter {
+    public class AlbumPagerAdapter extends PagerAdapter {
 
         ArrayList<ContentValues> images;
 
-        public TemplePagerAdapter(ArrayList<ContentValues> images) {
+        public AlbumPagerAdapter(ArrayList<ContentValues> images) {
 
             this.images=images;
         }
@@ -128,12 +128,12 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
-            final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
+            View itemView = LayoutInflater.from(SahebjiGalleryActivity.this).inflate(R.layout.sahebji_pager_item, container, false);
+            final TouchImageView imgAlbum= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
             if(position==0){
-                setViewTransitionName(imgTemple,"image");
+                setViewTransitionName(imgAlbum,"image");
             }
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgTemple).image(images.get(position).getAsString("image"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
+            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgAlbum).image(images.get(position).getAsString("image"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
                 @Override
                 protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
                     super.callback(url, iv, bm, status);

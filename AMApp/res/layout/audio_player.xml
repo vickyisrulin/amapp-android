@@ -53,7 +53,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     />
-                <com.amapp.common.NetworkCircularImageView
+                <com.amapp.common.CircleImageView
                     android:id="@+id/imgAudio"
                     android:layout_width="220dp"
                     android:layout_height="220dp"

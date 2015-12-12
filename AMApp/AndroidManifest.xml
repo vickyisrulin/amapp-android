@@ -144,6 +144,18 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".sahebjidarshan.SahebjiAlbumListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <activity
+            android:name=".sahebjidarshan.SahebjiGalleryActivity"
+            android:configChanges="orientation"
+            >
+        </activity>
+
     </application>
 
 </manifest>

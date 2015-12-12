@@ -2,6 +2,7 @@ package com.amapp.anoopamaudio;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -18,16 +19,19 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.amapp.AMAppMasterActivity;
-import com.amapp.Environment;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
-import com.amapp.common.NetworkCircularImageView;
+import com.amapp.common.CircleImageView;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.BitmapAjaxCallback;
 import com.smart.caching.SmartCaching;
 import com.smart.customviews.SmartRecyclerView;
 import com.smart.customviews.SmartTextView;
 import com.smart.framework.Constants;
+import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
 
@@ -201,7 +205,7 @@ public class AudioListActivity extends AMAppMasterActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public View view;
-            public NetworkCircularImageView imgAudio;
+            public CircleImageView imgAudio;
             public SmartTextView txtAudioTitle;
             public SmartTextView txtAudioDuration;
 
@@ -209,7 +213,7 @@ public class AudioListActivity extends AMAppMasterActivity {
                 super(view);
 
                 this.view = view;
-                imgAudio = (NetworkCircularImageView) view.findViewById(R.id.imgAudio);
+                imgAudio = (CircleImageView) view.findViewById(R.id.imgAudio);
                 txtAudioTitle = (SmartTextView) view.findViewById(R.id.txtAudioTitle);
                 txtAudioDuration = (SmartTextView) view.findViewById(R.id.txtAudioDuration);
             }
@@ -247,7 +251,13 @@ public class AudioListActivity extends AMAppMasterActivity {
 
             if(audio.containsKey("audioImage")){
                 holder.imgAudio.setVisibility(View.VISIBLE);
-                holder.imgAudio.setImageUrl(audio.getAsString("audioImage"), SmartWebManager.getInstance(AudioListActivity.this).getImageLoader());
+                SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgAudio).image(audio.getAsString("audioImage"), true, true, getDeviceWidth(), 0, new BitmapAjaxCallback() {
+                    @Override
+                    protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
+                        super.callback(url, iv, bm, status);
+
+                    }
+                });
             }
         }
 

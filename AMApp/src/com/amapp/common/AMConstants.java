@@ -24,6 +24,7 @@ public class AMConstants {
     // other AMS constants
     public static final String AM_Application_Title = "Anoopam Mission";
     public static final String AMS_Request_Get_Temples_Tag = "ams_get_temples";
+    public static final String AMS_Request_Get_Sahebji_Tag = "ams_get_sahebji";
     public static final String AMS_Request_Get_Audio_Cat_Tag = "ams_get_audio_cat";
     public static final String AMS_Request_Get_Audio_List_Tag = "ams_get_audio_list";
     public static final String AMS_Request_Get_Quotes_Tag = "ams_get_quotes";
@@ -33,7 +34,13 @@ public class AMConstants {
 
     // KEYS
     public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
+    public static final String KEY_SahebjiDarshanLastUpdatedTimestamp = "sahebjiDarshanLastUpdatedTimestamp";
 
     // get Audio Cat
     public static final String GET_AUDIO_CAT_URL = "http://www.mocky.io/v2/56698805250000a0291bdf21";
+
+    // get Sahebji Darshan
+    public static final String GET_SAHEBJI_DARSHAN_URL = "http://www.mocky.io/v2/566c23a11100006c1ec6a010";
+
+
 }

@@ -10,6 +10,7 @@ import android.graphics.Typeface;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
+import com.androidquery.util.AQUtility;
 import com.smart.customviews.Log;
 
 import java.io.File;
@@ -75,6 +76,15 @@ public class SmartApplication extends Application {
         smartApplicationConfiguration=new ApplicationConfiguration();
         loadConfiguration();
 
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + APP_NAME;
+
+        File dir = new File(cacheDir);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+
+        AQUtility.setCacheDir(dir);
+
         @SuppressWarnings("unused")
         SmartFrameworkSecurity smartFrameworkSecurity = new SmartFrameworkSecurity(this);
 
@@ -107,7 +117,8 @@ public class SmartApplication extends Application {
     }
 
 
-    public AQuery getaQuery() {
+    public AQuery getAQuery() {
+
         if (aQuery == null) {
             aQuery = new AQuery(this);
         }

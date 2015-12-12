@@ -1,6 +1,7 @@
 package com.amapp.anoopamaudio;
 
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -15,15 +16,18 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.MediaController;
 
 import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
-import com.amapp.common.NetworkCircularImageView;
+import com.amapp.common.CircleImageView;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.BitmapAjaxCallback;
 import com.smart.customviews.Log;
 import com.smart.customviews.SmartTextView;
-import com.smart.weservice.SmartWebManager;
+import com.smart.framework.SmartApplication;
 
 import java.io.IOException;
 
@@ -40,7 +44,7 @@ public class AudioPlayerActivity extends AMAppMasterActivity implements MediaPla
     private FrameLayout frmMain;
     private CardView cardView;
     private SmartTextView txtCatName;
-    private NetworkCircularImageView imgAudio;
+    private CircleImageView imgAudio;
     private SmartTextView txtAudioTitle;
     private SmartTextView txtAudioDuration;
     private ContentValues audioDetails;
@@ -100,7 +104,7 @@ public class AudioPlayerActivity extends AMAppMasterActivity implements MediaPla
         super.initComponents();
         frmMain = (FrameLayout)findViewById( R.id.frmMain );
         cardView = (CardView)findViewById( R.id.cardView );
-        imgAudio = (NetworkCircularImageView)findViewById( R.id.imgAudio );
+        imgAudio = (CircleImageView)findViewById( R.id.imgAudio );
         txtAudioTitle = (SmartTextView)findViewById( R.id.txtAudioTitle );
         txtAudioDuration = (SmartTextView)findViewById( R.id.txtAudioDuration );
         txtAudioLoading = (SmartTextView)findViewById( R.id.txtAudioLoading);
@@ -118,7 +122,13 @@ public class AudioPlayerActivity extends AMAppMasterActivity implements MediaPla
         txtAudioDuration.setText("Duration : " + audioDetails.getAsString("duration"));
 
         if(audioDetails.containsKey("audioImage")){
-            imgAudio.setImageUrl(audioDetails.getAsString("audioImage"), SmartWebManager.getInstance(AudioPlayerActivity.this).getImageLoader());
+            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgAudio).image(audioDetails.getAsString("audioImage"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
+                @Override
+                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
+                    super.callback(url, iv, bm, status);
+
+                }
+            });
         }
 
         mediaPlayer = new MediaPlayer();
@@ -203,8 +213,10 @@ public class AudioPlayerActivity extends AMAppMasterActivity implements MediaPla
         try {
             if(mediaPlayer!=null && mediaPlayer.isPlaying()){
                 mediaPlayer.stop();
-                mediaPlayer.release();
             }
+            mediaPlayer.release();
+            mediaPlayer=null;
+
         }catch (Exception e){
             e.printStackTrace();
         }
