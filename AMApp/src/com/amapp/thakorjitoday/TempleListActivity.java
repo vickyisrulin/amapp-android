@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -117,7 +116,7 @@ public class TempleListActivity extends AMAppMasterActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        selectDrawerItem(NAVIGATION_ITEMS.HOME);
+        selectDrawerItem(NAVIGATION_ITEMS.THAKORJI_TODAY);
     }
 
     @Override

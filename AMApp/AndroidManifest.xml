@@ -130,6 +130,20 @@
 
         </activity>
 
+        <activity
+            android:name=".anoopamaudio.AudioCatListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".anoopamaudio.AudioListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".anoopamaudio.AudioPlayerActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
     </application>
 
 </manifest>

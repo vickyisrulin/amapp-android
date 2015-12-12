@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,8 +48,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     @Override
     public void setAnimations() {
         super.setAnimations();
-//        getWindow().setEnterTransition(new Fade());
-//        getWindow().setExitTransition(new Fade());
+        getWindow().setEnterTransition(new Fade());
+        getWindow().setExitTransition(new Fade());
     }
 
     @Override
@@ -58,8 +59,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public void initComponents() {
+        disableSideMenu();
         viewPager= (ViewPager) findViewById(R.id.viewPager);
-
     }
 
     @Override
@@ -139,4 +140,5 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         }
 
     }
+
 }
