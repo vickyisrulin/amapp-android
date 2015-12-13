@@ -121,7 +121,7 @@ public class TempleListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-        toolbar.setTitle(AMConstants.AM_Application_Title);
+        toolbar.setTitle(getString(R.string.nav_thakorji_today_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
