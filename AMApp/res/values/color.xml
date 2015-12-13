@@ -64,6 +64,7 @@
         <item>#00000000</item>
     </array>
 
+    <color name="player_yellow">#ffeb52</color>
 
 
 </resources>

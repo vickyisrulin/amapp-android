@@ -4,13 +4,13 @@
     xmlns:yourapp="http://schemas.android.com/tools">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/navHome"
-            android:icon="@drawable/ic_home_variant_white_24dp"
-            android:title="@string/nav_home" />
-        <item
             android:id="@+id/navThakorjiToday"
             android:icon="@drawable/ic_action_action_view_list"
             android:title="@string/nav_thakorji_today" />
+        <item
+            android:id="@+id/navSahebjiDarshan"
+            android:icon="@drawable/ic_action_action_view_list"
+            android:title="@string/nav_sahebji_Darshan" />
         <item
             android:id="@+id/navMantralekhan"
             android:icon="@drawable/ic_soundcloud_white_24dp"

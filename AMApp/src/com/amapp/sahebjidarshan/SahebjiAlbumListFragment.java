@@ -1,4 +1,4 @@
-package com.amapp.thakorjitoday;
+package com.amapp.sahebjidarshan;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -30,21 +30,21 @@ import java.util.ArrayList;
 /**
  * Created by tasol on 21/8/15.
  */
-public class TempleListFragment extends SmartFragment {
+public class SahebjiAlbumListFragment extends SmartFragment {
 
     private SmartRecyclerView mRecyclerView;
-    private TempleAdapter mAdapter;
+    private AlbumAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<ContentValues> temples;
+    private ArrayList<ContentValues> albums;
     private SmartTextView emptyView;
 
-    public TempleListFragment() {
+    public SahebjiAlbumListFragment() {
 
     }
 
     @Override
     public int setLayoutId() {
-        return R.layout.temples_list_fragment;
+        return R.layout.sahebji_album_list_fragment;
     }
 
     @Override
@@ -65,7 +65,7 @@ public class TempleListFragment extends SmartFragment {
 
     @Override
     public void prepareViews(View currentView) {
-        mAdapter = new TempleAdapter();
+        mAdapter = new AlbumAdapter();
     }
 
     @Override
@@ -73,9 +73,9 @@ public class TempleListFragment extends SmartFragment {
 
     }
 
-    public void setTemples(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
+    public void setAlbums(ArrayList<ContentValues> albums, boolean isCachedDataDisplayed) {
 
-        this.temples = temples;
+        this.albums = albums;
 
         if(isCachedDataDisplayed && mRecyclerView.getChildCount()>0){
             mAdapter.notifyDataSetChanged();
@@ -86,27 +86,27 @@ public class TempleListFragment extends SmartFragment {
         }
     }
 
-    class TempleAdapter extends RecyclerView.Adapter<TempleAdapter.ViewHolder> implements Constants {
+    class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> implements Constants {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             public View view;
-            public ImageView imgTemple;
+            public ImageView imgAlbum;
             public SmartTextView txtName;
 
             public ViewHolder(View view) {
                 super(view);
 
                 this.view = view;
-                imgTemple = (ImageView) view.findViewById(R.id.imgAlbum);
+                imgAlbum = (ImageView) view.findViewById(R.id.imgAlbum);
                 txtName = (SmartTextView) view.findViewById(R.id.txtName);
             }
         }
 
         @Override
-        public TempleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AlbumAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.temple_list_item, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.sahebji_list_item, parent, false);
 
             final ViewHolder vh = new ViewHolder(v);
             if(SmartUtils.isOSPreLollipop()){
@@ -117,8 +117,8 @@ public class TempleListFragment extends SmartFragment {
                 @Override
                 public void onClick(View view) {
                 int index = mRecyclerView.getChildAdapterPosition(view);
-                Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
-                intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
+                Intent intent = new Intent(getActivity(), SahebjiGalleryActivity.class);
+                intent.putExtra(SahebjiGalleryActivity.ALBUM_DETAIL, albums.get(index));
                 Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgAlbum), "image");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
                 ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
@@ -130,9 +130,9 @@ public class TempleListFragment extends SmartFragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            ContentValues temple= temples.get(position);
+            ContentValues temple= albums.get(position);
 
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgTemple).image(temple.getAsString("mainImage"),true,true,((SmartActivity)getActivity()).getDeviceWidth(),0,new BitmapAjaxCallback(){
+            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgAlbum).image(temple.getAsString("mainImage"),true,true,((SmartActivity)getActivity()).getDeviceWidth(),0,new BitmapAjaxCallback(){
                 @Override
                 protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
                     super.callback(url, iv, bm, status);
@@ -140,12 +140,12 @@ public class TempleListFragment extends SmartFragment {
                 }
             });
 
-            holder.txtName.setText(temple.getAsString("templePlace"));
+            holder.txtName.setText(temple.getAsString("albumName"));
         }
 
         @Override
         public int getItemCount() {
-            return temples.size();
+            return albums.size();
         }
     }
 }

@@ -47,7 +47,6 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
 
         super.onResume();
         if (SmartApplication.REF_SMART_APPLICATION.IS_HTTP_ALLOW_ACCESS) {
-            SmartUtils.setAuthPermission();
         }
 
 //        enableGCM();

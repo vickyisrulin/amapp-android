@@ -662,11 +662,6 @@ public class SmartUtils implements Constants{
         return list;
     }
 
-    static public void setAuthPermission(){
-
-        AQuery.setAuthHeader(SmartUtils.getB64Auth(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(SharedPreferenceConstants.SP_HTTP_ACCESSS_USERNAME, ""), SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(SharedPreferenceConstants.SP_HTTP_ACCESSS_PASSWORD, "")));
-    }
-
     static public String removeSpecialCharacter(String string){
 
         return string.replaceAll("[ ,]","_");

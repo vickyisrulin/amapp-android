@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lytLinear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/appbar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frmMain"
+        >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            card_view:cardUseCompatPadding="true"
+            android:layout_height="match_parent"
+            android:elevation="5dp"
+            card_view:cardBackgroundColor="@color/primary900"
+            card_view:contentPadding="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_gravity="center"
+                >
+                <com.smart.customviews.SmartTextView
+                    android:id="@+id/txtCatName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    android:text="Bhajans"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    />
+                <com.amapp.common.CircleImageView
+                    android:id="@+id/imgAudio"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    card_view:border_color="@color/primary50"
+                    card_view:border_width="1dp"
+                    android:src="@drawable/tabla"
+                    android:layout_marginTop="10dp"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    >
+                    <com.smart.customviews.SmartTextView
+                        android:id="@+id/txtAudioLoading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/player_yellow"
+                        android:textSize="18dp"
+                        android:text="Loading"
+                        android:gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:textStyle="italic"
+                        />
+
+                    <com.smart.customviews.SmartTextView
+                        android:id="@+id/txtAudioTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:text="Bhajans Bhajans Bhajans Bhajans Bhajans"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
+                        />
+                    <com.smart.customviews.SmartTextView
+                        android:id="@+id/txtAudioDuration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
+                        android:text="Duration : 05:05"
+                        android:gravity="center"
+                        android:layout_marginBottom="20dp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <include layout="@layout/network_info"></include>
+    </FrameLayout>
+</LinearLayout>

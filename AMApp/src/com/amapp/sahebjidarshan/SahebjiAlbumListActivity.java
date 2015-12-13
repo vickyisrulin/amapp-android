@@ -1,4 +1,4 @@
-package com.amapp.thakorjitoday;
+package com.amapp.sahebjidarshan;
 
 import android.content.ContentValues;
 import android.graphics.Typeface;
@@ -32,15 +32,15 @@ import java.util.HashMap;
  * Created by tasol on 16/7/15.
  */
 
-public class TempleListActivity extends AMAppMasterActivity {
+public class SahebjiAlbumListActivity extends AMAppMasterActivity {
 
-    private static final String TAG = "TempleListActivity";
+    private static final String TAG = "SahebjiAlbumListActivity";
 
     private FrameLayout frmListFragmentContainer;
 
-    private TempleListFragment templeListFragment;
+    private SahebjiAlbumListFragment albumListFragment;
 
-    private ArrayList<ContentValues> temples = new ArrayList<>();
+    private ArrayList<ContentValues> albums = new ArrayList<>();
 
     private SmartCaching smartCaching;
 
@@ -53,7 +53,7 @@ public class TempleListActivity extends AMAppMasterActivity {
 
     @Override
     public int getLayoutID() {
-        return R.layout.temples_activity;
+        return R.layout.sahebji_album_activity;
     }
 
     @Override
@@ -93,17 +93,17 @@ public class TempleListActivity extends AMAppMasterActivity {
         super.initComponents();
 
         frmListFragmentContainer = (FrameLayout) findViewById(R.id.frmListFragmentContainer);
-        templeListFragment = new TempleListFragment();
+        albumListFragment = new SahebjiAlbumListFragment();
         smartCaching = new SmartCaching(this);
     }
 
     @Override
     public void prepareViews() {
-        getSupportFragmentManager().beginTransaction().add(R.id.frmListFragmentContainer, templeListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frmListFragmentContainer, albumListFragment).commit();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getCachedTemples();
+                getCachedAlbums();
             }
         }, 500);
     }
@@ -116,9 +116,8 @@ public class TempleListActivity extends AMAppMasterActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        selectDrawerItem(NAVIGATION_ITEMS.THAKORJI_TODAY);
+        selectDrawerItem(NAVIGATION_ITEMS.SAHEBJI_DARSHAN);
     }
-
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
         toolbar.setTitle(AMConstants.AM_Application_Title);
@@ -132,14 +131,14 @@ public class TempleListActivity extends AMAppMasterActivity {
         return false;
     }
 
-    private void getTemples() {
+    private void getAlbums() {
 
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,this);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getThakorjiTodayUrlWithLatestCachedTimestamp());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Sahebji_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, AMConstants.GET_SAHEBJI_DARSHAN_URL);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
@@ -147,18 +146,18 @@ public class TempleListActivity extends AMAppMasterActivity {
             public void onResponseReceived(final JSONObject response, String errorMessage) {
 
                 if (errorMessage != null && errorMessage.equalsIgnoreCase(getString(R.string.no_content_found))) {
-                    SmartUtils.showSnackBar(TempleListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
+                    SmartUtils.showSnackBar(SahebjiAlbumListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
                 } else {
                     try {
-                        smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
+                        smartCaching.cacheResponse(response.getJSONArray("albums"), "albums", true, new SmartCaching.OnResponseParsedListener() {
                             @Override
                             public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                temples = mapTableNameAndData.get("temples");
-                                setTempleDataInFragments(temples, isCachedDataDisplayed);
+                                albums = mapTableNameAndData.get("albums");
+                                setAlbumDataInFragments(albums, isCachedDataDisplayed);
                             }
                         }, "images");
                         SmartApplication.REF_SMART_APPLICATION
-                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp,response
+                                .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,44 +166,35 @@ public class TempleListActivity extends AMAppMasterActivity {
             }
         });
 
-        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams,null, !isCachedDataDisplayed);
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, !isCachedDataDisplayed);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
 
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Temples_Tag);
+        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Sahebji_Tag);
     }
 
-    private void getCachedTemples() {
+    private void getCachedAlbums() {
 
-        ArrayList<ContentValues> temples = new SmartCaching(this).getDataFromCache("temples");
+        ArrayList<ContentValues> albums = new SmartCaching(this).getDataFromCache("albums");
 
-        if (temples == null || temples.size() <= 0) {
+        if (albums == null || albums.size() <= 0) {
             isCachedDataDisplayed = false;
-            getTemples();
+            getAlbums();
         } else {
-            this.temples = temples;
-            setTempleDataInFragments(temples, isCachedDataDisplayed);
+            this.albums = albums;
+            setAlbumDataInFragments(albums, isCachedDataDisplayed);
             isCachedDataDisplayed = true;
             // after using cached data, check to see if there is an update
-            getTemples();
+            getAlbums();
         }
     }
 
-    // gets the latest timestamp cached on the client side
-    // and addes it into the ThakorjiToday endpoint as param
-    private String getThakorjiTodayUrlWithLatestCachedTimestamp() {
-        String endpoint = environment.getThakorjiTodayEndpoint();
-        String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
-                .readSharedPreferences().getString(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, "");
-        return String.format(endpoint, lastUpdatedTimeStamp);
-    }
+    private void setAlbumDataInFragments(ArrayList<ContentValues> albums, boolean isCachedDataDisplayed) {
 
-    private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
-
-        templeListFragment.setTemples(temples, isCachedDataDisplayed);
+        albumListFragment.setAlbums(albums, isCachedDataDisplayed);
 
     }
 
