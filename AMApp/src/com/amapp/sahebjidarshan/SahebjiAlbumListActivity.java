@@ -120,7 +120,7 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
     }
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-        toolbar.setTitle(AMConstants.AM_Application_Title);
+        toolbar.setTitle(getString(R.string.nav_sahebji_Darshan));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
@@ -138,7 +138,7 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Sahebji_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, AMConstants.GET_SAHEBJI_DARSHAN_URL);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSahebjiDarshanUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
@@ -158,7 +158,7 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
                         }, "images");
                         SmartApplication.REF_SMART_APPLICATION
                                 .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
+                                        .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -190,6 +190,15 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
             // after using cached data, check to see if there is an update
             getAlbums();
         }
+    }
+
+    // gets the latest timestamp cached on the client side
+    // and addes it into the SahebjiDarshan endpoint as param
+    private String getSahebjiDarshanUrlWithLatestCachedTimestamp() {
+        String endpoint = environment.getSahebjiDarshanEndpiont();
+        String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
+                .readSharedPreferences().getString(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, "");
+        return String.format(endpoint, lastUpdatedTimeStamp);
     }
 
     private void setAlbumDataInFragments(ArrayList<ContentValues> albums, boolean isCachedDataDisplayed) {

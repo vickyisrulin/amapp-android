@@ -9,17 +9,22 @@ public class AMConstants {
     public static final String MOCK_MOCKY_Domain_Url = "http://www.mocky.io";
     public static final String MOCK_MOCKY_ThakorjiToday_Endpoint_Suffix = "/v2/565320442400005027629a41?lastUpdatedTimestamp=%s";
     public static final String MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
-    public static final String MOCK_MOCKY_AudioCat_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
+    public static final String MOCK_MOCKY_SahebjiDarshan_Endpoint_Suffix = "/v2/566c23a11100006c1ec6a010";
+    public static final String MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
 
     //MOCK APIARY
     public static final String MOCK_APIARY_Domain_Url = "http://www.mocky.io";
-    public static final String MOCK_APIARY_ThakorjiToday_Endpoint_Suffix = "/v2/565320442400005027629a41?lastUpdatedTimestamp=%s";
+    public static final String MOCK_APIARY_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s";
     public static final String MOCK_APIARY_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
+    public static final String MOCK_APIARY_SahebjiDarshan_Endpoint_Suffix = "/v2/566c23a11100006c1ec6a010";
+    public static final String MOCK_APIARY_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
 
     //LIVE
     public static final String LIVE_Domain_Url = "http://anoopam.org";
     public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s";
     public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
+    public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/sahebji.php?lastUpdatedTimestamp=%s";
+    public static final String LIVE_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
 
     // other AMS constants
     public static final String AM_Application_Title = "Anoopam Mission";
@@ -31,16 +36,9 @@ public class AMConstants {
 
     // AMS params
     public static final String AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp = "lastUpdatedTimestamp";
+    public static final String AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp = "lastUpdatedTimestamp";
 
     // KEYS
     public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
     public static final String KEY_SahebjiDarshanLastUpdatedTimestamp = "sahebjiDarshanLastUpdatedTimestamp";
-
-    // get Audio Cat
-    public static final String GET_AUDIO_CAT_URL = "http://www.mocky.io/v2/56698805250000a0291bdf21";
-
-    // get Sahebji Darshan
-    public static final String GET_SAHEBJI_DARSHAN_URL = "http://www.mocky.io/v2/566c23a11100006c1ec6a010";
-
-
 }

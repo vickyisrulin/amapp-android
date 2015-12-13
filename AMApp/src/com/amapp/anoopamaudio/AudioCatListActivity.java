@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.amapp.AMAppMasterActivity;
+import com.amapp.Environment;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
 import com.smart.caching.SmartCaching;
@@ -125,7 +126,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-        toolbar.setTitle(AMConstants.AM_Application_Title);
+        toolbar.setTitle(getString(R.string.nav_audio_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
@@ -143,7 +144,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_Cat_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, AMConstants.GET_AUDIO_CAT_URL);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioEndpoint());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
 
@@ -166,6 +167,15 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         });
 
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, true);
+    }
+
+    /**
+     * returns the Anoopam Audio Endpoint
+     * @return String
+     */
+    private String getAnoopamAudioEndpoint() {
+        // FIXME: Since AMS still doesnt have endpoint for audio, return MOCK endpoint
+        return Environment.ENV_MOCK_MOCKY.getAnoopamAudioEndpoint();
     }
 
     @Override
