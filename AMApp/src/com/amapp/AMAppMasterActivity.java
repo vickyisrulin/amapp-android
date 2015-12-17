@@ -55,7 +55,6 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     @Override
     public void setAnimations() {
-
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         getWindow().setAllowEnterTransitionOverlap(true);
         getWindow().setAllowReturnTransitionOverlap(true);
@@ -73,8 +72,6 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     @Override
     public void prepareViews() {
     }
-
-
 
     @Override
     public void setActionListeners() {
@@ -124,38 +121,35 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         });
     }
 
-
-
-
-    private void invokeThakorjiTodayFlow() {
+    protected void invokeThakorjiTodayFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, TempleListActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
-    private void invokeSahebjiDarshan() {
+    protected void invokeSahebjiDarshan() {
         Intent intent = new Intent(AMAppMasterActivity.this, SahebjiAlbumListActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
-    private void invokeAudioFlow() {
+    protected void invokeAudioFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, AudioCatListActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
-    private void invokeQuoteOfTheDayFlow() {
+    protected void invokeQuoteOfTheDayFlow() {
     }
 
-    private void invokeAboutFlow() {
+    protected void invokeAboutFlow() {
     }
 
-    private void invokeContactUsFlow() {
+    public void invokeContactUsFlow() {
     }
 
     /**
      * 1) Invokes the Mantralekhan app if it's already available on the phone
      * 2) If not, takes the user to the App store to download the app
      */
-    private void gotoMantralekhanApp() {
+    protected void gotoMantralekhanApp() {
         try {
             Intent mantralekhanAppIntent = getPackageManager().getLaunchIntentForPackage(AM_MANTRALEKHAN_APP_PACKANGE_NAME);
             ActivityCompat.startActivity(AMAppMasterActivity.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
