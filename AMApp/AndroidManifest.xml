@@ -122,6 +122,10 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".home.HomeListActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name=".thakorjitoday.TempleGalleryActivity"

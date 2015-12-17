@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.View;
 
+import com.amapp.home.HomeListActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
 
 /**
@@ -55,7 +56,7 @@ public class SplashActivity extends AMAppMasterActivity {
             public void run() {
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(SplashActivity.this);
                 Intent intent = new Intent();
-                intent.setClass(SplashActivity.this,TempleListActivity.class);
+                intent.setClass(SplashActivity.this,HomeListActivity.class);
                 ActivityCompat.startActivity(SplashActivity.this, intent, options.toBundle());
                 finish();
             }
