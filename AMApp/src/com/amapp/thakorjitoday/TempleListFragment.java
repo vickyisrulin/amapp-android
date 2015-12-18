@@ -93,6 +93,7 @@ public class TempleListFragment extends SmartFragment {
             public View view;
             public ImageView imgTemple;
             public SmartTextView txtName;
+            private SmartTextView txtName2;
 
             public ViewHolder(View view) {
                 super(view);
@@ -100,6 +101,7 @@ public class TempleListFragment extends SmartFragment {
                 this.view = view;
                 imgTemple = (ImageView) view.findViewById(R.id.imgAlbum);
                 txtName = (SmartTextView) view.findViewById(R.id.txtName);
+                txtName2 = (SmartTextView) view.findViewById(R.id.txtName2);
             }
         }
 
@@ -132,7 +134,7 @@ public class TempleListFragment extends SmartFragment {
 
             ContentValues temple= temples.get(position);
 
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgTemple).image(temple.getAsString("mainImage"),true,true,((SmartActivity)getActivity()).getDeviceWidth(),0,new BitmapAjaxCallback(){
+            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgTemple).image(temple.getAsString("mainImage"), true, true, ((SmartActivity) getActivity()).getDeviceWidth(), 0, new BitmapAjaxCallback() {
                 @Override
                 protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
                     super.callback(url, iv, bm, status);
@@ -141,6 +143,7 @@ public class TempleListFragment extends SmartFragment {
             });
 
             holder.txtName.setText(temple.getAsString("templePlace"));
+            holder.txtName2.setText(temple.getAsString("lastUpdatedTimestamp"));
         }
 
         @Override
