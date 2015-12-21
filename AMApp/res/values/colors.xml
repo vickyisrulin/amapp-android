@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="disableColor">#bfbfbf</color>
+    <color name="anoopamTextColor">#2f29a3</color>
+    <color name="anoopamBackgroundColor">#67dbf2</color>
 </resources>

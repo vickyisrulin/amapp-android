@@ -49,6 +49,7 @@
             @transition/change_image_transform</item>-->
 
     </style>
+
     <style name="toolbarTheme" parent="AppTheme">
 
         <item name="colorControlNormal">@color/textSecondary</item>
@@ -125,6 +126,15 @@
         <item name="android:shadowRadius">2</item>
         <item name="android:textStyle">bold</item>
 
+    </style>
+
+    <style name="AnoopamTextView">
+        <item name="android:textColor">@color/anoopamTextColor</item>
+        <item name="android:shadowColor">@color/anoopamTextColor</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextViewShadowTint">
