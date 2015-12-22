@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
+import com.amapp.common.NetworkConnectionInfo;
 import com.smart.caching.SmartCaching;
 import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
@@ -158,7 +159,7 @@ public class TempleListActivity extends AMAppMasterActivity {
                             }
                         }, "images");
                         SmartApplication.REF_SMART_APPLICATION
-                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp,response
+                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -167,7 +168,7 @@ public class TempleListActivity extends AMAppMasterActivity {
             }
         });
 
-        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams,null, !isCachedDataDisplayed);
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, !isCachedDataDisplayed);
     }
 
     @Override
@@ -199,7 +200,11 @@ public class TempleListActivity extends AMAppMasterActivity {
         String endpoint = environment.getThakorjiTodayEndpoint();
         String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, "");
-        return String.format(endpoint, lastUpdatedTimeStamp);
+        if(NetworkConnectionInfo.isMobileDataConnected(this)) {
+            return String.format(endpoint,lastUpdatedTimeStamp,"slow");
+        } else {
+            return String.format(endpoint,lastUpdatedTimeStamp,"fast");
+        }
     }
 
     private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
