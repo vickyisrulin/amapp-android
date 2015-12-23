@@ -21,7 +21,8 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public  String getGCMProjectId() {
-        return "725447998213";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
@@ -46,7 +47,8 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public String getSecurityKey() {
-        return "901f15a565f8eac8265bacede4b1c17";
+        //TODO: If we use this, add the data here
+        return "";
 
     }
 
@@ -62,7 +64,8 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public String getFacebookAppID() {
-        return "431844313570473";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
@@ -72,12 +75,14 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public String getTwitterConsumerKey() {
-        return "ACGuGZRQI4rASvX4uHgDw";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
     public String getTwitterSecretKey() {
-        return "n2zv5dXGbvav3FCb63sk3rIYH8zz74is69dUkINlsgg";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
@@ -87,14 +92,14 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
 
     @Override
     public String getGCMID() {
-
-        return "AIzaSyCIaTtlpoTfT1PB4mu3zvx_UhTAQGIlQVY";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
     public String getGCMVersion() {
-
-        return "4030500";
+        //TODO: If we use this, add the data here
+        return "";
     }
 
     @Override
@@ -136,7 +141,6 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
         return true;
     }
 
-
     @Override
     public boolean isDebugOn() {
         return true;
@@ -146,8 +150,6 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
     public boolean isHttpAccessAllow() {
         return false;
     }
-
-
 
     @Override
     public boolean isCrashHandlerEnable() {
@@ -168,11 +170,6 @@ public class ApplicationConfiguration implements SmartApplicationConfiguration, 
     public String getDatabaseSQL() {
         return "amapp" + ".sql";
     }
-
-    public String getFacebookAppId(){
-        return "431844313570473";
-    }
-
 
     @Override
     public void onInstalling(SmartApplication smartApplication) {
