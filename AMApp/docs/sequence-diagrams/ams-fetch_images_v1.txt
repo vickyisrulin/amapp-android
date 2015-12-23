@@ -1,0 +1,55 @@
+### https://www.websequencediagrams.com/
+
+title AMS ams/v1/fetch_images integration Proposal 
+
+AMApp->AMApp: Are images available in local CACHE? 
+
+### --------- YES Data in LOCAL CACHE --------------
+ALT YES. Images available in Local CACHE
+AMApp->AMApp: 1) Display the images\n from Local CACHE
+AMApp->AMS: 2) /api/ams/v1/fetch_images? feature=FEATURE-CODE \n& country_local=COUNTRY-CODE \n & network=slow/fast \n & lastUpdatedTimestamp="DDMMYYYYHHMM"
+
+ALT CODE=200 - Update available on server
+AMS->AMS: prepare small sized image pointers for network=slow \n or larger size for network=fast
+AMS->AMS: Put the data for the \n device Country on the top
+AMS->AMApp: CODE=200 lastUpdatedTimestamp=181220151434 JSON with image pointers
+AMApp->AMApp: stores the lastUpdatedTimestamp\n in local CACHE
+AMApp->AMApp: stores the images\n in local CACHE 
+AMApp->AMApp: Update the UI with newer images
+
+
+else CODE=204 - NO new Update available on server
+AMS->AMApp: CODE=204 
+AMApp->AMApp: No update in the UI
+
+
+else CODE >=300 - SERVER ERROR - couldnt respond 
+AMS->AMApp: CODE >= 300 
+AMApp->AMApp: DO NOT display Error \n No Update in the UI 
+END
+END
+
+### --------- NO Data in LOCAL CACHE --------------
+ALT NO. Images are NOT in Local CACHE
+AMApp->AMApp: 1) Display the LOADING DIALOG
+AMApp->AMS: 2) /api/ams/v1/fetch_images? feature=FEATURE_CODE \n& country_local=COUNTRY-CODE \n& network=slow/fast \n & lastUpdatedTimestamp=""
+
+ALT CODE=200 - Update available on server
+AMS->AMS: prepare small sized image pointers for network=slow \n or larger size for network=fast
+AMS->AMS: Put the data for the \n device Country on the top
+AMS->AMApp: CODE=200 lastUpdatedTimestamp=181220151434 JSON with image pointers
+AMApp->AMApp: stores the lastUpdatedTimestamp\n in local CACHE
+AMApp->AMApp: stores the images\n in local CACHE
+AMApp->AMApp: Update the UI with newer images
+
+else CODE=204 - NO new Update available on server
+AMS->AMApp: CODE=204 
+AMApp->AMApp: Displays the error to the user
+
+else CODE>=300 - SERVER ERROR - couldnt respond 
+AMS->AMApp: CODE >= 300 
+AMApp->AMApp: Displays the error to the user
+END
+
+END
+
