@@ -112,6 +112,10 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
                         invokeQuoteOfTheDayFlow();
                         return true;
 
+                    case R.id.navAnoopamEvents:
+                        invokeEvents();
+                        return true;
+
                     case R.id.navAbout:
                         invokeAboutFlow();
                         return true;
@@ -157,6 +161,10 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeContactUsFlow() {
         invokeBrowserForThisUrl(AMConstants.URL_ContactUs);
+    }
+
+    protected void invokeEvents() {
+        invokeBrowserForThisUrl(AMConstants.URL_Events);
     }
 
     /**

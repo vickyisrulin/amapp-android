@@ -29,6 +29,10 @@
             android:icon="@drawable/ic_star_half_white_24dp"
             android:title="@string/nav_audio" />
         <item
+            android:id="@+id/navAnoopamEvents"
+            android:icon="@drawable/ic_star_half_white_24dp"
+            android:title="@string/nav_anoopam_events" />
+        <item
             android:id="@+id/navAbout"
             android:icon="@drawable/ic_calendar_white_24dp"
             android:title="@string/nav_about"
