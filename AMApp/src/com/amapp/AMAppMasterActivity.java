@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.amapp.anoopamaudio.AudioCatListActivity;
+import com.amapp.common.AMConstants;
 import com.amapp.home.HomeListActivity;
 import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
@@ -151,9 +152,21 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     }
 
     protected void invokeAboutFlow() {
+        invokeBrowserForThisUrl(AMConstants.URL_AboutUs);
     }
 
-    public void invokeContactUsFlow() {
+    protected void invokeContactUsFlow() {
+        invokeBrowserForThisUrl(AMConstants.URL_ContactUs);
+    }
+
+    /**
+     * Starts the browser for the given URL String
+     * @param urlString
+     */
+    private void invokeBrowserForThisUrl(String urlString) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(urlString));
+        startActivity(intent);
     }
 
     /**

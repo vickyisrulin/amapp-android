@@ -45,4 +45,8 @@ public class AMConstants {
     public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
     public static final String KEY_SahebjiDarshanLastUpdatedTimestamp = "sahebjiDarshanLastUpdatedTimestamp";
     public static final String KEY_HomeScreenLastUpdatedTimestamp = "homeScreenLastUpdatedTimestamp";
+
+    // other URL Constants
+    public static final String URL_AboutUs = "http://anoopam.org/aboutus/aboutus.php";
+    public static final String URL_ContactUs = "http://anoopam.org/contactus/contactus.php";
 }
