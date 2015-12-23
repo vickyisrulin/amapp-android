@@ -46,7 +46,7 @@
                 >
 
                 <com.smart.customviews.SmartTextView
-                    android:id="@+id/txtName"
+                    android:id="@+id/txtTemplePlace"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
                     />
 
                 <com.smart.customviews.SmartTextView
-                    android:id="@+id/txtName2"
+                    android:id="@+id/txtTempleLastUpdatedDate"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
