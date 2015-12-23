@@ -94,14 +94,14 @@ public class HomeListFragment extends SmartFragment {
 
                 this.view = view;
                 imgHomeTile = (ImageView) view.findViewById(R.id.imgAlbum);
-                txtName = (SmartTextView) view.findViewById(R.id.txtName);
+                txtName = (SmartTextView) view.findViewById(R.id.txtHomeTileName);
             }
         }
 
         @Override
         public HomeAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.temple_list_item, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_list_item, parent, false);
 
             final ViewHolder vh = new ViewHolder(v);
             if(SmartUtils.isOSPreLollipop()){

@@ -92,16 +92,16 @@ public class TempleListFragment extends SmartFragment {
 
             public View view;
             public ImageView imgTemple;
-            public SmartTextView txtName;
-            private SmartTextView txtName2;
+            public SmartTextView txtTemplePlace;
+            private SmartTextView txtTempleLastUpdatedDate;
 
             public ViewHolder(View view) {
                 super(view);
 
                 this.view = view;
                 imgTemple = (ImageView) view.findViewById(R.id.imgAlbum);
-                txtName = (SmartTextView) view.findViewById(R.id.txtName);
-                txtName2 = (SmartTextView) view.findViewById(R.id.txtName2);
+                txtTemplePlace = (SmartTextView) view.findViewById(R.id.txtTemplePlace);
+                txtTempleLastUpdatedDate = (SmartTextView) view.findViewById(R.id.txtTempleLastUpdatedDate);
             }
         }
 
@@ -142,8 +142,8 @@ public class TempleListFragment extends SmartFragment {
                 }
             });
 
-            holder.txtName.setText(temple.getAsString("templePlace"));
-            holder.txtName2.setText(temple.getAsString("lastUpdatedTimestamp"));
+            holder.txtTemplePlace.setText(temple.getAsString("templePlace"));
+            holder.txtTempleLastUpdatedDate.setText(temple.getAsString("lastUpdatedTimestamp"));
         }
 
         @Override

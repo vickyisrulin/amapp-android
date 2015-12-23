@@ -27,14 +27,14 @@
             android:gravity="center"
             >
 
-        <ImageView
-            android:id="@+id/imgAlbum"
-            android:layout_width="155dp"
-            android:layout_height="125dp"
-            android:src="@drawable/no_image_banner"
-            android:scaleType="fitCenter"
-            android:padding="5dp"
-            />
+            <ImageView
+                android:id="@+id/imgAlbum"
+                android:layout_width="155dp"
+                android:layout_height="125dp"
+                android:src="@drawable/no_image_banner"
+                android:scaleType="fitCenter"
+                android:padding="5dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,19 +46,11 @@
                 >
 
                 <com.smart.customviews.SmartTextView
-                    android:id="@+id/txtTemplePlace"
+                    android:id="@+id/txtHomeTileName"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="2"
-                    />
-
-                <com.smart.customviews.SmartTextView
-                    android:id="@+id/txtTempleLastUpdatedDate"
-                    style="@style/AnoopamTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
                     />
             </LinearLayout>
         </LinearLayout>
