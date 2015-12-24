@@ -13,10 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.amapp.R;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
+import com.androidquery.util.Progress;
 import com.smart.customviews.SmartRecyclerView;
 import com.smart.customviews.SmartTextView;
 import com.smart.framework.Constants;
@@ -94,11 +96,14 @@ public class TempleListFragment extends SmartFragment {
             public ImageView imgTemple;
             public SmartTextView txtTemplePlace;
             private SmartTextView txtTempleLastUpdatedDate;
+            private ProgressBar progressBar;
 
             public ViewHolder(View view) {
                 super(view);
 
                 this.view = view;
+
+                progressBar = (ProgressBar) view.findViewById(R.id.templeListProgressBar);
                 imgTemple = (ImageView) view.findViewById(R.id.imgAlbum);
                 txtTemplePlace = (SmartTextView) view.findViewById(R.id.txtTemplePlace);
                 txtTempleLastUpdatedDate = (SmartTextView) view.findViewById(R.id.txtTempleLastUpdatedDate);
@@ -142,6 +147,7 @@ public class TempleListFragment extends SmartFragment {
                 }
             });
 
+            holder.progressBar.setVisibility(View.GONE);
             holder.txtTemplePlace.setText(temple.getAsString("templePlace"));
             holder.txtTempleLastUpdatedDate.setText(temple.getAsString("lastUpdatedTimestamp"));
         }
