@@ -172,7 +172,7 @@ public class HomeListActivity extends AMAppMasterActivity {
                                 tiles = mapTableNameAndData.get("homeTiles");
                                 setTempleDataInFragments(tiles, isCachedDataDisplayed);
                             }
-                        }, "homeTiles");
+                        }, /*runOnMainThread*/ true, "homeTiles");
                         SmartApplication.REF_SMART_APPLICATION
                                 .writeSharedPreferences(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_HomeScreen_LastUpdatedTimestamp));

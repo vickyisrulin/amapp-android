@@ -157,7 +157,7 @@ public class TempleListActivity extends AMAppMasterActivity {
                                 temples = mapTableNameAndData.get("temples");
                                 setTempleDataInFragments(temples, isCachedDataDisplayed);
                             }
-                        }, "images");
+                        }, /*runOnMainThread*/ true, "images");
                         SmartApplication.REF_SMART_APPLICATION
                                 .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));

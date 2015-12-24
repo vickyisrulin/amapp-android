@@ -155,7 +155,7 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
                                 albums = mapTableNameAndData.get("albums");
                                 setAlbumDataInFragments(albums, isCachedDataDisplayed);
                             }
-                        }, "images");
+                        }, /*runOnMainThread*/ true, "images");
                         SmartApplication.REF_SMART_APPLICATION
                                 .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
