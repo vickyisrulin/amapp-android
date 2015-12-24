@@ -104,28 +104,34 @@ public final class SmartCaching {
 
     }
 
-    public void cacheResponse(final Object json, final String tableName, final boolean shouldDeleteOldRecords, final OnResponseParsedListener onResponseParsedListener, final String... unNormalizedFields) {
-
+    /**
+     * Caches the response from the server request in the DB
+     * @param json to be stored in the table
+     * @param tableName
+     * @param shouldDeleteOldRecords
+     * @param onResponseParsedListener
+     * @param runOnMainThread set this to false, if this method gets called from non-UI thread
+     * @param unNormalizedFields
+     */
+    public void cacheResponse(final Object json, final String tableName, final boolean shouldDeleteOldRecords, final OnResponseParsedListener onResponseParsedListener, final boolean runOnMainThread, final String... unNormalizedFields) {
         final HashMap<String,ArrayList<ContentValues>> mapTableNameAndData=new HashMap<>();
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 cacheResponse(mapTableNameAndData, json, tableName, shouldDeleteOldRecords, false, null, null, unNormalizedFields);
-
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        onResponseParsedListener.onParsed(mapTableNameAndData);
-                    }
-                });
-
+                if(runOnMainThread) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            onResponseParsedListener.onParsed(mapTableNameAndData);
+                        }
+                    });
+                } else {
+                    onResponseParsedListener.onParsed(mapTableNameAndData);
+                }
             }
         }).start();
-
-//        return tableData;
     }
 
     private void cacheResponse(HashMap<String,ArrayList<ContentValues>> mapTableNameAndData, Object json, String tableName, boolean shouldDeleteOldRecords, boolean shouldParseOnly, ArrayList<String> parentColumnNames, ContentValues parentContentValues,@Nullable String... unNormalizedFields) {

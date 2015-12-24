@@ -31,10 +31,6 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     private ImageView imgLogoPic;
     private Bundle activityInvocationOptionsBunble;
 
-    // change this to MOCK or LIVE to change all service calls
-    protected Environment environment = Environment.ENV_LIVE;
-
-
     @Override
     public View getFooterLayoutView() {
         return null;

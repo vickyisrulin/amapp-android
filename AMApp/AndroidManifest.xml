@@ -37,7 +37,7 @@
 
 
     <application
-        android:name="com.smart.framework.SmartApplication"
+        android:name="com.amapp.AMApplication"
         android:allowTaskReparenting="true"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
