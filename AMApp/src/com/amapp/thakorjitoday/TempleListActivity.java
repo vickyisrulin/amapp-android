@@ -17,17 +17,15 @@ import android.widget.FrameLayout;
 import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
-import com.amapp.common.NetworkConnectionInfo;
+import com.amapp.common.AMServiceRequest;
+import com.amapp.common.events.EventBus;
+import com.amapp.common.events.ThakorjiTodayUpdateFailedEvent;
+import com.amapp.common.events.ThakorjiTodayUpdateSuccessEvent;
 import com.smart.caching.SmartCaching;
-import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import com.squareup.otto.Subscribe;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by tasol on 16/7/15.
@@ -36,16 +34,25 @@ import java.util.HashMap;
 public class TempleListActivity extends AMAppMasterActivity {
 
     private static final String TAG = "TempleListActivity";
-
     private FrameLayout frmListFragmentContainer;
-
     private TempleListFragment templeListFragment;
-
     private ArrayList<ContentValues> temples = new ArrayList<>();
-
     private SmartCaching smartCaching;
-
     private boolean isCachedDataDisplayed = false;
+
+    private void registerForEvents() {
+        EventBus.getInstance().register(this);
+    }
+
+    private void unregisterForEvents() {
+        EventBus.getInstance().unregister(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterForEvents();
+    }
 
     @Override
     public View getLayoutView() {
@@ -118,6 +125,7 @@ public class TempleListActivity extends AMAppMasterActivity {
     protected void onResume() {
         super.onResume();
         selectDrawerItem(NAVIGATION_ITEMS.THAKORJI_TODAY);
+        registerForEvents();
     }
 
     @Override
@@ -133,42 +141,16 @@ public class TempleListActivity extends AMAppMasterActivity {
         return false;
     }
 
-    private void getTemples() {
+    @Subscribe
+    public void onThakorjiTodayUpdated(ThakorjiTodayUpdateSuccessEvent event) {
+        getCachedTemples();
+    }
 
-        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,this);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getThakorjiTodayUrlWithLatestCachedTimestamp());
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null && errorMessage.equalsIgnoreCase(getString(R.string.no_content_found))) {
-                    SmartUtils.showSnackBar(TempleListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                temples = mapTableNameAndData.get("temples");
-                                setTempleDataInFragments(temples, isCachedDataDisplayed);
-                            }
-                        }, /*runOnMainThread*/ true, "images");
-                        SmartApplication.REF_SMART_APPLICATION
-                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-
-        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, !isCachedDataDisplayed);
+    @Subscribe
+    public void onThakorjiTodayUpdated(ThakorjiTodayUpdateFailedEvent event) {
+        if(temples == null || temples.size() <= 0) {
+            SmartUtils.showSnackBar(TempleListActivity.this, getString(R.string.generic_error), Snackbar.LENGTH_LONG);
+        }
     }
 
     @Override
@@ -179,38 +161,18 @@ public class TempleListActivity extends AMAppMasterActivity {
     }
 
     private void getCachedTemples() {
-
-        ArrayList<ContentValues> temples = new SmartCaching(this).getDataFromCache("temples");
-
+        ArrayList<ContentValues> temples = smartCaching.getDataFromCache("temples");
         if (temples == null || temples.size() <= 0) {
+            AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
             isCachedDataDisplayed = false;
-            getTemples();
         } else {
             this.temples = temples;
             setTempleDataInFragments(temples, isCachedDataDisplayed);
             isCachedDataDisplayed = true;
-            // after using cached data, check to see if there is an update
-            getTemples();
-        }
-    }
-
-    // gets the latest timestamp cached on the client side
-    // and addes it into the ThakorjiToday endpoint as param
-    private String getThakorjiTodayUrlWithLatestCachedTimestamp() {
-        String endpoint = environment.getThakorjiTodayEndpoint();
-        String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
-                .readSharedPreferences().getString(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, "");
-        if(NetworkConnectionInfo.isMobileDataConnected(this)) {
-            return String.format(endpoint,lastUpdatedTimeStamp,"slow");
-        } else {
-            return String.format(endpoint,lastUpdatedTimeStamp,"fast");
         }
     }
 
     private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {
-
         templeListFragment.setTemples(temples, isCachedDataDisplayed);
-
     }
-
 }
