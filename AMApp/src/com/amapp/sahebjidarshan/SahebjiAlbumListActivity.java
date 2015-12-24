@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.amapp.AMAppMasterActivity;
+import com.amapp.AMApplication;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
 import com.smart.caching.SmartCaching;
@@ -195,7 +196,7 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
     // gets the latest timestamp cached on the client side
     // and addes it into the SahebjiDarshan endpoint as param
     private String getSahebjiDarshanUrlWithLatestCachedTimestamp() {
-        String endpoint = environment.getSahebjiDarshanEndpiont();
+        String endpoint = AMApplication.getInstance().getEnv().getSahebjiDarshanEndpiont();
         String lastUpdatedTimeStamp = SmartApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, "");
         return String.format(endpoint, lastUpdatedTimeStamp);
