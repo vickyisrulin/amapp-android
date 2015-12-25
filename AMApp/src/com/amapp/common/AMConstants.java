@@ -22,6 +22,7 @@ public class AMConstants {
 
     //LIVE
     public static final String LIVE_Domain_Url = "http://anoopam.org";
+    public static final String LIVE_HomeScreen_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=hometiles&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
     public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/sahebji.php?lastUpdatedTimestamp=%s";
