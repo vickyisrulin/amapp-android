@@ -60,7 +60,7 @@ public class SplashActivity extends AMAppMasterActivity {
                 ActivityCompat.startActivity(SplashActivity.this, intent, options.toBundle());
                 finish();
             }
-        },3000);
+        },5000);
     }
 
     @Override

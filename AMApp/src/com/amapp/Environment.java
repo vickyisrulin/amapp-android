@@ -8,6 +8,7 @@ import com.amapp.common.AMConstants;
 public enum Environment {
 
     ENV_MOCK_MOCKY(AMConstants.MOCK_MOCKY_Domain_Url,
+            AMConstants.MOCK_MOCKY_HomeScreen_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix,
@@ -15,6 +16,7 @@ public enum Environment {
             ),
 
     ENV_MOCK_APIARY(AMConstants.MOCK_APIARY_Domain_Url,
+            AMConstants.MOCK_MOCKY_HomeScreen_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_AnoopamAudio_Endpoint_Suffix,
@@ -22,6 +24,7 @@ public enum Environment {
     ),
 
     ENV_LIVE(AMConstants.LIVE_Domain_Url,
+            AMConstants.LIVE_HomeScreen_Endpoint_Suffix,
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
             AMConstants.LIVE_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.LIVE_AnoopamAudio_Endpoint_Suffix,
@@ -29,14 +32,16 @@ public enum Environment {
     );
 
     private String mDomainUrl;
+    private String mHomeTilesEndpoint;
     private String mThakorjiTodayEndpoint;
     private String mSahebjiDarshanEndpiont;
     private String mAnoopamAudioEndpoint;
     private String mQuoteOfTheDayEndpoint;
 
-    Environment(String domainUrl, String thakorjiTodayEndpointSuffix, String sahebjiDarshanEndpointSuffix,
+    Environment(String domainUrl, String homeTilesEndpointSuffix, String thakorjiTodayEndpointSuffix, String sahebjiDarshanEndpointSuffix,
                 String anoopamAudioEndpointSuffix, String quoteOfTheDayEndpointSuffix) {
         mDomainUrl = domainUrl;
+        mHomeTilesEndpoint = domainUrl + homeTilesEndpointSuffix;
         mThakorjiTodayEndpoint = domainUrl+thakorjiTodayEndpointSuffix;
         mSahebjiDarshanEndpiont = domainUrl+sahebjiDarshanEndpointSuffix;
         mAnoopamAudioEndpoint = domainUrl+anoopamAudioEndpointSuffix;
@@ -49,6 +54,14 @@ public enum Environment {
      */
     public String getDomainUrl() {
         return mDomainUrl;
+    }
+
+    /**
+     * returns the Home Tiles Endpoint
+     * @return
+     */
+    public String getHomeTilesEndpoint() {
+        return mHomeTilesEndpoint;
     }
 
     /**
