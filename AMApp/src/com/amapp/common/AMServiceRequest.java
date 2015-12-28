@@ -198,8 +198,8 @@ public class AMServiceRequest {
     // and addes it into the Splash Screen endpoint as param
     public String getSplashScreenLastUpdatedTimeStamp() {
         //FIXME: replace it with actual ENV, once LIVE endpoint is available
-        //String endpoint = AMApplication.getInstance().getEnv().getSplashScreenEndpoint();
-        String endpoint = AMConstants.MOCK_MOCKY_Domain_Url + AMConstants.MOCK_MOCKY_SplashScreen_Endpoint_Suffix;
+        String endpoint = AMApplication.getInstance().getEnv().getSplashScreenEndpoint();
+        //String endpoint = AMConstants.MOCK_MOCKY_Domain_Url + AMConstants.MOCK_MOCKY_SplashScreen_Endpoint_Suffix;
         String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
