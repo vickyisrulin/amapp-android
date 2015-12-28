@@ -30,5 +30,6 @@ public class AMApplication extends SmartApplication {
         //TODO: Optimize these calls to get the data in one server request
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
+        AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
     }
 }
