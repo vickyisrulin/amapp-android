@@ -26,7 +26,7 @@ public enum Environment {
     ),
 
     ENV_LIVE(AMConstants.LIVE_Domain_Url,
-            AMConstants.MOCK_MOCKY_SplashScreen_Endpoint_Suffix,
+            AMConstants.LIVE_SplashScreen_Endpoint_Suffix,
             AMConstants.LIVE_HomeScreen_Endpoint_Suffix,
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
             AMConstants.LIVE_SahebjiDarshan_Endpoint_Suffix,
