@@ -8,6 +8,8 @@ import com.amapp.Environment;
 import com.amapp.common.events.EventBus;
 import com.amapp.common.events.HomeTilesUpdateFailedEvent;
 import com.amapp.common.events.HomeTilesUpdateSuccessEvent;
+import com.amapp.common.events.SplashScreenUpdateFailedEvent;
+import com.amapp.common.events.SplashScreenUpdateSuccessEvent;
 import com.amapp.common.events.ThakorjiTodayUpdateFailedEvent;
 import com.amapp.common.events.ThakorjiTodayUpdateSuccessEvent;
 import com.smart.caching.SmartCaching;
@@ -40,6 +42,50 @@ public class AMServiceRequest {
             amServiceRequestInstance = new AMServiceRequest();
         }
         return amServiceRequestInstance;
+    }
+
+    /**
+     * invokes the request to get the updated Splash Screen data from the server
+     */
+    public void startFetchingNewSplashScreenFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_SplashScreen_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSplashScreenLastUpdatedTimeStamp());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, String errorMessage) {
+
+                if (errorMessage != null) {
+                    Log.e(TAG, "Error obtaining Splash screen data: " + errorMessage);
+                    EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
+                } else {
+                    try {
+                        smartCaching.cacheResponse(response.getJSONArray("splashMessages"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
+                            @Override
+                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                if(mapTableNameAndData.get("splashMessages") != null) {
+                                    Log.d(TAG, "obtained splash screen data successfully");
+                                    EventBus.getInstance().post(new SplashScreenUpdateSuccessEvent());
+                                }
+                            }
+                        }, /*runOnMainThread*/ false, "splashMessages");
+                        SmartApplication.REF_SMART_APPLICATION
+                                .writeSharedPreferences(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, response
+                                        .getString(AMConstants.AMS_RequestParam_SplashScreen_LastUpdatedTimestamp));
+                    } catch (JSONException e) {
+                        EventBus.getInstance().post(new SplashScreenUpdateFailedEvent());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
     /**
@@ -145,6 +191,17 @@ public class AMServiceRequest {
         String endpoint = AMApplication.getInstance().getEnv().getHomeTilesEndpoint();
         String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, "");
+        return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
+    }
+
+    // gets the latest timestamp cached on the client side
+    // and addes it into the Splash Screen endpoint as param
+    public String getSplashScreenLastUpdatedTimeStamp() {
+        //FIXME: replace it with actual ENV, once LIVE endpoint is available
+        //String endpoint = AMApplication.getInstance().getEnv().getSplashScreenEndpoint();
+        String endpoint = AMConstants.MOCK_MOCKY_Domain_Url + AMConstants.MOCK_MOCKY_SplashScreen_Endpoint_Suffix;
+        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+                .readSharedPreferences().getString(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
 
