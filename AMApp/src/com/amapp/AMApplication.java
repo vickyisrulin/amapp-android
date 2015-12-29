@@ -29,6 +29,7 @@ public class AMApplication extends SmartApplication {
         mEnvironment = Environment.ENV_LIVE;
         //TODO: Optimize these calls to get the data in one server request
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
+        AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
     }
