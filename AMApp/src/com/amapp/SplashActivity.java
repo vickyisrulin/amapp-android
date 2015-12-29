@@ -70,7 +70,7 @@ public class SplashActivity extends AMAppMasterActivity {
     private String getSplashScreenUpdatedUrl() {
         ArrayList<ContentValues> splashScreen = mSmartCaching.getDataFromCache("splashMessages");
         if (splashScreen != null && splashScreen.size() > 0) {
-            return splashScreen.get(0).getAsString("splashImage");
+            return splashScreen.get(0).getAsString("imageUrl");
         }
         return "";
     }

@@ -67,7 +67,7 @@ public class AMServiceRequest {
                     EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
                 } else {
                     try {
-                        smartCaching.cacheResponse(response.getJSONArray("splashMessages"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
+                        smartCaching.cacheResponse(response.getJSONArray("images"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
                             @Override
                             public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                 if(mapTableNameAndData.get("splashMessages") != null) {
