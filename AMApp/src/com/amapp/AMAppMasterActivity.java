@@ -15,6 +15,7 @@ import com.amapp.anoopamaudio.AudioCatListActivity;
 import com.amapp.common.AMConstants;
 import com.amapp.home.HomeListActivity;
 import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
+import com.amapp.sahebjidarshan.SahebjiDarshanActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartSuperMaster;
@@ -139,7 +140,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     }
 
     protected void invokeSahebjiDarshan() {
-        Intent intent = new Intent(AMAppMasterActivity.this, SahebjiAlbumListActivity.class);
+        Intent intent = new Intent(AMAppMasterActivity.this, SahebjiDarshanActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 

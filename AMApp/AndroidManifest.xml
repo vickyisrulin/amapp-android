@@ -32,19 +32,17 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-
+    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- GCM PERMISSIONS END -->
-
-
     <application
-        android:name="com.amapp.AMApplication"
+        android:name=".AMApplication"
         android:allowTaskReparenting="true"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:icon="@drawable/ic_launcher">
+        android:theme="@style/AppTheme">
 
-
-        <!--Internet connection state receiver-->
+        <!-- Internet connection state receiver -->
 
         <receiver android:name="com.smart.framework.SmartInternetConnectionStateChangeReceiver">
             <intent-filter>
@@ -53,26 +51,26 @@
             </intent-filter>
         </receiver>
 
-        <!--GCM Component-->
+        <!-- GCM Component -->
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
 
         <service
             android:name="com.smart.framework.FetchAddressIntentService"
-
             android:exported="false" />
 
-        <!-- Crash Handler Activity START-->
+        <!-- Crash Handler Activity START -->
         <activity android:name="com.smart.framework.CrashReportActivity" />
-        <!-- Crash Handler Activity END-->
+        <!-- Crash Handler Activity END -->
 
         <provider
             android:name="com.smart.framework.SmartSuggestionProvider"
@@ -81,58 +79,40 @@
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name=".thakorjitoday.TempleListActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".home.HomeListActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".thakorjitoday.TempleGalleryActivity"
-            android:configChanges="orientation"
-            >
-
-        </activity>
-
+            android:configChanges="orientation"></activity>
         <activity
             android:name=".anoopamaudio.AudioCatListActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".anoopamaudio.AudioListActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".anoopamaudio.AudioPlayerActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".sahebjidarshan.SahebjiAlbumListActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".sahebjidarshan.SahebjiGalleryActivity"
-            android:configChanges="orientation"
-            >
-        </activity>
-
+            android:configChanges="orientation"></activity>
+        <activity
+            android:name=".sahebjidarshan.SahebjiDarshanActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
