@@ -32,5 +32,6 @@ public class AMApplication extends SmartApplication {
         AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
+        AMServiceRequest.getInstance().startQuoteOfTheWeekUpdatesFromServer();
     }
 }

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.amapp.anoopamaudio.AudioCatListActivity;
 import com.amapp.common.AMConstants;
 import com.amapp.home.HomeListActivity;
+import com.amapp.qow.QuoteActivity;
 import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
 import com.amapp.sahebjidarshan.SahebjiDarshanActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
@@ -150,6 +151,8 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     }
 
     protected void invokeQuoteOfTheDayFlow() {
+        Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
     protected void invokeAboutFlow() {

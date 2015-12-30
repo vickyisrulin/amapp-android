@@ -4,4 +4,8 @@
     <dimen name="distance_between_markers">1dp</dimen>
     <dimen name="title_size">16sp</dimen>
     <dimen name="line_spacing">2dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

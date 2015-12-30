@@ -2,7 +2,6 @@
 <resources>
 
 
-
     <!--Google Cloud Messaging-->
     <string name="gcm_server_key">AIzaSyB3Rv3gwTpzvL4Jbn7FtiUBXvo_SaI-2sM</string>
     <string name="gcm_sender_id">563286821474</string>
@@ -409,6 +408,7 @@
         <item>₹₹₹</item>
         <item>₹₹₹₹</item>
     </string-array>
+    <string name="title_activity_quote">QuoteActivity</string>
 
 
 </resources>
