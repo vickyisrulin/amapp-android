@@ -111,14 +111,17 @@
         <activity
             android:name=".sahebjidarshan.SahebjiGalleryActivity"
             android:configChanges="orientation" />
+
         <activity
             android:name=".sahebjidarshan.SahebjiDarshanActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" />
+
         <activity
             android:name=".qow.QuoteActivity"
-            android:label="@string/title_activity_quote"
-            android:theme="@style/AppTheme"></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/FullscreenTheme"></activity>
+
     </application>
 
 </manifest>
