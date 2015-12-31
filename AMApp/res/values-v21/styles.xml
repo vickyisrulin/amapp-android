@@ -23,7 +23,7 @@
 
         <item name="android:colorButtonNormal">@color/primary900</item>
 
-<!--
+        <!--
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
 -->
 
@@ -115,7 +115,6 @@
         <!-- Used for the background -->
         <item name="android:background">#4CAF50</item>
     </style>
-
 
 
     <style name="TextViewShadow">
@@ -224,6 +223,7 @@
         <item name="tabTextAppearance">@style/getPassTabStyleText</item>
         <item name="tabSelectedTextColor">?android:attr/textColorSecondary</item>
     </style>
+
     <style name="getPassTabStyleText" parent="TextAppearance.Design.Tab">
 
         <item name="android:textColor">@color/grey_light</item>
@@ -247,9 +247,6 @@
         <item name="android:textSize">24sp</item>
 
     </style>
-
-
-
 
 
 </resources>

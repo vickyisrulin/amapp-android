@@ -8,6 +8,10 @@ import com.amapp.Environment;
 import com.amapp.common.events.EventBus;
 import com.amapp.common.events.HomeTilesUpdateFailedEvent;
 import com.amapp.common.events.HomeTilesUpdateSuccessEvent;
+import com.amapp.common.events.QuoteOfTheWeekUpdateFailedEvent;
+import com.amapp.common.events.QuoteOfTheWeekUpdateSuccessEvent;
+import com.amapp.common.events.SahebjiDarshanUpdateFailedEvent;
+import com.amapp.common.events.SahebjiDarshanUpdateSuccessEvent;
 import com.amapp.common.events.SplashScreenUpdateFailedEvent;
 import com.amapp.common.events.SplashScreenUpdateSuccessEvent;
 import com.amapp.common.events.ThakorjiTodayUpdateFailedEvent;
@@ -65,7 +69,7 @@ public class AMServiceRequest {
                     EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
                 } else {
                     try {
-                        smartCaching.cacheResponse(response.getJSONArray("splashMessages"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
+                        smartCaching.cacheResponse(response.getJSONArray("images"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
                             @Override
                             public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                 if(mapTableNameAndData.get("splashMessages") != null) {
@@ -176,6 +180,105 @@ public class AMServiceRequest {
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
+    /**
+     * invokes the request to get the updated Home Tiles data from the server
+     */
+    public void startSahebjiDarshanUpdatesFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Sahebji_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSahebjiDarshanUrlWithLatestCachedTimestamp());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, String errorMessage) {
+
+                if (errorMessage != null) {
+                    Log.e(TAG, "Error obtaining Sahebji Darshan data: " + errorMessage);
+                    EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                } else {
+                    try {
+                        smartCaching.cacheResponse(response.getJSONArray("images"), "sahebjiDarshanImages", true, new SmartCaching.OnResponseParsedListener() {
+                            @Override
+                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                if(mapTableNameAndData.get("sahebjiDarshanImages") != null) {
+                                    Log.d(TAG, "obtained sahebjiDarshan Images data successfully");
+                                    EventBus.getInstance().post(new SahebjiDarshanUpdateSuccessEvent());
+                                }
+                            }
+                        }, /*runOnMainThread*/ false, "sahebjiDarshanImages");
+                        SmartApplication.REF_SMART_APPLICATION
+                                .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
+                                        .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
+                    } catch (JSONException e) {
+                        EventBus.getInstance().post(new SahebjiDarshanUpdateFailedEvent());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
+    }
+
+    /**
+     * invokes the request to get the updated QOW data from the server
+     */
+    public void startQuoteOfTheWeekUpdatesFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Quotes_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getQuoteOfTheWeekLastUpdatedTimestamp());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
+
+            @Override
+            public void onResponseReceived(final JSONObject response, String errorMessage) {
+
+                if (errorMessage != null) {
+                    Log.e(TAG, "Error obtaining QOW data: " + errorMessage);
+                    EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                } else {
+                    try {
+                        smartCaching.cacheResponse(response.getJSONArray("images"), "qowImages", true, new SmartCaching.OnResponseParsedListener() {
+                            @Override
+                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                if(mapTableNameAndData.get("qowImages") != null) {
+                                    Log.d(TAG, "obtained QOW Images data successfully");
+                                    EventBus.getInstance().post(new QuoteOfTheWeekUpdateSuccessEvent());
+                                }
+                            }
+                        }, /*runOnMainThread*/ false, "qowImages");
+                        SmartApplication.REF_SMART_APPLICATION
+                                .writeSharedPreferences(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, response
+                                        .getString(AMConstants.AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp));
+                    } catch (JSONException e) {
+                        EventBus.getInstance().post(new QuoteOfTheWeekUpdateFailedEvent());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
+    }
+
+    // gets the latest timestamp cached on the client side
+    // and addes it into the Sahebji Darshan endpoint as param
+    private String getSahebjiDarshanUrlWithLatestCachedTimestamp() {
+//        String endpoint = "http://www.mocky.io/v2/5682666b1000006e01153868";
+//        return endpoint;
+        String endpoint = AMApplication.getInstance().getEnv().getSahebjiDarshanEndpiont();
+        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+                .readSharedPreferences().getString(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, "");
+        return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
+    }
+
     // gets the latest timestamp cached on the client side
     // and addes it into the ThakorjiToday endpoint as param
     private String getThakorjiTodayUrlWithLatestCachedTimestamp() {
@@ -197,11 +300,21 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the Splash Screen endpoint as param
     public String getSplashScreenLastUpdatedTimeStamp() {
-        //FIXME: replace it with actual ENV, once LIVE endpoint is available
         String endpoint = AMApplication.getInstance().getEnv().getSplashScreenEndpoint();
-        //String endpoint = AMConstants.MOCK_MOCKY_Domain_Url + AMConstants.MOCK_MOCKY_SplashScreen_Endpoint_Suffix;
         String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, "");
+        return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
+    }
+
+    // gets the latest timestamp cached on the client side
+    // and addes it into the Splash Screen endpoint as param
+    public String getQuoteOfTheWeekLastUpdatedTimestamp() {
+//        //FIXME: once LIVE is available, replace this
+//        String endpoint = "http://www.mocky.io/v2/5682666b1000006e01153868";
+//        return endpoint;
+        String endpoint = AMApplication.getInstance().getEnv().getQuoteOfTheWeekEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+                .readSharedPreferences().getString(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
 

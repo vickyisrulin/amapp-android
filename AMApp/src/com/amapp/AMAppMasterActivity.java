@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import com.amapp.anoopamaudio.AudioCatListActivity;
 import com.amapp.common.AMConstants;
 import com.amapp.home.HomeListActivity;
+import com.amapp.qow.QuoteActivity;
 import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
+import com.amapp.sahebjidarshan.SahebjiDarshanActivity;
 import com.amapp.thakorjitoday.TempleListActivity;
 import com.smart.framework.Constants;
 import com.smart.framework.SmartSuperMaster;
@@ -104,8 +106,8 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
                         invokeAudioFlow();
                         return true;
 
-                    case R.id.navQuoteOfTheDay:
-                        invokeQuoteOfTheDayFlow();
+                    case R.id.navQuoteOfTheWeek:
+                        invokeQuoteOfTheWeekFlow();
                         return true;
 
                     case R.id.navAnoopamEvents:
@@ -139,8 +141,8 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     }
 
     protected void invokeSahebjiDarshan() {
-        Intent intent = new Intent(AMAppMasterActivity.this, SahebjiAlbumListActivity.class);
-        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+        Intent intent = new Intent(AMAppMasterActivity.this, SahebjiDarshanActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeAudioFlow() {
@@ -148,7 +150,9 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
-    protected void invokeQuoteOfTheDayFlow() {
+    protected void invokeQuoteOfTheWeekFlow() {
+        Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeAboutFlow() {

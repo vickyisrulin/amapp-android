@@ -2,7 +2,6 @@
 <resources>
 
 
-
     <!--Google Cloud Messaging-->
     <string name="gcm_server_key">AIzaSyB3Rv3gwTpzvL4Jbn7FtiUBXvo_SaI-2sM</string>
     <string name="gcm_sender_id">563286821474</string>
@@ -280,8 +279,8 @@
     <string name="nav_thakorji_today_title">Thakorji Today</string>
     <string name="nav_mantralekhan">Mantralekhan</string>
     <string name="nav_mantralekhan_title">Mantralekhan</string>
-    <string name="nav_quote_of_the_day">Quote of the day (BETA)</string>
-    <string name="nav_quote_of_the_day_title">Quote of the day (BETA)</string>
+    <string name="nav_quote_of_the_week">Quote of the week</string>
+    <string name="nav_quote_of_the_week_title">Quote of the week</string>
     <string name="nav_upcoming_events">Upcoming events</string>
     <string name="nav_nav_upcoming_events">Upcoming events</string>
     <string name="nav_anoopam_events">Events</string>
@@ -409,6 +408,7 @@
         <item>₹₹₹</item>
         <item>₹₹₹₹</item>
     </string-array>
+    <string name="title_activity_quote">QuoteActivity</string>
 
 
 </resources>

@@ -3,4 +3,6 @@
     <color name="disableColor">#bfbfbf</color>
     <color name="anoopamTextColor">#0C4E7A</color>
     <color name="anoopamBackgroundColor">#CFE1F9</color>
+
+    <color name="black_overlay">#66000000</color>
 </resources>

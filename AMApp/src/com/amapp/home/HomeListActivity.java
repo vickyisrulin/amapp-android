@@ -212,7 +212,7 @@ public class HomeListActivity extends AMAppMasterActivity {
                 return;
 
             case QUOTE_OF_DAY:
-                invokeQuoteOfTheDayFlow();
+                invokeQuoteOfTheWeekFlow();
                 return;
 
             case ABOUT:

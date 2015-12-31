@@ -26,8 +26,8 @@ public class AMConstants {
     public static final String LIVE_SplashScreen_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=splash&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_HomeScreen_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=hometiles&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s&network=%s";
-    public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
-    public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/sahebji.php?lastUpdatedTimestamp=%s";
+    public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=qow&lastUpdatedTimestamp=%s&network=%s";
+    public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=sahebjidarshan&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
 
     // other AMS constants
@@ -45,12 +45,14 @@ public class AMConstants {
     public static final String AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp = "lastUpdatedTimestamp";
     public static final String AMS_RequestParam_HomeScreen_LastUpdatedTimestamp = "lastUpdatedTimestamp";
     public static final String AMS_RequestParam_SplashScreen_LastUpdatedTimestamp = "lastUpdatedTimestamp";
+    public static final String AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp = "lastUpdatedTimestamp";
 
     // KEYS
     public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
     public static final String KEY_SahebjiDarshanLastUpdatedTimestamp = "sahebjiDarshanLastUpdatedTimestamp";
     public static final String KEY_HomeScreenLastUpdatedTimestamp = "homeScreenLastUpdatedTimestamp";
     public static final String KEY_SplashScreenLastUpdatedTimestamp = "splashScreenLastUpdatedTimestamp";
+    public static final String KEY_QuoteOfTheWeekLastUpdatedTimestamp = "quoteOfTheWeekLastUpdatedTimestamp";
 
     // other URL Constants
     public static final String URL_AboutUs = "http://anoopam.org/aboutus/aboutus.php";
