@@ -28,7 +28,7 @@ public class SahebjiDarshanActivity extends FragmentActivity {
     private void setSahebjiDarshanImage() {
         AQuery aq =  AMApplication.getInstance().getAQuery();
         String imageUrl = getSahebjiDarshanUpdatedUrl();
-        aq.id(mSahebjiDarshanImage).image(imageUrl, true, true, 0, R.drawable.splash);
+        aq.id(mSahebjiDarshanImage).image(imageUrl, true, true, 0, 0);
     }
 
     private String getSahebjiDarshanUpdatedUrl() {

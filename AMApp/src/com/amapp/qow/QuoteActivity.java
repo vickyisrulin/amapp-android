@@ -28,7 +28,7 @@ public class QuoteActivity extends FragmentActivity {
     private void setQuoteImage() {
         AQuery aq =  AMApplication.getInstance().getAQuery();
         String imageUrl = getQuoteUpdatedUrl();
-        aq.id(mQuoteImage).image(imageUrl, true, true, 0, R.drawable.splash);
+        aq.id(mQuoteImage).image(imageUrl, true, true, 0, 0);
     }
 
     private String getQuoteUpdatedUrl() {

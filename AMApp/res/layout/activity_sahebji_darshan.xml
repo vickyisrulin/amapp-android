@@ -10,7 +10,6 @@
     <com.amapp.common.TouchImageView android:id="@+id/sahebji_darshan_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/splash"
         android:scaleType="centerCrop"/>
 
 </FrameLayout>
