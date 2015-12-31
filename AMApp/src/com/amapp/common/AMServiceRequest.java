@@ -78,7 +78,7 @@ public class AMServiceRequest {
                                 }
                             }
                         }, /*runOnMainThread*/ false, "splashMessages");
-                        SmartApplication.REF_SMART_APPLICATION
+                        AMApplication.getInstance()
                                 .writeSharedPreferences(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_SplashScreen_LastUpdatedTimestamp));
                     } catch (JSONException e) {
@@ -122,7 +122,7 @@ public class AMServiceRequest {
                                 }
                             }
                         }, /*runOnMainThread*/ false, "images");
-                        SmartApplication.REF_SMART_APPLICATION
+                        AMApplication.getInstance()
                                 .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
                     } catch (JSONException e) {
@@ -166,7 +166,7 @@ public class AMServiceRequest {
                                 }
                             }
                         }, /*runOnMainThread*/ false, "homeTiles");
-                        SmartApplication.REF_SMART_APPLICATION
+                        AMApplication.getInstance()
                                 .writeSharedPreferences(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_HomeScreen_LastUpdatedTimestamp));
                     } catch (JSONException e) {
@@ -210,7 +210,7 @@ public class AMServiceRequest {
                                 }
                             }
                         }, /*runOnMainThread*/ false, "sahebjiDarshanImages");
-                        SmartApplication.REF_SMART_APPLICATION
+                        AMApplication.getInstance()
                                 .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
                     } catch (JSONException e) {
@@ -254,7 +254,7 @@ public class AMServiceRequest {
                                 }
                             }
                         }, /*runOnMainThread*/ false, "qowImages");
-                        SmartApplication.REF_SMART_APPLICATION
+                        AMApplication.getInstance()
                                 .writeSharedPreferences(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, response
                                         .getString(AMConstants.AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp));
                     } catch (JSONException e) {
@@ -271,10 +271,8 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the Sahebji Darshan endpoint as param
     private String getSahebjiDarshanUrlWithLatestCachedTimestamp() {
-//        String endpoint = "http://www.mocky.io/v2/5682666b1000006e01153868";
-//        return endpoint;
-        String endpoint = AMApplication.getInstance().getEnv().getSahebjiDarshanEndpiont();
-        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+        String endpoint = mEnvironment.getSahebjiDarshanEndpiont();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
@@ -282,8 +280,8 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the ThakorjiToday endpoint as param
     private String getThakorjiTodayUrlWithLatestCachedTimestamp() {
-        String endpoint = AMApplication.getInstance().getEnv().getThakorjiTodayEndpoint();
-        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+        String endpoint = mEnvironment.getThakorjiTodayEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
@@ -291,8 +289,8 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the Home Screen endpoint as param
     public String getHomeTilesUrlWithLatestCachedTimestamp() {
-        String endpoint = AMApplication.getInstance().getEnv().getHomeTilesEndpoint();
-        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+        String endpoint = mEnvironment.getHomeTilesEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
@@ -300,8 +298,8 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the Splash Screen endpoint as param
     public String getSplashScreenLastUpdatedTimeStamp() {
-        String endpoint = AMApplication.getInstance().getEnv().getSplashScreenEndpoint();
-        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+        String endpoint = mEnvironment.getSplashScreenEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
@@ -309,11 +307,8 @@ public class AMServiceRequest {
     // gets the latest timestamp cached on the client side
     // and addes it into the Splash Screen endpoint as param
     public String getQuoteOfTheWeekLastUpdatedTimestamp() {
-//        //FIXME: once LIVE is available, replace this
-//        String endpoint = "http://www.mocky.io/v2/5682666b1000006e01153868";
-//        return endpoint;
-        String endpoint = AMApplication.getInstance().getEnv().getQuoteOfTheWeekEndpoint();
-        String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
+        String endpoint = mEnvironment.getQuoteOfTheWeekEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
