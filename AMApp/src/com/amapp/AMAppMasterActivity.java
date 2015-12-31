@@ -106,8 +106,8 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
                         invokeAudioFlow();
                         return true;
 
-                    case R.id.navQuoteOfTheDay:
-                        invokeQuoteOfTheDayFlow();
+                    case R.id.navQuoteOfTheWeek:
+                        invokeQuoteOfTheWeekFlow();
                         return true;
 
                     case R.id.navAnoopamEvents:
@@ -150,7 +150,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
-    protected void invokeQuoteOfTheDayFlow() {
+    protected void invokeQuoteOfTheWeekFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }

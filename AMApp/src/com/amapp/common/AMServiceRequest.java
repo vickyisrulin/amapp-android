@@ -312,7 +312,7 @@ public class AMServiceRequest {
 //        //FIXME: once LIVE is available, replace this
 //        String endpoint = "http://www.mocky.io/v2/5682666b1000006e01153868";
 //        return endpoint;
-        String endpoint = AMApplication.getInstance().getEnv().getQuoteOfTheDayEndpoint();
+        String endpoint = AMApplication.getInstance().getEnv().getQuoteOfTheWeekEndpoint();
         String lastUpdatedTimeStamp = AMApplication.REF_SMART_APPLICATION
                 .readSharedPreferences().getString(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());

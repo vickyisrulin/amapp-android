@@ -40,17 +40,17 @@ public enum Environment {
     private String mThakorjiTodayEndpoint;
     private String mSahebjiDarshanEndpiont;
     private String mAnoopamAudioEndpoint;
-    private String mQuoteOfTheDayEndpoint;
+    private String mQuoteOfTheWeekEndpoint;
 
     Environment(String domainUrl, String splashScreenEndpointSuffix, String homeTilesEndpointSuffix, String thakorjiTodayEndpointSuffix, String sahebjiDarshanEndpointSuffix,
-                String anoopamAudioEndpointSuffix, String quoteOfTheDayEndpointSuffix) {
+                String anoopamAudioEndpointSuffix, String quoteOfTheWeekEndpointSuffix) {
         mDomainUrl = domainUrl;
         mSplashScreenEndpoint = domainUrl + splashScreenEndpointSuffix;
         mHomeTilesEndpoint = domainUrl + homeTilesEndpointSuffix;
         mThakorjiTodayEndpoint = domainUrl+thakorjiTodayEndpointSuffix;
         mSahebjiDarshanEndpiont = domainUrl+sahebjiDarshanEndpointSuffix;
         mAnoopamAudioEndpoint = domainUrl+anoopamAudioEndpointSuffix;
-        mQuoteOfTheDayEndpoint = domainUrl+quoteOfTheDayEndpointSuffix;
+        mQuoteOfTheWeekEndpoint = domainUrl+quoteOfTheWeekEndpointSuffix;
     }
 
     /**
@@ -101,7 +101,7 @@ public enum Environment {
      * returns the Quote of the Day Endpoint
      * @return String
      */
-    public String getQuoteOfTheDayEndpoint() {
-        return mQuoteOfTheDayEndpoint;
+    public String getQuoteOfTheWeekEndpoint() {
+        return mQuoteOfTheWeekEndpoint;
     }
 }

@@ -20,10 +20,9 @@
             android:icon="@drawable/ic_soundcloud_white_24dp"
             android:title="@string/nav_mantralekhan" />
         <item
-            android:id="@+id/navQuoteOfTheDay"
+            android:id="@+id/navQuoteOfTheWeek"
             android:icon="@drawable/ic_soundcloud_white_24dp"
-            android:enabled="false"
-            android:title="@string/nav_quote_of_the_day" />
+            android:title="@string/nav_quote_of_the_week" />
         <item
             android:id="@+id/navAudio"
             android:icon="@drawable/ic_star_half_white_24dp"
