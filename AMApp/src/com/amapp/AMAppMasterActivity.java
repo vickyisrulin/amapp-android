@@ -142,7 +142,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeSahebjiDarshan() {
         Intent intent = new Intent(AMAppMasterActivity.this, SahebjiDarshanActivity.class);
-        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeAudioFlow() {
@@ -152,7 +152,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeQuoteOfTheDayFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
-        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeAboutFlow() {
