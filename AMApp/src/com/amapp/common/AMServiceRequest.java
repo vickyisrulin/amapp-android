@@ -59,36 +59,34 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_SplashScreen_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSplashScreenLastUpdatedTimeStamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null) {
-                    Log.e(TAG, "Error obtaining Splash screen data: " + errorMessage);
-                    EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("images"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                if(mapTableNameAndData.get("splashMessages") != null) {
-                                    Log.d(TAG, "obtained splash screen data successfully");
-                                    EventBus.getInstance().post(new SplashScreenUpdateSuccessEvent());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("images"), "splashMessages", true, new SmartCaching.OnResponseParsedListener() {
+                                @Override
+                                public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                    if (mapTableNameAndData.get("splashMessages") != null) {
+                                        Log.d(TAG, "obtained splash screen data successfully");
+                                        EventBus.getInstance().post(new SplashScreenUpdateSuccessEvent());
+                                    }
                                 }
-                            }
-                        }, /*runOnMainThread*/ false, "splashMessages");
-                        AMApplication.getInstance()
-                                .writeSharedPreferences(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_SplashScreen_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        EventBus.getInstance().post(new SplashScreenUpdateFailedEvent());
-                        e.printStackTrace();
+                            }, /*runOnMainThread*/ false, "splashMessages");
+                            AMApplication.getInstance()
+                                    .writeSharedPreferences(AMConstants.KEY_SplashScreenLastUpdatedTimestamp, response
+                                            .getString(AMConstants.AMS_RequestParam_SplashScreen_LastUpdatedTimestamp));
+                        } catch (JSONException e) {
+                            EventBus.getInstance().post(new SplashScreenUpdateFailedEvent());
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
 
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining Splash screen data: " + failureMessage);
+                        EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
+                    }
+                });
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
@@ -103,36 +101,34 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Temples_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getThakorjiTodayUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null) {
-                    Log.e(TAG, "Error obtaining temple data: " + errorMessage);
-                    EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                if(mapTableNameAndData.get("temples") != null) {
-                                    Log.d(TAG, "obtained temple data successfully");
-                                    EventBus.getInstance().post(new ThakorjiTodayUpdateSuccessEvent());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
+                                @Override
+                                public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                    if (mapTableNameAndData.get("temples") != null) {
+                                        Log.d(TAG, "obtained temple data successfully");
+                                        EventBus.getInstance().post(new ThakorjiTodayUpdateSuccessEvent());
+                                    }
                                 }
-                            }
-                        }, /*runOnMainThread*/ false, "images");
-                        AMApplication.getInstance()
-                                .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
-                        e.printStackTrace();
+                            }, /*runOnMainThread*/ false, "images");
+                            AMApplication.getInstance()
+                                    .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
+                                            .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
+                        } catch (JSONException e) {
+                            EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
 
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining temple data: " + failureMessage);
+                        EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
+                    }
+                });
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
@@ -147,35 +143,34 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_HomeScreen_List_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getHomeTilesUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null) {
-                    Log.e(TAG, "Error obtaining HomeTiles data: " + errorMessage);
-                    EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("homeTiles"), "homeTiles", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                if(mapTableNameAndData.get("homeTiles") != null) {
-                                    Log.d(TAG, "obtained homeTiles data successfully");
-                                    EventBus.getInstance().post(new HomeTilesUpdateSuccessEvent());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("homeTiles"), "homeTiles", true, new SmartCaching.OnResponseParsedListener() {
+                                @Override
+                                public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                    if (mapTableNameAndData.get("homeTiles") != null) {
+                                        Log.d(TAG, "obtained homeTiles data successfully");
+                                        EventBus.getInstance().post(new HomeTilesUpdateSuccessEvent());
+                                    }
                                 }
-                            }
-                        }, /*runOnMainThread*/ false, "homeTiles");
-                        AMApplication.getInstance()
-                                .writeSharedPreferences(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_HomeScreen_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
-                        e.printStackTrace();
+                            }, /*runOnMainThread*/ false, "homeTiles");
+                            AMApplication.getInstance()
+                                    .writeSharedPreferences(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, response
+                                            .getString(AMConstants.AMS_RequestParam_HomeScreen_LastUpdatedTimestamp));
+                        } catch (JSONException e) {
+                            EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
+
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining HomeTiles data: " + failureMessage);
+                        EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                    }
+                });
 
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
@@ -191,36 +186,34 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Sahebji_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSahebjiDarshanUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null) {
-                    Log.e(TAG, "Error obtaining Sahebji Darshan data: " + errorMessage);
-                    EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("images"), "sahebjiDarshanImages", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                if(mapTableNameAndData.get("sahebjiDarshanImages") != null) {
-                                    Log.d(TAG, "obtained sahebjiDarshan Images data successfully");
-                                    EventBus.getInstance().post(new SahebjiDarshanUpdateSuccessEvent());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("images"), "sahebjiDarshanImages", true, new SmartCaching.OnResponseParsedListener() {
+                                @Override
+                                public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                    if (mapTableNameAndData.get("sahebjiDarshanImages") != null) {
+                                        Log.d(TAG, "obtained sahebjiDarshan Images data successfully");
+                                        EventBus.getInstance().post(new SahebjiDarshanUpdateSuccessEvent());
+                                    }
                                 }
-                            }
-                        }, /*runOnMainThread*/ false, "sahebjiDarshanImages");
-                        AMApplication.getInstance()
-                                .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        EventBus.getInstance().post(new SahebjiDarshanUpdateFailedEvent());
-                        e.printStackTrace();
+                            }, /*runOnMainThread*/ false, "sahebjiDarshanImages");
+                            AMApplication.getInstance()
+                                    .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
+                                            .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
+                        } catch (JSONException e) {
+                            EventBus.getInstance().post(new SahebjiDarshanUpdateFailedEvent());
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
 
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining Sahebji Darshan data: " + failureMessage);
+                        EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                    }
+                });
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
@@ -235,36 +228,34 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Quotes_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getQuoteOfTheWeekLastUpdatedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null) {
-                    Log.e(TAG, "Error obtaining QOW data: " + errorMessage);
-                    EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("images"), "qowImages", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                if(mapTableNameAndData.get("qowImages") != null) {
-                                    Log.d(TAG, "obtained QOW Images data successfully");
-                                    EventBus.getInstance().post(new QuoteOfTheWeekUpdateSuccessEvent());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("images"), "qowImages", true, new SmartCaching.OnResponseParsedListener() {
+                                @Override
+                                public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                    if (mapTableNameAndData.get("qowImages") != null) {
+                                        Log.d(TAG, "obtained QOW Images data successfully");
+                                        EventBus.getInstance().post(new QuoteOfTheWeekUpdateSuccessEvent());
+                                    }
                                 }
-                            }
-                        }, /*runOnMainThread*/ false, "qowImages");
-                        AMApplication.getInstance()
-                                .writeSharedPreferences(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        EventBus.getInstance().post(new QuoteOfTheWeekUpdateFailedEvent());
-                        e.printStackTrace();
+                            }, /*runOnMainThread*/ false, "qowImages");
+                            AMApplication.getInstance()
+                                    .writeSharedPreferences(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, response
+                                            .getString(AMConstants.AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp));
+                        } catch (JSONException e) {
+                            EventBus.getInstance().post(new QuoteOfTheWeekUpdateFailedEvent());
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
 
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining QOW data: " + failureMessage);
+                        EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+                    }
+                });
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 

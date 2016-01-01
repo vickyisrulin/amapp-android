@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,11 +19,13 @@ import com.amapp.AMAppMasterActivity;
 import com.amapp.AMApplication;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
+import com.amapp.common.AMServiceResponseListener;
 import com.smart.caching.SmartCaching;
 import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +38,7 @@ import java.util.HashMap;
 
 public class SahebjiAlbumListActivity extends AMAppMasterActivity {
 
-    private static final String TAG = "SahebjiAlbumListActivity";
+    private static final String TAG = "SahebjiAlbumActivity";
 
     private FrameLayout frmListFragmentContainer;
 
@@ -141,32 +144,33 @@ public class SahebjiAlbumListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Sahebji_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getSahebjiDarshanUrlWithLatestCachedTimestamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null && errorMessage.equalsIgnoreCase(getString(R.string.no_content_found))) {
-                    SmartUtils.showSnackBar(SahebjiAlbumListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
-                } else {
-                    try {
-                        smartCaching.cacheResponse(response.getJSONArray("albums"), "albums", true, new SmartCaching.OnResponseParsedListener() {
-                            @Override
-                            public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
-                                albums = mapTableNameAndData.get("albums");
-                                setAlbumDataInFragments(albums, isCachedDataDisplayed);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            JSONArray albumsArray = response.getJSONArray("albums");
+                            if(albumsArray != null) {
+                                smartCaching.cacheResponse(albumsArray, "albums", true, new SmartCaching.OnResponseParsedListener() {
+                                    @Override
+                                    public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                                        albums = mapTableNameAndData.get("albums");
+                                        setAlbumDataInFragments(albums, isCachedDataDisplayed);
+                                    }
+                                }, /*runOnMainThread*/ true, "images");
+                                SmartApplication.REF_SMART_APPLICATION
+                                        .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
+                                                .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
                             }
-                        }, /*runOnMainThread*/ true, "images");
-                        SmartApplication.REF_SMART_APPLICATION
-                                .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
-                                        .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            }
-        });
 
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining Sahebji Album data: " + failureMessage);
+                    }
+                });
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, !isCachedDataDisplayed);
     }
 
