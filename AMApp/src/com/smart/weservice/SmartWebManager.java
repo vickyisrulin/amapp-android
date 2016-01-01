@@ -78,6 +78,8 @@ public class SmartWebManager implements Constants{
         CustomJsonObjectRequest jsObjRequest=null;
 
         JSONObject jsonParam=new JSONObject();
+        final OnResponseReceivedListener listener = ((OnResponseReceivedListener) requestParams.get(REQUEST_METHOD_PARAMS.RESPONSE_LISTENER));
+
 //        try {
 //            jsonParam.put(REQ_OBJECT,((JSONObject)requestParams.get(REQUEST_METHOD_PARAMS.PARAMS)).toString());
 //            Log.d("request",jsonParam.toString());
@@ -102,21 +104,24 @@ public class SmartWebManager implements Constants{
                     if(isShowProgress) {
                         SmartUtils.hideProgressDialog();
                         SmartUtils.hideSoftKeyboard((Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT));
-                        if(errorMessage==null) {
+                        if(errorMessage != null) {
                             SmartUtils.showSnackBar((Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT), errorMessage, Snackbar.LENGTH_INDEFINITE);
+                            listener.onFailure(errorMessage);
+                            return;
                         }
                     }
-                    ((OnResponseReceivedListener) requestParams.get(REQUEST_METHOD_PARAMS.RESPONSE_LISTENER)).onResponseReceived(response, errorMessage);
+                    listener.onSuccess(response);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    String errorMessage = VolleyErrorHelper.getMessage(error, (Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT));
                     if(isShowProgress) {
                         SmartUtils.hideProgressDialog();
                         SmartUtils.hideSoftKeyboard((Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT));
-                        String errorMessage = VolleyErrorHelper.getMessage(error, (Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT));
                         SmartUtils.showSnackBar((Context) requestParams.get(REQUEST_METHOD_PARAMS.CONTEXT), errorMessage, Snackbar.LENGTH_INDEFINITE);
                     }
+                    listener.onFailure(errorMessage);
                 }
             });
         }
@@ -153,9 +158,9 @@ public class SmartWebManager implements Constants{
         return mImageLoader;
     }
 
-    public interface OnResponseReceivedListener{
-
-        void onResponseReceived(JSONObject tableRows,String errorMessage);
+    public interface OnResponseReceivedListener <TResult>{
+        void onSuccess(TResult tableRows);
+        void onFailure(String errorMessage);
     }
 
 }
