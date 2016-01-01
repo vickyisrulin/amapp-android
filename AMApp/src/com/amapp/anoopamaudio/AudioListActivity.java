@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import com.amapp.AMAppMasterActivity;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
+import com.amapp.common.AMServiceResponseListener;
 import com.amapp.common.CircleImageView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
@@ -35,6 +37,7 @@ import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartUtils;
 import com.smart.weservice.SmartWebManager;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -170,26 +173,25 @@ public class AudioListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_List_Tag);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, audioDetails.getAsString("listURL")); //Passing parameter
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new SmartWebManager.OnResponseReceivedListener() {
-
-            @Override
-            public void onResponseReceived(final JSONObject response, String errorMessage) {
-
-                if (errorMessage != null && errorMessage.equalsIgnoreCase(getString(R.string.no_content_found))) {
-                    SmartUtils.showSnackBar(AudioListActivity.this, getString(R.string.no_gym_found), Snackbar.LENGTH_LONG);
-                } else {
-
-                    try{
-                        audioList = smartCaching.parseResponse(response.getJSONArray("audios"),"audios").get("audios");
-                        mAdapter.notifyDataSetChanged();
-                    }catch (Exception e){
-                        e.printStackTrace();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+                    @Override
+                    public void onSuccess(JSONObject response) {
+                        try {
+                            JSONArray audios = response.getJSONArray("audios");
+                            if(audios != null) {
+                                audioList = smartCaching.parseResponse(audios, "audios").get("audios");
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
 
-                }
-            }
-        });
-
+                    @Override
+                    public void onFailure(String failureMessage) {
+                        Log.e(TAG, "Error obtaining Audio data: " + failureMessage);
+                    }
+                });
         SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, true);
     }
 
