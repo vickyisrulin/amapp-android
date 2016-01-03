@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:background="@color/primary900">
+    android:background="@color/anoopamSecondaryTitleStripBackgroundColor">
 
     <FrameLayout
         android:layout_width="match_parent"

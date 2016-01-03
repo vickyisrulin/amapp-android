@@ -4,7 +4,7 @@
     <color name="primaryColorDark">#1A6E7D</color>
     <!--<color name="accent">#4AB5AB</color>-->
     <!--<color name="accent">#FE9A2E</color>-->
-    <color name="accent">#ffc0cb</color>
+    <color name="accent">#fffeef</color>
     <color name="textPrimary">#ffffff</color>
     <color name="textSecondary">#ffffff</color>
     <color name="windowBgColor">#E9F4F6</color>
