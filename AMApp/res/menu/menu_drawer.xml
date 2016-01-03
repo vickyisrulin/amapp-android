@@ -32,13 +32,13 @@
             android:icon="@drawable/ic_star_half_white_24dp"
             android:title="@string/nav_anoopam_events" />
         <item
+            android:id="@+id/navContactUs"
+            android:icon="@drawable/ic_contact_phone_white_24dp"
+            android:title="@string/nav_contact_us" />
+        <item
             android:id="@+id/navAbout"
             android:icon="@drawable/ic_calendar_white_24dp"
             android:title="@string/nav_about"
             app:showAsAction="always" />
-        <item
-            android:id="@+id/navContactUs"
-            android:icon="@drawable/ic_contact_phone_white_24dp"
-            android:title="@string/nav_contact_us" />
     </group>
 </menu>
