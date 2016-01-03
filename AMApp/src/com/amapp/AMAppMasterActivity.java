@@ -193,7 +193,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
             ActivityCompat.startActivity(AMAppMasterActivity.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
         } catch (Exception e) {
             try {
-                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)),activityInvocationOptionsBunble);
+                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
             } catch (android.content.ActivityNotFoundException anfe) {
                 ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
             }
