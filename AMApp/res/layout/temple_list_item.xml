@@ -64,6 +64,7 @@
                 <com.smart.customviews.SmartTextView
                     android:id="@+id/txtTempleLastUpdatedDate"
                     style="@style/AnoopamTextView"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
