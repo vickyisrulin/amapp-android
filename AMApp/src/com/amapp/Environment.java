@@ -13,7 +13,8 @@ public enum Environment {
             AMConstants.MOCK_MOCKY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix,
-            AMConstants.MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix
+            AMConstants.MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix,
+            AMConstants.MOCK_MOCKY_News_Endpoint_Suffix
             ),
 
     ENV_MOCK_APIARY(AMConstants.MOCK_APIARY_Domain_Url,
@@ -22,7 +23,8 @@ public enum Environment {
             AMConstants.MOCK_APIARY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_AnoopamAudio_Endpoint_Suffix,
-            AMConstants.MOCK_APIARY_QuoteOfTheWeek_Endpoint_Suffix
+            AMConstants.MOCK_APIARY_QuoteOfTheWeek_Endpoint_Suffix,
+            AMConstants.MOCK_MOCKY_News_Endpoint_Suffix
     ),
 
     ENV_LIVE(AMConstants.LIVE_Domain_Url,
@@ -31,7 +33,8 @@ public enum Environment {
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
             AMConstants.LIVE_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.LIVE_AnoopamAudio_Endpoint_Suffix,
-            AMConstants.LIVE_QuoteOfTheWeek_Endpoint_Suffix
+            AMConstants.LIVE_QuoteOfTheWeek_Endpoint_Suffix,
+            AMConstants.LIVE_News_Endpoint_Suffix
     );
 
     private String mDomainUrl;
@@ -41,9 +44,10 @@ public enum Environment {
     private String mSahebjiDarshanEndpiont;
     private String mAnoopamAudioEndpoint;
     private String mQuoteOfTheWeekEndpoint;
+    private String mNewsEndpoint;
 
     Environment(String domainUrl, String splashScreenEndpointSuffix, String homeTilesEndpointSuffix, String thakorjiTodayEndpointSuffix, String sahebjiDarshanEndpointSuffix,
-                String anoopamAudioEndpointSuffix, String quoteOfTheWeekEndpointSuffix) {
+                String anoopamAudioEndpointSuffix, String quoteOfTheWeekEndpointSuffix, String newsEndpointSuffix) {
         mDomainUrl = domainUrl;
         mSplashScreenEndpoint = domainUrl + splashScreenEndpointSuffix;
         mHomeTilesEndpoint = domainUrl + homeTilesEndpointSuffix;
@@ -51,6 +55,7 @@ public enum Environment {
         mSahebjiDarshanEndpiont = domainUrl+sahebjiDarshanEndpointSuffix;
         mAnoopamAudioEndpoint = domainUrl+anoopamAudioEndpointSuffix;
         mQuoteOfTheWeekEndpoint = domainUrl+quoteOfTheWeekEndpointSuffix;
+        mNewsEndpoint = domainUrl + newsEndpointSuffix;
     }
 
     /**
@@ -103,5 +108,13 @@ public enum Environment {
      */
     public String getQuoteOfTheWeekEndpoint() {
         return mQuoteOfTheWeekEndpoint;
+    }
+
+    /**
+     * returns the News Endpoint
+     * @return String
+     */
+    public String getNewsEndpoint() {
+        return mNewsEndpoint;
     }
 }

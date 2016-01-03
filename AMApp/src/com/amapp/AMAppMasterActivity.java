@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import com.amapp.anoopamaudio.AudioCatListActivity;
 import com.amapp.common.AMConstants;
 import com.amapp.home.HomeListActivity;
+import com.amapp.news.NewsListActivity;
 import com.amapp.qow.QuoteActivity;
 import com.amapp.sahebjidarshan.SahebjiAlbumListActivity;
 import com.amapp.sahebjidarshan.SahebjiDarshanActivity;
@@ -150,6 +151,11 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
+    protected void invokeNewsUpdatesFlow() {
+        Intent intent = new Intent(AMAppMasterActivity.this, NewsListActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+    }
+
     protected void invokeQuoteOfTheWeekFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
@@ -187,7 +193,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
             ActivityCompat.startActivity(AMAppMasterActivity.this, mantralekhanAppIntent, activityInvocationOptionsBunble);
         } catch (Exception e) {
             try {
-                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)),activityInvocationOptionsBunble);
+                ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
             } catch (android.content.ActivityNotFoundException anfe) {
                 ActivityCompat.startActivity(AMAppMasterActivity.this, new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + AM_MANTRALEKHAN_APP_PACKANGE_NAME)), activityInvocationOptionsBunble);
             }
