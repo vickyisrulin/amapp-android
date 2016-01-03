@@ -39,7 +39,7 @@ public class HomeListFragment extends SmartFragment {
 
     @Override
     public int setLayoutId() {
-        return R.layout.temples_list_fragment;
+        return R.layout.home_list_fragment;
     }
 
     @Override

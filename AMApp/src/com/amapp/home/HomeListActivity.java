@@ -76,7 +76,7 @@ public class HomeListActivity extends AMAppMasterActivity {
 
     @Override
     public int getLayoutID() {
-        return R.layout.temples_activity;
+        return R.layout.home_list_activity;
     }
 
     @Override
@@ -115,14 +115,14 @@ public class HomeListActivity extends AMAppMasterActivity {
     public void initComponents() {
         super.initComponents();
 
-        frmListFragmentContainer = (FrameLayout) findViewById(R.id.frmListFragmentContainer);
+        frmListFragmentContainer = (FrameLayout) findViewById(R.id.homeListFragmentContainer);
         mHomeListFragment = new HomeListFragment();
         smartCaching = new SmartCaching(this);
     }
 
     @Override
     public void prepareViews() {
-        getSupportFragmentManager().beginTransaction().add(R.id.frmListFragmentContainer, mHomeListFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.homeListFragmentContainer, mHomeListFragment).commit();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
