@@ -259,6 +259,45 @@ public class AMServiceRequest {
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
+    /**
+     * invokes the request to get the updated QOW data from the server
+     */
+    public void startNewsUpdatesFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_News_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getNewsLastUpdatedTimestamp());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    smartCaching.cacheResponse(response.getJSONArray("images"), "newsImages", true, new SmartCaching.OnResponseParsedListener() {
+                        @Override
+                        public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
+                            if (mapTableNameAndData.get("newsImages") != null) {
+                                Log.d(TAG, "obtained News data successfully");
+                            }
+                        }
+                    }, /*runOnMainThread*/ false, "newsImages");
+                    AMApplication.getInstance()
+                            .writeSharedPreferences(AMConstants.KEY_NewsLastUpdatedTimestamp, response
+                                    .getString(AMConstants.AMS_RequestParam_News_LastUpdatedTimestamp));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                Log.e(TAG, "Error obtaining News data: " + failureMessage);
+            }
+        });
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
+    }
+
     // gets the latest timestamp cached on the client side
     // and addes it into the Sahebji Darshan endpoint as param
     private String getSahebjiDarshanUrlWithLatestCachedTimestamp() {
@@ -301,6 +340,16 @@ public class AMServiceRequest {
         String endpoint = mEnvironment.getQuoteOfTheWeekEndpoint();
         String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, "");
+        return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
+    }
+
+    // gets the latest timestamp cached on the client side
+    // and addes it into the News endpoint as param
+    public String getNewsLastUpdatedTimestamp() {
+        //String endpoint = mEnvironment.getNewsEndpoint();
+        String endpoint = AMConstants.MOCK_MOCKY_Domain_Url+AMConstants.MOCK_MOCKY_News_Endpoint_Suffix;
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
+                .readSharedPreferences().getString(AMConstants.KEY_NewsLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
 

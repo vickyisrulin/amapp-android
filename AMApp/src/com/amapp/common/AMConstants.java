@@ -13,6 +13,7 @@ public class AMConstants {
     public static final String MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix = "/v2/5665890a250000602c996e79";
     public static final String MOCK_MOCKY_SahebjiDarshan_Endpoint_Suffix = "/v2/566c23a11100006c1ec6a010";
     public static final String MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
+    public static final String MOCK_MOCKY_News_Endpoint_Suffix = "/v2/5686d01b130000ff1930ff63?feature=news&lastUpdatedTimestamp=%s&network=%s";
 
     //MOCK APIARY
     public static final String MOCK_APIARY_Domain_Url = "http://www.mocky.io";
@@ -29,6 +30,7 @@ public class AMConstants {
     public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=qow&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=sahebjidarshan&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_AnoopamAudio_Endpoint_Suffix = "/v2/56698805250000a0291bdf21";
+    public static final String LIVE_News_Endpoint_Suffix = "/v2/5686d01b130000ff1930ff63?feature=news&lastUpdatedTimestamp=%s&network=%s";
 
     // other AMS constants
     public static final String AM_Application_Title = "Anoopam Mission";
@@ -39,6 +41,7 @@ public class AMConstants {
     public static final String AMS_Request_Get_Quotes_Tag = "ams_get_quotes";
     public static final String AMS_Request_Get_HomeScreen_List_Tag = "ams_get_home_screen_list";
     public static final String AMS_Request_Get_SplashScreen_Tag = "ams_get_splash_screen";
+    public static final String AMS_Request_Get_News_Tag = "ams_get_news";
 
     // AMS params
     public static final String AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp = "lastUpdatedTimestamp";
@@ -46,6 +49,8 @@ public class AMConstants {
     public static final String AMS_RequestParam_HomeScreen_LastUpdatedTimestamp = "lastUpdatedTimestamp";
     public static final String AMS_RequestParam_SplashScreen_LastUpdatedTimestamp = "lastUpdatedTimestamp";
     public static final String AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp = "lastUpdatedTimestamp";
+    public static final String AMS_RequestParam_News_LastUpdatedTimestamp = "lastUpdatedTimestamp";
+
 
     // KEYS
     public static final String KEY_ThakorjiTodayLastUpdatedTimestamp = "thakorjiTodayLastUpdatedTimestamp";
@@ -53,6 +58,7 @@ public class AMConstants {
     public static final String KEY_HomeScreenLastUpdatedTimestamp = "homeScreenLastUpdatedTimestamp";
     public static final String KEY_SplashScreenLastUpdatedTimestamp = "splashScreenLastUpdatedTimestamp";
     public static final String KEY_QuoteOfTheWeekLastUpdatedTimestamp = "quoteOfTheWeekLastUpdatedTimestamp";
+    public static final String KEY_NewsLastUpdatedTimestamp = "newsLastUpdatedTimestamp";
 
     // other URL Constants
     public static final String URL_AboutUs = "http://anoopam.org/aboutus/aboutus.php";
