@@ -16,9 +16,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.amapp.R;
+import com.amapp.common.ImagePrefetchUtil;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.androidquery.util.Progress;
+import com.smart.caching.SmartCaching;
 import com.smart.customviews.SmartRecyclerView;
 import com.smart.customviews.SmartTextView;
 import com.smart.framework.Constants;
@@ -26,6 +28,9 @@ import com.smart.framework.SmartActivity;
 import com.smart.framework.SmartApplication;
 import com.smart.framework.SmartFragment;
 import com.smart.framework.SmartUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -119,16 +124,25 @@ public class TempleListFragment extends SmartFragment {
             if(SmartUtils.isOSPreLollipop()){
                 ((CardView)v.findViewById(R.id.cardView)).setPreventCornerOverlap(false);
             }
+
+            //clear all memory cached images when system is in low memory
+            //note that you can configure the max image cache count, see CONFIGURATION
+            BitmapAjaxCallback.clearCache();
+
             v.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                int index = mRecyclerView.getChildAdapterPosition(view);
-                Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
-                intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
-                Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgAlbum), "image");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+                    int index = mRecyclerView.getChildAdapterPosition(view);
+
+                    // attempts to pre-fetch all the images for this temple
+                    prefetchThakorjiPicsForTemple(index);
+
+                    Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
+                    intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
+                    Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgAlbum), "image");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), p1);
+                    ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
                 }
             });
             return vh;
@@ -155,6 +169,30 @@ public class TempleListFragment extends SmartFragment {
         @Override
         public int getItemCount() {
             return temples.size();
+        }
+
+        /**
+         * 1) Will load all the image URLs for the given temple referenced by templeIndex
+         * 2) Downloads the image from the given URL from the network, if it's not already in the memory/storage
+         * @param templeCenterIndex
+         */
+        private void prefetchThakorjiPicsForTemple(int templeCenterIndex) {
+            ArrayList<ContentValues> templeImages = null;
+
+            // grabs all the image URLs for the given temple
+            try {
+                templeImages =new SmartCaching(getActivity().getBaseContext()).
+                        parseResponse(new JSONArray(temples.get(templeCenterIndex).getAsString("images")),
+                                "images").get("images");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // iterates over all the URLs to load the images in the memory
+            for(int i=0; i<templeImages.size(); i++) {
+                String imageUrl = templeImages.get(i).getAsString("image");
+                ImagePrefetchUtil.prefetchImageFromCache(imageUrl, ((SmartActivity)getActivity()).getDeviceWidth());
+            }
         }
     }
 }

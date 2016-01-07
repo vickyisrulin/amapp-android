@@ -15,8 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.amapp.AMAppMasterActivity;
+import com.amapp.AMApplication;
 import com.amapp.R;
 import com.amapp.common.TouchImageView;
+import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.smart.caching.SmartCaching;
@@ -130,16 +132,20 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         public Object instantiateItem(ViewGroup container, final int position) {
             View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
             final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
+            AQuery aq = AMApplication.getInstance().getAQuery();
+
             if(position==0){
                 setViewTransitionName(imgTemple,"image");
             }
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgTemple).image(images.get(position).getAsString("image"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
 
-                }
-            });
+            String imageUrl = images.get(position).getAsString("image");
+
+            // fetches the image from the network, if it's not in the local cache
+            // displays it on the screen using imgTemple object
+            aq.id(imgTemple)
+                    .progress(R.id.progress)
+                    .image(imageUrl, true, true, getDeviceWidth(), 0, null, AQuery.FADE_IN);
+
             container.addView(itemView);
             return itemView;
         }
