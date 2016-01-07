@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.amapp.AMApplication;
 import com.amapp.R;
+import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
 import com.smart.customviews.SmartRecyclerView;
@@ -33,6 +35,7 @@ public class HomeListFragment extends SmartFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<ContentValues> homeTiles;
     private SmartTextView emptyView;
+    private ArrayList<Integer> homeTilesDefaultImages = new ArrayList<>();
 
     public HomeListFragment() {
     }
@@ -56,6 +59,13 @@ public class HomeListFragment extends SmartFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         emptyView= (SmartTextView) currentView.findViewById(R.id.txtEmpty);
+        homeTilesDefaultImages.add(R.drawable.thakorji_today);
+        homeTilesDefaultImages.add(R.drawable.sahebji_darshan);
+        homeTilesDefaultImages.add(R.drawable.mantralekhan);
+        homeTilesDefaultImages.add(R.drawable.weekly_quotes);
+        homeTilesDefaultImages.add(R.drawable.anoopam_audio);
+        homeTilesDefaultImages.add(R.drawable.contact_us);
+        homeTilesDefaultImages.add(R.drawable.about_us);
     }
 
     @Override
@@ -122,14 +132,13 @@ public class HomeListFragment extends SmartFragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             ContentValues homeTile = homeTiles.get(position);
+            int imageId = homeTilesDefaultImages.get(position).intValue();
+            AQuery aq = AMApplication.getInstance().getAQuery();
 
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgHomeTile).image(homeTile.getAsString("tileImage"),true,true,((SmartActivity)getActivity()).getDeviceWidth(),0,new BitmapAjaxCallback(){
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
-
-                }
-            });
+            //REF: https://code.google.com/p/android-query/wiki/ImageLoading
+            aq.id(holder.imgHomeTile)
+                    .progress(R.id.progress)
+                    .image(homeTile.getAsString("tileImage"), true, true, ((SmartActivity) getActivity()).getDeviceWidth(), imageId, null, AQuery.FADE_IN);
 
             holder.txtName.setText(homeTile.getAsString("tileName"));
         }

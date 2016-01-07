@@ -51,8 +51,8 @@ public class HomeListActivity extends AMAppMasterActivity {
         MANTRALEKHAN,
         QUOTE_OF_DAY,
         ANOOPAM_AUDIO,
-        ABOUT,
-        CONTACT_US;
+        CONTACT_US,
+        ABOUT;
     }
 
     private void registerForEvents() {
