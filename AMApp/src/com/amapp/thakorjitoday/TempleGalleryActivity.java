@@ -146,6 +146,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
                     .progress(R.id.progress)
                     .image(imageUrl, true, true, getDeviceWidth(), 0, null, AQuery.FADE_IN);
 
+            imgTemple.refreshDrawableState();
+
             container.addView(itemView);
             return itemView;
         }
