@@ -774,4 +774,13 @@ public class SmartUtils implements Constants{
         data.remove("unreadMessageCount");
 
     }
+
+    static public String getStorageDirectory(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission";
+        File dir = new File(cacheDir);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        return cacheDir;
+    }
 }
