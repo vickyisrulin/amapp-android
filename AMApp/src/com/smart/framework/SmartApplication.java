@@ -76,14 +76,7 @@ public class SmartApplication extends Application {
         smartApplicationConfiguration=new ApplicationConfiguration();
         loadConfiguration();
 
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + APP_NAME;
-
-        File dir = new File(cacheDir);
-        if(!dir.exists()){
-            dir.mkdir();
-        }
-
-        AQUtility.setCacheDir(dir);
+        AQUtility.setCacheDir(new File(SmartUtils.getStorageDirectory()));
 
         @SuppressWarnings("unused")
         SmartFrameworkSecurity smartFrameworkSecurity = new SmartFrameworkSecurity(this);
