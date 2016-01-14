@@ -126,6 +126,22 @@
             android:name=".news.NewsListActivity"
             android:screenOrientation="portrait" />
 
+        <service
+            android:name=".anoopamaudio.AudioService"
+            android:exported="true"
+            android:enabled="true"/>
+
+        <receiver android:name=".anoopamaudio.NotificationBroadcast" >
+            <intent-filter>
+                <action android:name="com.amapp.delete" />
+                <action android:name="com.amapp.pause" />
+                <action android:name="com.amapp.next" />
+                <action android:name="com.amapp.play" />
+                <action android:name="com.amapp.previous" />
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
