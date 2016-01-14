@@ -2,8 +2,8 @@ package com.amapp.anoopamaudio;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
@@ -19,17 +19,22 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.amapp.AMAppMasterActivity;
 import com.amapp.Environment;
 import com.amapp.R;
 import com.amapp.common.AMConstants;
 import com.amapp.common.AMServiceResponseListener;
+import com.amapp.common.CircleImageView;
+import com.androidquery.callback.AjaxStatus;
+import com.androidquery.callback.BitmapAjaxCallback;
 import com.smart.caching.SmartCaching;
 import com.smart.customviews.SmartRecyclerView;
 import com.smart.customviews.SmartTextView;
 import com.smart.framework.Constants;
-import com.smart.framework.SmartUtils;
+import com.smart.framework.SmartActivity;
+import com.smart.framework.SmartApplication;
 import com.smart.weservice.SmartWebManager;
 
 import org.json.JSONArray;
@@ -73,6 +78,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     public int getFooterLayoutID() {
         return 0;
     }
+
 
     @Override
     public View getHeaderLayoutView() {
@@ -129,6 +135,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+
         toolbar.setTitle(getString(R.string.nav_audio_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
@@ -147,6 +154,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_Cat_Tag);
+
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioEndpoint());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
@@ -177,7 +185,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
      */
     private String getAnoopamAudioEndpoint() {
         // FIXME: Since AMS still doesnt have endpoint for audio, return MOCK endpoint
-        return Environment.ENV_MOCK_MOCKY.getAnoopamAudioEndpoint();
+        return Environment.ENV_LIVE.getAnoopamAudioEndpoint();
     }
 
     @Override
@@ -193,12 +201,16 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
             public View view;
             public SmartTextView txtCatName;
+            public CircleImageView imgAudioCat;
 
             public ViewHolder(View view) {
                 super(view);
 
                 this.view = view;
                 txtCatName = (SmartTextView) view.findViewById(R.id.txtCatName);
+                imgAudioCat = (CircleImageView) view.findViewById(R.id.imgAudioCat);
+
+
             }
         }
 
@@ -229,6 +241,14 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             ContentValues audioCat= AudioCatListActivity.this.audioCat.get(position);
 
             holder.txtCatName.setText(audioCat.getAsString("catName"));
+            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgAudioCat).image(audioCat.getAsString("catImage"), true, true, getDeviceWidth(), 0, new BitmapAjaxCallback() {
+                @Override
+                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
+                    super.callback(url, iv, bm, status);
+
+                }
+            });
+
         }
 
         @Override
