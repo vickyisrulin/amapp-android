@@ -330,7 +330,7 @@ public class AudioListActivity extends AMAppMasterActivity {
     protected void onStop() {
         super.onStop();
 
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Audio_List_Tag);
+        //SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Audio_List_Tag);
     }
 
     class AudioCatAdapter extends RecyclerView.Adapter<AudioCatAdapter.ViewHolder> implements Constants {
