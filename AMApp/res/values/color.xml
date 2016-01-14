@@ -66,5 +66,6 @@
 
     <color name="player_yellow">#ffeb52</color>
 
-
+    <color name="orange">#ff3d00</color>
+    <color name="opaque">#70000000</color>
 </resources>

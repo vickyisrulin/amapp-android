@@ -4,45 +4,52 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    >
+    android:background="@android:color/transparent">
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         card_view:cardUseCompatPadding="true"
         android:layout_height="wrap_content"
         android:elevation="5dp"
-        card_view:cardBackgroundColor="@color/primary900"
+        card_view:cardBackgroundColor="#CFE1F9"
         card_view:contentPadding="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="3dp"
         >
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:layout_centerInParent="true"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+                <com.amapp.common.CircleImageView
+                    android:id="@+id/imgAudioCat"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    card_view:border_color="#0D4E76"
+                    card_view:border_width="1dp"
+                    android:src="@drawable/tabla"
+                    />
+
+            </RelativeLayout>
+
             <com.smart.customviews.SmartTextView
                 android:id="@+id/txtCatName"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:text="Bhajans"
-                />
-            <com.smart.customviews.SmartTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="@color/white"
+                android:textColor="#0D4E76"
                 android:textSize="22dp"
-                android:text=">>"
-
+                android:text="Bhajans"
+                android:maxLines="2"
+                android:layout_marginLeft="15dp"
                 />
         </LinearLayout>
     </android.support.v7.widget.CardView>
