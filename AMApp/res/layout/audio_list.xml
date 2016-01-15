@@ -36,7 +36,7 @@
         android:id="@+id/linearLayoutPlayingSong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
+        android:background="@color/anoopamPrimaryTitleStripBackgroundColor"
         android:gravity="center"
         android:orientation="vertical" >
 
@@ -71,7 +71,7 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
                     android:text="@string/empty_text"
-                    android:textColor="@color/white"
+                    android:textColor="@color/anoopamCreamColor"
                     android:textSize="15dp" />
 
                 <LinearLayout
@@ -152,14 +152,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/anoopamCreamColor" />
 
                     <TextView
                         android:id="@+id/textDuration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/anoopamCreamColor" />
                 </LinearLayout>
 
                 <ProgressBar

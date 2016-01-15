@@ -59,7 +59,7 @@
                     android:layout_height="220dp"
                     card_view:border_color="@color/primary50"
                     card_view:border_width="1dp"
-                    android:src="@drawable/tabla"
+                    android:src="@drawable/logo"
                     android:layout_marginTop="10dp"
                     />
                 <LinearLayout

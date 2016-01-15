@@ -97,7 +97,7 @@ public class UtilFunctions implements SharedPreferenceConstants {
 		Bitmap bm = null;
 		BitmapFactory.Options options = new BitmapFactory.Options();
 	    try{
-	    	bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.tabla, options);
+	    	bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.logo, options);
 	    } catch(Error ee){}
 	    catch (Exception e) {}
 	    return bm;

@@ -225,6 +225,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 	@SuppressLint("NewApi")
 	private void newNotification() {
 		String songName = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER).getAsString("audioTitle");
+		String albumName = "Anoopam Album";
 		RemoteViews simpleContentView = new RemoteViews(getApplicationContext().getPackageName(),R.layout.custom_notification);
 		RemoteViews expandedView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.big_notification);
 		 
@@ -241,9 +242,9 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		}
 		
 		try{
-			notification.contentView.setImageViewResource(R.id.imageViewAlbumArt, R.drawable.default_album_art);
+			notification.contentView.setImageViewResource(R.id.imageViewAlbumArt, R.drawable.logo);
 			if(currentVersionSupportBigNotification){
-				notification.bigContentView.setImageViewResource(R.id.imageViewAlbumArt, R.drawable.default_album_art);
+				notification.bigContentView.setImageViewResource(R.id.imageViewAlbumArt, R.drawable.logo);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -327,7 +328,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			mp.setDataSource(songPath);
 			mp.prepare();
 			mp.start();
-			timer.scheduleAtFixedRate(new MainTask(), 0, 100);
+			timer.scheduleAtFixedRate(new MainTask(), 20000, 100);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

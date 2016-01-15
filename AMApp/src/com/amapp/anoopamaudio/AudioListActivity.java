@@ -68,7 +68,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     private static LinearLayout linearLayoutPlayingSong;
     private static ImageView imageViewAlbumArt;
-    private TextView textNowPlaying;
+    private static TextView textNowPlaying;
     private Button btnPrevious;
     private static Button btnPlay;
     private static Button btnPause;
