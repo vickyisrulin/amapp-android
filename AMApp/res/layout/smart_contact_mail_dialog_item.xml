@@ -30,14 +30,14 @@
                 android:orientation="vertical"
                 android:padding="5dp" >
 
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
                     android:id="@+id/txtContactName"
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true" />
 
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
                     android:id="@+id/txtContactEmail"
 
                     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     android:singleLine="true" />
             </LinearLayout>
 
-            <com.smart.customviews.SmartCheckBox
+            <org.smart.customviews.SmartCheckBox
                 android:id="@+id/chbContact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

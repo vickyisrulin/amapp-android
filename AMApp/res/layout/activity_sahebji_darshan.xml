@@ -2,12 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.amapp.sahebjidarshan.SahebjiDarshanActivity">
+    tools:context="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <com.amapp.common.TouchImageView android:id="@+id/sahebji_darshan_image"
+    <org.anoopam.main.common.TouchImageView
+        android:id="@+id/sahebji_darshan_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>

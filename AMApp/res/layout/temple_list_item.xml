@@ -53,7 +53,7 @@
                 android:layout_marginLeft="10sp"
                 >
 
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
                     android:id="@+id/txtTemplePlace"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                     android:maxLines="2"
                     />
 
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
                     android:id="@+id/txtTempleLastUpdatedDate"
                     style="@style/AnoopamTextView"
                     android:textSize="16sp"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.amapp">
+    package="org.anoopam.main">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -37,7 +37,7 @@
 
     <!-- GCM PERMISSIONS END -->
     <application
-        android:name=".AMApplication"
+        android:name="org.anoopam.main.AMApplication"
         android:allowTaskReparenting="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -45,7 +45,7 @@
 
         <!-- Internet connection state receiver -->
 
-        <receiver android:name="com.smart.framework.SmartInternetConnectionStateChangeReceiver">
+        <receiver android:name="org.smart.framework.SmartInternetConnectionStateChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -66,19 +66,19 @@
         </receiver>
 
         <service
-            android:name="com.smart.framework.FetchAddressIntentService"
+            android:name="org.smart.framework.FetchAddressIntentService"
             android:exported="false" />
 
         <!-- Crash Handler Activity START -->
-        <activity android:name="com.smart.framework.CrashReportActivity" />
+        <activity android:name="org.smart.framework.CrashReportActivity" />
         <!-- Crash Handler Activity END -->
 
         <provider
-            android:name="com.smart.framework.SmartSuggestionProvider"
+            android:name="org.smart.framework.SmartSuggestionProvider"
             android:authorities="MySuggestionProvider" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name="org.anoopam.main.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,57 +87,57 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".thakorjitoday.TempleListActivity"
+            android:name="org.anoopam.main.thakorjitoday.TempleListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home.HomeListActivity"
+            android:name="org.anoopam.main.home.HomeListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".thakorjitoday.TempleGalleryActivity"
+            android:name="org.anoopam.main.thakorjitoday.TempleGalleryActivity"
             android:configChanges="orientation" />
         <activity
-            android:name=".anoopamaudio.AudioCatListActivity"
+            android:name="org.anoopam.main.anoopamaudio.AudioCatListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
-            android:name=".anoopamaudio.AudioListActivity"
+            android:name="org.anoopam.main.anoopamaudio.AudioListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".anoopamaudio.AudioPlayerActivity"
+            android:name="org.anoopam.main.anoopamaudio.AudioPlayerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".sahebjidarshan.SahebjiAlbumListActivity"
+            android:name="org.anoopam.main.sahebjidarshan.SahebjiAlbumListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".sahebjidarshan.SahebjiGalleryActivity"
+            android:name="org.anoopam.main.sahebjidarshan.SahebjiGalleryActivity"
             android:configChanges="orientation" />
 
         <activity
-            android:name=".sahebjidarshan.SahebjiDarshanActivity"
+            android:name="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme" />
 
         <activity
-            android:name=".qow.QuoteActivity"
+            android:name="org.anoopam.main.qow.QuoteActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/FullscreenTheme"></activity>
 
         <activity
-            android:name=".news.NewsListActivity"
+            android:name="org.anoopam.main.news.NewsListActivity"
             android:screenOrientation="portrait" />
 
         <service
-            android:name=".anoopamaudio.AudioService"
+            android:name="org.anoopam.main.anoopamaudio.AudioService"
             android:exported="true"
             android:enabled="true"/>
 
-        <receiver android:name=".anoopamaudio.NotificationBroadcast" >
+        <receiver android:name="org.anoopam.main.anoopamaudio.NotificationBroadcast" >
             <intent-filter>
-                <action android:name="com.amapp.delete" />
-                <action android:name="com.amapp.pause" />
-                <action android:name="com.amapp.next" />
-                <action android:name="com.amapp.play" />
-                <action android:name="com.amapp.previous" />
+                <action android:name="org.anoopam.main.delete" />
+                <action android:name="org.anoopam.main.pause" />
+                <action android:name="org.anoopam.main.next" />
+                <action android:name="org.anoopam.main.play" />
+                <action android:name="org.anoopam.main.previous" />
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
