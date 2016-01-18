@@ -64,9 +64,9 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     public void initComponents() {
         activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         navigationView= (NavigationView) findViewById(R.id.navigationView);
-        imgLogoPic = (ImageView) navigationView.findViewById(R.id.imgLogoPic);
+        View headerLayout = navigationView.getHeaderView(0);
+        imgLogoPic = (ImageView) headerLayout.findViewById(R.id.imgLogoPic);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
     }
 
     @Override
