@@ -29,7 +29,7 @@
                     android:layout_centerInParent="true"
                     android:layout_width="30dp"
                     android:layout_height="30dp" />
-                <com.amapp.common.CircleImageView
+                <org.anoopam.main.common.CircleImageView
                     android:id="@+id/imgAudioCat"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
@@ -40,7 +40,7 @@
 
             </RelativeLayout>
 
-            <com.smart.customviews.SmartTextView
+            <org.smart.customviews.SmartTextView
                 android:id="@+id/txtCatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

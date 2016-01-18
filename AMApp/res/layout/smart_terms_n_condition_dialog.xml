@@ -9,7 +9,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical" >
 
-        <com.smart.customviews.SmartTextView
+        <org.smart.customviews.SmartTextView
                 android:id="@+id/txtTermsNConditionTitle"
 
                 android:layout_width="0dp"

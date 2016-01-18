@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 >
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
                     android:id="@+id/txtCatName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     />
-                <com.amapp.common.CircleImageView
+                <org.anoopam.main.common.CircleImageView
                     android:id="@+id/imgAudio"
                     android:layout_width="220dp"
                     android:layout_height="220dp"
@@ -70,7 +70,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     >
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioLoading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                         android:textStyle="italic"
                         />
 
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         />
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioDuration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

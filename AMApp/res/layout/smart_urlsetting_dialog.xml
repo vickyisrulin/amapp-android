@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
-            <com.smart.customviews.SmartTextView
+            <org.smart.customviews.SmartTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:orientation="vertical"
                 android:paddingTop="20dp" >
 
-                <com.smart.customviews.SmartEditText
+                <org.smart.customviews.SmartEditText
                     android:id="@+id/edtDomain"
 
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_marginRight="20dp"
                     android:hint="www.xyz.com/abc/" />
 
-                <com.smart.customviews.SmartCheckBox
+                <org.smart.customviews.SmartCheckBox
                     android:id="@+id/chkSsl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:text="Enable SSL"
                     />
 
-                <com.smart.customviews.SmartButton
+                <org.smart.customviews.SmartButton
                     android:id="@+id/btnTestConnection"
 
                     android:layout_width="wrap_content"
@@ -87,14 +87,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Tip 1: "
                         android:textColor="#ff0000" />
 
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,14 +106,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Tip 2: "
                         android:textColor="#ff0000" />
 
-                    <com.smart.customviews.SmartTextView
+                    <org.smart.customviews.SmartTextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             android:gravity="center"
             android:orientation="vertical" >
 
-            <com.smart.customviews.SmartTextView
+            <org.smart.customviews.SmartTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center" >
 
-                <com.smart.customviews.SmartButton
+                <org.smart.customviews.SmartButton
                     android:id="@+id/btnYes"
 
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:padding="5dp"
                     android:text="@string/yes" />
 
-                <com.smart.customviews.SmartButton
+                <org.smart.customviews.SmartButton
                     android:id="@+id/btnNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

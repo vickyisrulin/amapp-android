@@ -23,7 +23,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone" >
 
-                <com.smart.customviews.SmartTextView
+                <org.smart.customviews.SmartTextView
 
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 android:orientation="horizontal"
                 android:padding="5dp" >
 
-                <com.smart.customviews.SmartRadioButton
+                <org.smart.customviews.SmartRadioButton
                     android:id="@+id/rdbSelectAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:text="@string/select_all"
                      />
 
-                <com.smart.customviews.SmartRadioButton
+                <org.smart.customviews.SmartRadioButton
                     android:id="@+id/rdbSelectNone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,14 +89,14 @@
                 android:orientation="horizontal"
                 android:padding="5dp" >
 
-                <com.smart.customviews.SmartButton
+                <org.smart.customviews.SmartButton
                     android:id="@+id/btnCancel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/cancel" />
 
-                <com.smart.customviews.SmartButton
+                <org.smart.customviews.SmartButton
                     android:id="@+id/btnDone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

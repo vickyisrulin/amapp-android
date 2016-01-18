@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.amapp.qow.QuoteActivity">
+    tools:context="org.anoopam.main.qow.QuoteActivity">
 
-    <com.amapp.common.TouchImageView android:id="@+id/quote_image"
+    <org.anoopam.main.common.TouchImageView
+        android:id="@+id/quote_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"/>

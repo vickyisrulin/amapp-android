@@ -11,12 +11,12 @@
     limitations under the License.
 -->
 
-<com.smart.customviews.ExpandableHTMLTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<org.smart.customviews.ExpandableHTMLTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.smart.customviews.SmartTextView
+    <org.smart.customviews.SmartTextView
         android:id="@+id/txtDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,4 +24,4 @@
         android:ellipsize="end"
         />
 
-</com.smart.customviews.ExpandableHTMLTextView>
+</org.smart.customviews.ExpandableHTMLTextView>
