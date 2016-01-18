@@ -16,8 +16,8 @@ import org.anoopam.main.common.events.SplashScreenUpdateFailedEvent;
 import org.anoopam.main.common.events.SplashScreenUpdateSuccessEvent;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateFailedEvent;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateSuccessEvent;
-import org.smart.caching.SmartCaching;
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

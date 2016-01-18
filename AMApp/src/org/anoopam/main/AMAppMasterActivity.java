@@ -18,8 +18,8 @@ import org.anoopam.main.news.NewsListActivity;
 import org.anoopam.main.qow.QuoteActivity;
 import org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity;
 import org.anoopam.main.thakorjitoday.TempleListActivity;
-import org.smart.framework.Constants;
-import org.smart.framework.SmartSuperMaster;
+import org.anoopam.ext.smart.framework.Constants;
+import org.anoopam.ext.smart.framework.SmartSuperMaster;
 
 /**
  * Created by tasol on 23/6/15.

@@ -1,6 +1,6 @@
 package org.anoopam.main.common;
 
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 import org.json.JSONObject;
 
 /**

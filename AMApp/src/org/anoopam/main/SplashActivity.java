@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import org.anoopam.main.home.HomeListActivity;
 import com.androidquery.AQuery;
-import org.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.caching.SmartCaching;
 
 import java.util.ArrayList;
 

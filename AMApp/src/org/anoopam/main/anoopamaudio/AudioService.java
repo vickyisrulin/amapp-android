@@ -28,8 +28,8 @@ import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
-import org.smart.framework.SharedPreferenceConstants;
-import org.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SharedPreferenceConstants;
+import org.anoopam.ext.smart.framework.SmartApplication;
 
 import java.io.File;
 import java.io.IOException;

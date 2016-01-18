@@ -29,12 +29,12 @@ import org.anoopam.main.common.AMServiceResponseListener;
 import org.anoopam.main.common.CircleImageView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
-import org.smart.caching.SmartCaching;
-import org.smart.customviews.SmartRecyclerView;
-import org.smart.customviews.SmartTextView;
-import org.smart.framework.Constants;
-import org.smart.framework.SmartApplication;
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.customviews.SmartRecyclerView;
+import org.anoopam.ext.smart.customviews.SmartTextView;
+import org.anoopam.ext.smart.framework.Constants;
+import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

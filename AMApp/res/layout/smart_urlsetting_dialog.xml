@@ -19,7 +19,7 @@
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
-            <org.smart.customviews.SmartTextView
+            <org.anoopam.ext.smart.customviews.SmartTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:orientation="vertical"
                 android:paddingTop="20dp" >
 
-                <org.smart.customviews.SmartEditText
+                <org.anoopam.ext.smart.customviews.SmartEditText
                     android:id="@+id/edtDomain"
 
                     android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                     android:layout_marginRight="20dp"
                     android:hint="www.xyz.com/abc/" />
 
-                <org.smart.customviews.SmartCheckBox
+                <org.anoopam.ext.smart.customviews.SmartCheckBox
                     android:id="@+id/chkSsl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     android:text="Enable SSL"
                     />
 
-                <org.smart.customviews.SmartButton
+                <org.anoopam.ext.smart.customviews.SmartButton
                     android:id="@+id/btnTestConnection"
 
                     android:layout_width="wrap_content"
@@ -87,14 +87,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Tip 1: "
                         android:textColor="#ff0000" />
 
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -106,14 +106,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="Tip 2: "
                         android:textColor="#ff0000" />
 
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
 
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
             android:gravity="center"
             android:orientation="vertical" >
 
-            <org.smart.customviews.SmartTextView
+            <org.anoopam.ext.smart.customviews.SmartTextView
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center" >
 
-                <org.smart.customviews.SmartButton
+                <org.anoopam.ext.smart.customviews.SmartButton
                     android:id="@+id/btnYes"
 
                     android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
                     android:padding="5dp"
                     android:text="@string/yes" />
 
-                <org.smart.customviews.SmartButton
+                <org.anoopam.ext.smart.customviews.SmartButton
                     android:id="@+id/btnNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

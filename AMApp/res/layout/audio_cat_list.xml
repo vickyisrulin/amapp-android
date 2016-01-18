@@ -18,7 +18,7 @@
 
         <include layout="@layout/recycler_empty_view" />
 
-        <org.smart.customviews.SmartRecyclerView
+        <org.anoopam.ext.smart.customviews.SmartRecyclerView
 
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:padding="10dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        </org.smart.customviews.SmartRecyclerView>
+        </org.anoopam.ext.smart.customviews.SmartRecyclerView>
         <include layout="@layout/network_info"></include>
     </FrameLayout>
 </LinearLayout>

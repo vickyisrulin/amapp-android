@@ -30,7 +30,7 @@
                 android:orientation="vertical"
                 android:gravity="center_vertical"
                 >
-                <org.smart.customviews.SmartTextView
+                <org.anoopam.ext.smart.customviews.SmartTextView
                     android:id="@+id/txtAudioTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -41,7 +41,7 @@
                     android:text="Bhajans"
                     android:maxLines="2"
                     />
-                <org.smart.customviews.SmartTextView
+                <org.anoopam.ext.smart.customviews.SmartTextView
                     android:layout_marginTop="5dp"
                     android:id="@+id/txtAudioDuration"
                     android:layout_width="wrap_content"

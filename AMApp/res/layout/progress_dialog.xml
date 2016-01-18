@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp" />
 
-        <org.smart.customviews.SmartTextView
+        <org.anoopam.ext.smart.customviews.SmartTextView
             android:id="@+id/txtMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

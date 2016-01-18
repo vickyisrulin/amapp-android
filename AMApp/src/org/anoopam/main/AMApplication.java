@@ -2,7 +2,7 @@ package org.anoopam.main;
 
 import org.anoopam.main.common.AMServiceRequest;
 import com.androidquery.callback.BitmapAjaxCallback;
-import org.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartApplication;
 
 /**
  * Created by dadesai on 12/23/15.

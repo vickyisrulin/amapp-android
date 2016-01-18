@@ -7,7 +7,7 @@ import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.anoopam.main.common.TouchImageView;
 import com.androidquery.AQuery;
-import org.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.caching.SmartCaching;
 
 import java.util.ArrayList;
 

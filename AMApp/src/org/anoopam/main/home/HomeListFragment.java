@@ -13,12 +13,12 @@ import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import com.androidquery.AQuery;
 
-import org.smart.customviews.SmartRecyclerView;
-import org.smart.customviews.SmartTextView;
-import org.smart.framework.Constants;
-import org.smart.framework.SmartActivity;
-import org.smart.framework.SmartFragment;
-import org.smart.framework.SmartUtils;
+import org.anoopam.ext.smart.customviews.SmartRecyclerView;
+import org.anoopam.ext.smart.customviews.SmartTextView;
+import org.anoopam.ext.smart.framework.Constants;
+import org.anoopam.ext.smart.framework.SmartActivity;
+import org.anoopam.ext.smart.framework.SmartFragment;
+import org.anoopam.ext.smart.framework.SmartUtils;
 
 import java.util.ArrayList;
 

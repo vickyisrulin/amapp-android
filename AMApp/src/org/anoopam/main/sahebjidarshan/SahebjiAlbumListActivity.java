@@ -19,9 +19,9 @@ import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceResponseListener;
-import org.smart.caching.SmartCaching;
-import org.smart.framework.SmartApplication;
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;

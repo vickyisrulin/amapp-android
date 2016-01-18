@@ -13,8 +13,8 @@ import android.os.ParcelFileDescriptor;
 
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
-import org.smart.caching.SmartCaching;
-import org.smart.framework.SharedPreferenceConstants;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.SharedPreferenceConstants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
