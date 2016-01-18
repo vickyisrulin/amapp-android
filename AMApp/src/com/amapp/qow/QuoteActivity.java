@@ -23,6 +23,7 @@ public class QuoteActivity extends FragmentActivity {
         mSmartCaching = new SmartCaching(this);
         mQuoteImage = (TouchImageView) findViewById(R.id.quote_image);
         setQuoteImage();
+        // testing
     }
 
     private void setQuoteImage() {
