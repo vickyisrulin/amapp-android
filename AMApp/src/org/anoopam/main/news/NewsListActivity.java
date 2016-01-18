@@ -17,8 +17,8 @@ import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
-import org.smart.caching.SmartCaching;
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 
 import java.util.ArrayList;
 

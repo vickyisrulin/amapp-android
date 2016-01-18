@@ -18,8 +18,8 @@ import org.anoopam.main.R;
 import org.anoopam.main.common.TouchImageView;
 import com.androidquery.AQuery;
 
-import org.smart.caching.SmartCaching;
-import org.smart.framework.Constants;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;

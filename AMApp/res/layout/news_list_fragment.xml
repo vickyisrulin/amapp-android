@@ -8,7 +8,7 @@
 
     <include layout="@layout/recycler_empty_view" />
 
-    <org.smart.customviews.SmartRecyclerView
+    <org.anoopam.ext.smart.customviews.SmartRecyclerView
 
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
@@ -16,5 +16,5 @@
         android:padding="1dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </org.smart.customviews.SmartRecyclerView>
+    </org.anoopam.ext.smart.customviews.SmartRecyclerView>
 </FrameLayout>

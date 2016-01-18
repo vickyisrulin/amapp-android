@@ -44,7 +44,7 @@
                 android:layout_marginLeft="10sp"
                 >
 
-                <org.smart.customviews.SmartTextView
+                <org.anoopam.ext.smart.customviews.SmartTextView
                     android:id="@+id/txtHomeTileName"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"

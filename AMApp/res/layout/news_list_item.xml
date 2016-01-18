@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-                <org.smart.customviews.SmartTextView
+                <org.anoopam.ext.smart.customviews.SmartTextView
                     android:id="@+id/txtNewsMessage"
                     style="@style/AnoopamTextView"
                     android:layout_width="match_parent"

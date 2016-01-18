@@ -4,11 +4,6 @@ apply plugin: 'com.google.gms.google-services'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
-
-
-
-
-
     compile 'com.android.support:palette-v7:23.1.1'
     compile 'com.android.support:support-v4:23.1.1'
     compile 'com.android.support:appcompat-v7:23.1.1'
@@ -37,8 +32,11 @@ android {
         applicationId "org.anoopam.main"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "0.1alpha"
+        // <2-digit-APP_STORE_CODE>XXXXXX
+        // 10 - Google Play
+        // e.g. 09 - Samsung App store, 08 - LG App Store, 11 - NEW-APP-STORE to override Google Play
+        versionCode 10000001
+        versionName "1.0.001"
     }
 
     lintOptions {

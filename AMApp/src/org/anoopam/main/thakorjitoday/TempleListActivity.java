@@ -21,9 +21,9 @@ import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.events.EventBus;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateFailedEvent;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateSuccessEvent;
-import org.smart.caching.SmartCaching;
-import org.smart.framework.SmartUtils;
-import org.smart.weservice.SmartWebManager;
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.ext.smart.weservice.SmartWebManager;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;

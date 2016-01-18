@@ -3,7 +3,7 @@ package org.anoopam.main.common;
 import android.widget.ImageView;
 
 import org.anoopam.main.AMApplication;
-import org.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartApplication;
 
 /**
  * Created by dadesai on 1/5/16.

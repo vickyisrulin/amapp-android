@@ -9,7 +9,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical" >
 
-        <org.smart.customviews.SmartTextView
+        <org.anoopam.ext.smart.customviews.SmartTextView
                 android:id="@+id/txtTermsNConditionTitle"
 
                 android:layout_width="0dp"

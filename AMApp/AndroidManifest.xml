@@ -45,7 +45,7 @@
 
         <!-- Internet connection state receiver -->
 
-        <receiver android:name="org.smart.framework.SmartInternetConnectionStateChangeReceiver">
+        <receiver android:name="org.anoopam.ext.smart.framework.SmartInternetConnectionStateChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -66,15 +66,15 @@
         </receiver>
 
         <service
-            android:name="org.smart.framework.FetchAddressIntentService"
+            android:name="org.anoopam.ext.smart.framework.FetchAddressIntentService"
             android:exported="false" />
 
         <!-- Crash Handler Activity START -->
-        <activity android:name="org.smart.framework.CrashReportActivity" />
+        <activity android:name="org.anoopam.ext.smart.framework.CrashReportActivity" />
         <!-- Crash Handler Activity END -->
 
         <provider
-            android:name="org.smart.framework.SmartSuggestionProvider"
+            android:name="org.anoopam.ext.smart.framework.SmartSuggestionProvider"
             android:authorities="MySuggestionProvider" />
 
         <activity

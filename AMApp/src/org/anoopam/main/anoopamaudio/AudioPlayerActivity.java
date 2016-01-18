@@ -25,9 +25,9 @@ import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.CircleImageView;
 import com.androidquery.callback.AjaxStatus;
 import com.androidquery.callback.BitmapAjaxCallback;
-import org.smart.customviews.Log;
-import org.smart.customviews.SmartTextView;
-import org.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.customviews.Log;
+import org.anoopam.ext.smart.customviews.SmartTextView;
+import org.anoopam.ext.smart.framework.SmartApplication;
 
 import java.io.IOException;
 

@@ -40,7 +40,7 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 >
-                <org.smart.customviews.SmartTextView
+                <org.anoopam.ext.smart.customviews.SmartTextView
                     android:id="@+id/txtCatName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     >
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioLoading"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                         android:textStyle="italic"
                         />
 
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                         android:layout_marginBottom="15dp"
                         android:layout_marginTop="15dp"
                         />
-                    <org.smart.customviews.SmartTextView
+                    <org.anoopam.ext.smart.customviews.SmartTextView
                         android:id="@+id/txtAudioDuration"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
