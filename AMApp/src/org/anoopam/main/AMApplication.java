@@ -28,13 +28,7 @@ public class AMApplication extends SmartApplication {
     public void onCreate() {
         super.onCreate();
         mEnvironment = Environment.ENV_LIVE;
-        //TODO: Optimize these calls to get the data in one server request
-        AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
-        AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
-        AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
-        AMServiceRequest.getInstance().startQuoteOfTheWeekUpdatesFromServer();
-        AMServiceRequest.getInstance().startNewsUpdatesFromServer();
     }
 
     @Override

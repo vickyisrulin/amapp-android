@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.AMApplication;
 import org.anoopam.main.Environment;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
@@ -183,8 +184,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
      * @return String
      */
     private String getAnoopamAudioEndpoint() {
-        // FIXME: Since AMS still doesnt have endpoint for audio, return MOCK endpoint
-        return Environment.ENV_LIVE.getAnoopamAudioEndpoint();
+        return AMApplication.getInstance().getEnv().getAnoopamAudioEndpoint();
     }
 
     @Override
