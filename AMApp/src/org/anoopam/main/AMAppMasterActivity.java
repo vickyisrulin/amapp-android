@@ -63,7 +63,7 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     @Override
     public void initComponents() {
-        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
+
         navigationView= (NavigationView) findViewById(R.id.navigationView);
         View headerLayout = navigationView.getHeaderView(0);
         imgLogoPic = (ImageView) headerLayout.findViewById(R.id.imgLogoPic);
@@ -143,21 +143,25 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeHome() {
         Intent intent = new Intent(AMAppMasterActivity.this, HomeListActivity.class);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
     protected void invokeThakorjiTodayFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, TempleListActivity.class);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
     protected void invokeSahebjiDarshan() {
         Intent intent = new Intent(AMAppMasterActivity.this, SahebjiDarshanActivity.class);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeAudioFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, AudioCatListActivity.class);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
@@ -168,7 +172,8 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeQuoteOfTheWeekFlow() {
         Intent intent = new Intent(AMAppMasterActivity.this, QuoteActivity.class);
-        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
     }
 
     protected void invokeAboutFlow() {

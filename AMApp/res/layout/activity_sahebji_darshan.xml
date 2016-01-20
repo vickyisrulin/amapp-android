@@ -2,7 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity">
+    tools:context="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
+    android:background="@color/black">
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="45dip"
+        android:layout_height="45dip"
+        android:layout_gravity="center" />
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,

@@ -2,7 +2,8 @@ package org.anoopam.main.thakorjitoday;
 
 import android.content.ContentValues;
 import android.graphics.Typeface;
-import android.os.Handler;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -109,12 +110,13 @@ public class TempleListActivity extends AMAppMasterActivity {
     @Override
     public void prepareViews() {
         getSupportFragmentManager().beginTransaction().add(R.id.frmListFragmentContainer, templeListFragment).commit();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getCachedTemples();
-            }
-        }, 500);
+        getCachedTemples();
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        }, 500);
     }
 
     @Override
@@ -162,15 +164,38 @@ public class TempleListActivity extends AMAppMasterActivity {
     }
 
     private void getCachedTemples() {
-        ArrayList<ContentValues> temples = smartCaching.getDataFromCache("temples");
-        if (temples == null || temples.size() <= 0) {
-            AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
-            isCachedDataDisplayed = false;
-        } else {
-            this.temples = temples;
-            setTempleDataInFragments(temples, isCachedDataDisplayed);
-            isCachedDataDisplayed = true;
+
+        SmartUtils.showProgressDialog(this, "Loading...", false);
+        AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void,ArrayList<ContentValues>>() {
+            @Override
+            protected ArrayList<ContentValues> doInBackground(Void... params) {
+                ArrayList<ContentValues> temples = smartCaching.getDataFromCache("temples");
+                return temples;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<ContentValues> result) {
+                super.onPostExecute(result);
+                SmartUtils.hideProgressDialog();
+                if (result == null || result.size() <= 0) {
+                    AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
+                    isCachedDataDisplayed = false;
+                } else {
+                    TempleListActivity.this.temples = result;
+                    setTempleDataInFragments(temples, isCachedDataDisplayed);
+                    isCachedDataDisplayed = true;
+                }
+
+            }
+        };
+
+        if(android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB){
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else{
+            task.execute();
         }
+
+
     }
 
     private void setTempleDataInFragments(ArrayList<ContentValues> temples, boolean isCachedDataDisplayed) {

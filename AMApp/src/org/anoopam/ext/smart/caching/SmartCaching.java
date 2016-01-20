@@ -561,8 +561,6 @@ public final class SmartCaching {
      */
     public ArrayList<ContentValues> getDataFromCache(String tableName) {
 
-        SmartUtils.showProgressDialog(context, null, false);
-
         try {
             ArrayList<ContentValues> tableRows=getDBHelper().getTableList().get(tableName).readRowSQL("SELECT * FROM " + tableName + "", null);
             SmartUtils.hideProgressDialog();
