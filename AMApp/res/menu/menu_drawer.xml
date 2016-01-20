@@ -27,10 +27,10 @@
             android:id="@+id/navAudio"
             android:icon="@drawable/ic_menu_anoopam_audio"
             android:title="@string/nav_audio" />
-        <item
+        <!--item
             android:id="@+id/navAnoopamEvents"
             android:icon="@drawable/ic_star_half_white_24dp"
-            android:title="@string/nav_anoopam_events" />
+            android:title="@string/nav_anoopam_events" /-->
         <item
             android:id="@+id/navContactUs"
             android:icon="@drawable/ic_menu_contact_us"
@@ -39,6 +39,11 @@
             android:id="@+id/navAbout"
             android:icon="@drawable/ic_menu_about"
             android:title="@string/nav_about"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/navAboutApp"
+            android:icon="@drawable/ic_menu_about"
+            android:title="@string/nav_about_app"
             app:showAsAction="always" />
     </group>
 </menu>

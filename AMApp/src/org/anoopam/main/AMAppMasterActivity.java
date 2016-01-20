@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import org.anoopam.main.aboutapp.AboutAppActivity;
 import org.anoopam.main.anoopamaudio.AudioCatListActivity;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.home.HomeListActivity;
@@ -26,7 +27,7 @@ import org.anoopam.ext.smart.framework.SmartSuperMaster;
  */
 public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants {
 
-    public enum NAVIGATION_ITEMS{HOME, THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US}
+    public enum NAVIGATION_ITEMS{HOME, THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US,ABOUT_APP}
     private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 
     protected NavigationView navigationView;
@@ -116,9 +117,9 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
                         invokeQuoteOfTheWeekFlow();
                         return true;
 
-                    case R.id.navAnoopamEvents:
+                    /*case R.id.navAnoopamEvents:
                         invokeEvents();
-                        return true;
+                        return true;*/
 
                     case R.id.navAbout:
                         invokeAboutFlow();
@@ -126,6 +127,10 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
                     case R.id.navContactUs:
                         invokeContactUsFlow();
+                        return true;
+
+                    case R.id.navAboutApp:
+                        invokeAboutAppFlow();
                         return true;
 
                     default:
@@ -176,6 +181,11 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeContactUsFlow() {
         invokeBrowserForThisUrl(AMConstants.URL_ContactUs);
+    }
+
+    protected void invokeAboutAppFlow() {
+        Intent intent = new Intent(AMAppMasterActivity.this, AboutAppActivity.class);
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, null);
     }
 
     protected void invokeEvents() {
