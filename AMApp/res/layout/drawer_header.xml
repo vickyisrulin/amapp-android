@@ -23,6 +23,8 @@
             android:layout_height="match_parent"
             android:src="@drawable/logo"
             android:layout_gravity="center"
+            android:clickable="true"
+            android:onClick="invokePhilosophyFlow"
             />
 
     </FrameLayout>

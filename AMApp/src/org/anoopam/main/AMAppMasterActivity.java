@@ -66,6 +66,12 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         navigationView= (NavigationView) findViewById(R.id.navigationView);
         View headerLayout = navigationView.getHeaderView(0);
         imgLogoPic = (ImageView) headerLayout.findViewById(R.id.imgLogoPic);
+        imgLogoPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                invokePhilosophyFlow(v);
+            }
+        });
         getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
@@ -162,6 +168,10 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
 
     protected void invokeAboutFlow() {
         invokeBrowserForThisUrl(AMConstants.URL_AboutUs);
+    }
+
+    protected void invokePhilosophyFlow(View V) {
+        invokeBrowserForThisUrl(AMConstants.URL_Philosophy);
     }
 
     protected void invokeContactUsFlow() {

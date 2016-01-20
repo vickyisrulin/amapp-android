@@ -67,4 +67,5 @@ public class AMConstants {
     public static final String URL_AboutUs = "http://anoopam.org/aboutus/aboutus.php";
     public static final String URL_ContactUs = "http://anoopam.org/contactus/contactus.php";
     public static final String URL_Events = "http://www.anoopam.org/events/indexevents.php";
+    public static final String URL_Philosophy = "http://www.anoopam.org/philosophy/sahebji.php";
 }
