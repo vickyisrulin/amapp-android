@@ -187,12 +187,6 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         return AMApplication.getInstance().getEnv().getAnoopamAudioEndpoint();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Audio_Cat_Tag);
-    }
 
     class AudioCatAdapter extends RecyclerView.Adapter<AudioCatAdapter.ViewHolder> implements Constants {
 

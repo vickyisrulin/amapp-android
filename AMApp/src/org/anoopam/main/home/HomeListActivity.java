@@ -171,11 +171,6 @@ public class HomeListActivity extends AMAppMasterActivity {
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Temples_Tag);
-    }
 
     private void getHomeScreenTiles() {
         ArrayList<ContentValues> tiles = new SmartCaching(this).getDataFromCache("homeTiles");

@@ -156,13 +156,6 @@ public class TempleListActivity extends AMAppMasterActivity {
         }
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        SmartWebManager.getInstance(this).getRequestQueue().cancelAll(AMConstants.AMS_Request_Get_Temples_Tag);
-    }
-
     private void getCachedTemples() {
 
         SmartUtils.showProgressDialog(this, "Loading...", false);
