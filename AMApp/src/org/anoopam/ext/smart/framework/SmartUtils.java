@@ -103,7 +103,7 @@ public class SmartUtils implements Constants{
         progressDialog = ProgressDialog.show(context,"","");
 
         progressDialog.setContentView(R.layout.progress_dialog);
-        progressDialog.setCancelable(isCancellable);
+        progressDialog.setCancelable(true);
         ((ProgressBar)progressDialog.findViewById(R.id.progressBar)).getIndeterminateDrawable().setColorFilter(context.getResources().getColor(R.color.primaryColor), PorterDuff.Mode.SRC_ATOP);
         ((SmartTextView)progressDialog.findViewById(R.id.txtMessage)).setText(msg == null || msg.trim().length() <= 0 ? context.getString(R.string.dialog_loading_please_wait) : msg);
         progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

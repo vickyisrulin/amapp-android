@@ -157,11 +157,11 @@ public class TempleListFragment extends SmartFragment {
                 @Override
                 protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
                     super.callback(url, iv, bm, status);
-
+                    holder.progressBar.setVisibility(View.GONE);
                 }
             });
 
-            holder.progressBar.setVisibility(View.GONE);
+            holder.progressBar.setVisibility(View.VISIBLE);
             holder.txtTemplePlace.setText(temple.getAsString("templePlace"));
             holder.txtTempleLastUpdatedDate.setText(temple.getAsString("lastUpdatedTimestamp"));
         }

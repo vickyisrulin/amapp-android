@@ -26,14 +26,29 @@
             android:gravity="center"
             >
 
-            <ImageView
-                android:id="@+id/imgAlbum"
-                android:layout_width="155dp"
-                android:layout_height="135dp"
-                android:src="@drawable/no_image_banner"
-                android:scaleType="fitCenter"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:paddingLeft="4dp"
-                />
+                >
+
+                <ProgressBar
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+
+                    />
+
+                <ImageView
+                    android:id="@+id/imgAlbum"
+                    android:layout_width="155dp"
+                    android:layout_height="135dp"
+                    android:src="@drawable/no_image_banner"
+                    android:scaleType="fitCenter"
+
+                    />
+            </RelativeLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
