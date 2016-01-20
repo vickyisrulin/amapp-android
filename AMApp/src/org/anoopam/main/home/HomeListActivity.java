@@ -119,6 +119,8 @@ public class HomeListActivity extends AMAppMasterActivity {
         frmListFragmentContainer = (FrameLayout) findViewById(R.id.homeListFragmentContainer);
         mHomeListFragment = new HomeListFragment();
         smartCaching = new SmartCaching(this);
+        //TODO: is this the best way/place for this?
+        AMServiceRequest.getInstance().fetchUpdatedServerData();
     }
 
     @Override

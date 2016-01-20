@@ -48,6 +48,18 @@ public class AMServiceRequest {
     }
 
     /**
+     * makes the server calls to get the updated metadata for the feature flows
+     */
+    public void fetchUpdatedServerData() {
+        //TODO: Optimize these calls to get the data in one server request
+        AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
+        AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
+        AMServiceRequest.getInstance().startQuoteOfTheWeekUpdatesFromServer();
+        AMServiceRequest.getInstance().startNewsUpdatesFromServer();
+        AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
+    }
+
+    /**
      * invokes the request to get the updated Splash Screen data from the server
      */
     public void startFetchingNewSplashScreenFromServer() {
