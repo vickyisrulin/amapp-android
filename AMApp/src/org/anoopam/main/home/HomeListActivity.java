@@ -52,7 +52,8 @@ public class HomeListActivity extends AMAppMasterActivity {
         QUOTE_OF_DAY,
         ANOOPAM_AUDIO,
         CONTACT_US,
-        ABOUT;
+        ABOUT,
+        ABOUT_APP;
     }
 
     private void registerForEvents() {
@@ -221,6 +222,10 @@ public class HomeListActivity extends AMAppMasterActivity {
 
             case CONTACT_US:
                 invokeContactUsFlow();
+                return;
+
+            case ABOUT_APP:
+                invokeAboutAppFlow();
                 return;
 
             default:

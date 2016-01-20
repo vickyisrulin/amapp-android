@@ -123,6 +123,11 @@
             android:theme="@style/FullscreenTheme"></activity>
 
         <activity
+            android:name="org.anoopam.main.aboutapp.AboutAppActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/FullscreenTheme"></activity>
+
+        <activity
             android:name="org.anoopam.main.news.NewsListActivity"
             android:screenOrientation="portrait" />
 
