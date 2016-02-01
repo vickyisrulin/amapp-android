@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- * This Class Contains Method IjoomerCaching.
  *
  * @author tasol
  */
@@ -583,15 +582,11 @@ public final class SmartCaching {
      */
     public ArrayList<ContentValues> getDataFromCache(String tableName, String query) {
 
-        SmartUtils.showProgressDialog(context, null, false);
-
         try {
             ArrayList<ContentValues> tableRows=getDBHelper().getTableList().get(tableName).readRowSQL(query, null);
-            SmartUtils.hideProgressDialog();
             return tableRows;
 
         } catch (Throwable e) {
-            SmartUtils.hideProgressDialog();
 
             e.printStackTrace();
         }
