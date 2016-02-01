@@ -2,8 +2,10 @@ package org.anoopam.main.anoopamaudio;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
@@ -19,27 +21,30 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.webkit.URLUtil;
 
-import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.AMApplication;
-import org.anoopam.main.Environment;
-import org.anoopam.main.R;
-import org.anoopam.main.common.AMConstants;
-import org.anoopam.main.common.AMServiceResponseListener;
-import org.anoopam.main.common.CircleImageView;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
+import com.squareup.picasso.Picasso;
+import com.thin.downloadmanager.DefaultRetryPolicy;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListener;
+
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
 import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.ext.smart.weservice.SmartWebManager;
-
-import org.json.JSONArray;
+import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.AMApplication;
+import org.anoopam.main.R;
+import org.anoopam.main.common.AMConstants;
+import org.anoopam.main.common.AMServiceResponseListener;
+import org.anoopam.main.common.CircleImageView;
+import org.anoopam.main.home.HomeListActivity;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -58,6 +63,11 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     private SmartTextView emptyView;
 
     private SmartCaching smartCaching;
+    private boolean showProgress;
+
+    public static  final String CAT_ID = "catid";
+
+    private String IN_CATID;
 
     @Override
     public View getLayoutView() {
@@ -105,6 +115,9 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     @Override
     public void initComponents() {
         super.initComponents();
+
+        disableSideMenu();
+
         mRecyclerView = (SmartRecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -117,9 +130,9 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public void prepareViews() {
-        mAdapter = new AudioCatAdapter();
-        mRecyclerView.setAdapter(mAdapter);
-        getAudioCategories();
+        IN_CATID = getIntent().getStringExtra(CAT_ID);
+
+        getAudioCategoryFormCache();
     }
 
     @Override
@@ -135,7 +148,15 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                handleBackPress();
+
+            }
+        });
         toolbar.setTitle(getString(R.string.nav_audio_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
@@ -158,32 +179,145 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioEndpoint());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+            @Override
+            public void onSuccess(final JSONObject response) {
+
+
+                AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void, ArrayList<ContentValues>>() {
                     @Override
-                    public void onSuccess(JSONObject response) {
+                    protected ArrayList<ContentValues> doInBackground(Void... params) {
+
                         try {
-                            JSONArray categories = response.getJSONArray("categories");
-                            if(categories != null) {
-                                audioCat = smartCaching.parseResponse(categories, "categories").get("categories");
-                                mAdapter.notifyDataSetChanged();
-                            }
+                            smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", false);
+                            audioCat = smartCaching.getDataFromCache("categories", "SELECT * FROM categories WHERE mainCatID='0'");
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+                        try {
+                            smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                        return null;
                     }
 
                     @Override
-                    public void onFailure(String failureMessage) {
-                        Log.e(TAG, "Error obtaining Audio Category data: " + failureMessage);
+                    protected void onPostExecute(ArrayList<ContentValues> result) {
+                        super.onPostExecute(result);
+                        SmartUtils.hideProgressDialog();
+
+                        if (audioCat != null && audioCat.size() > 0) {
+
+                            if(mAdapter==null){
+                                mAdapter = new AudioCatAdapter();
+                                mRecyclerView.setAdapter(mAdapter);
+                            }else{
+                                mAdapter.notifyDataSetChanged();
+                            }
+                        }
+
                     }
-                });
-        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, true);
+                };
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    task.execute();
+                }
+
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                Log.e(TAG, "Error obtaining Audio Category data: " + failureMessage);
+            }
+        });
+        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, showProgress);
     }
+
+
+    private void getAudioCategoryFormCache(){
+
+        SmartUtils.showProgressDialog(this, "Loading...", true);
+
+        AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void,ArrayList<ContentValues>>() {
+            @Override
+            protected ArrayList<ContentValues> doInBackground(Void... params) {
+
+                if(IN_CATID!=null && IN_CATID.length()>0){
+                    try {
+                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='"+IN_CATID+"'");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    try {
+                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='0'");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<ContentValues> result) {
+                super.onPostExecute(result);
+                SmartUtils.hideProgressDialog();
+
+                if(audioCat!=null && audioCat.size()>0){
+                    if(mAdapter==null){
+                        mAdapter = new AudioCatAdapter();
+                        mRecyclerView.setAdapter(mAdapter);
+                    }else{
+                        mAdapter.notifyDataSetChanged();
+                    }
+                    showProgress=false;
+                }else{
+                    showProgress=true;
+                }
+
+                if(IN_CATID==null || IN_CATID.length()<=0 || IN_CATID.equals("0")){
+                    getAudioCategories();
+                }
+
+            }
+        };
+
+        if(android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB){
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else{
+            task.execute();
+        }
+    }
+
+    private boolean hasSubCategory(final String catID){
+        try {
+           ArrayList<ContentValues> subCat = smartCaching.getDataFromCache("categories","SELECT catName FROM categories WHERE mainCatID='"+catID+"'");
+           if(subCat!=null && subCat.size()>0){
+                return true;
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+
+
+    }
+
 
     /**
      * returns the Anoopam Audio Endpoint
      * @return String
      */
     private String getAnoopamAudioEndpoint() {
+
         return AMApplication.getInstance().getEnv().getAnoopamAudioEndpoint();
     }
 
@@ -218,11 +352,21 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
                 @Override
                 public void onClick(View view) {
+
                     int index = mRecyclerView.getChildAdapterPosition(view);
-                    Intent intent = new Intent(AudioCatListActivity.this, AudioListActivity.class);
-                    intent.putExtra(AudioListActivity.AUDIO_LIST, audioCat.get(index));
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
-                    ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
+
+                    if(hasSubCategory(audioCat.get(index).getAsString("catID"))){
+                        Intent intent = new Intent(AudioCatListActivity.this, AudioCatListActivity.class);
+                        intent.putExtra(AudioCatListActivity.CAT_ID,audioCat.get(index).getAsString("catID"));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
+                        ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
+                    }else{
+                        Intent intent = new Intent(AudioCatListActivity.this, AudioListActivity.class);
+                        intent.putExtra(AudioListActivity.AUDIO_LIST, audioCat.get(index));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
+                        ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
+                    }
+
                 }
             });
             return vh;
@@ -232,15 +376,43 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             ContentValues audioCat= AudioCatListActivity.this.audioCat.get(position);
-
             holder.txtCatName.setText(audioCat.getAsString("catName"));
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgAudioCat).image(audioCat.getAsString("catImage"), true, true, getDeviceWidth(), 0, new BitmapAjaxCallback() {
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
 
-                }
-            });
+            final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(audioCat.getAsString("catImage"), null, null));
+
+            if(destination.exists()){
+                Picasso.with(AudioCatListActivity.this)
+                        .load(destination)
+                        .into(holder.imgAudioCat);
+
+            }else{
+                Uri downloadUri = Uri.parse(audioCat.getAsString("catImage").replaceAll(" ", "%20"));
+                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
+
+                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                        .setRetryPolicy(new DefaultRetryPolicy())
+                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                        .setDownloadListener(new DownloadStatusListener() {
+                            @Override
+                            public void onDownloadComplete(int id) {
+                                Picasso.with(AudioCatListActivity.this)
+                                        .load(destination)
+                                        .into(holder.imgAudioCat);
+                            }
+
+                            @Override
+                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+                            }
+
+                            @Override
+                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
+                            }
+                        });
+
+
+                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
+
+            }
 
         }
 
@@ -251,6 +423,26 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        handleBackPress();
+    }
 
+    private void handleBackPress(){
+        if (getIntent().getBooleanExtra(MANAGE_UP_NAVIGATION, false)){
 
+            if(!IN_CATID.equals("0")){
+                Intent intent = new Intent(this, AudioCatListActivity.class);
+                intent.putExtra(AMAppMasterActivity.MANAGE_UP_NAVIGATION, true);
+                intent.putExtra(AudioCatListActivity.CAT_ID, "0");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                ActivityCompat.startActivity(this, intent, options.toBundle());
+            }else{
+                Intent intent = new Intent(this, HomeListActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                ActivityCompat.startActivity(this, intent, options.toBundle());
+            }
+        }
+        supportFinishAfterTransition();
+    }
 }

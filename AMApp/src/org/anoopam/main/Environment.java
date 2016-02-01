@@ -35,7 +35,7 @@ public enum Environment {
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
             AMConstants.LIVE_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.LIVE_AnoopamAudioCategory_Endpoint_Suffix,
-            AMConstants.LIVE_AnoopamAudioList_Endpoint_Suffix,
+            AMConstants.LIVE_AnoopamAudioCategory_Endpoint_Suffix,
             AMConstants.LIVE_QuoteOfTheWeek_Endpoint_Suffix,
             AMConstants.LIVE_News_Endpoint_Suffix
     );

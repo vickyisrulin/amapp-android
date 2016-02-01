@@ -1,7 +1,6 @@
 package org.anoopam.main.anoopamaudio;
 
 import android.content.ContentValues;
-import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -16,18 +15,14 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.MediaController;
 
+import org.anoopam.ext.smart.customviews.Log;
+import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.CircleImageView;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
-import org.anoopam.ext.smart.customviews.Log;
-import org.anoopam.ext.smart.customviews.SmartTextView;
-import org.anoopam.ext.smart.framework.SmartApplication;
 
 import java.io.IOException;
 
@@ -122,13 +117,13 @@ public class AudioPlayerActivity extends AMAppMasterActivity implements MediaPla
         txtAudioDuration.setText("Duration : " + audioDetails.getAsString("duration"));
 
         if(audioDetails.containsKey("audioImage")){
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgAudio).image(audioDetails.getAsString("audioImage"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
-
-                }
-            });
+//            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgAudio).image(audioDetails.getAsString("audioImage"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
+//                @Override
+//                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
+//                    super.callback(url, iv, bm, status);
+//
+//                }
+//            });
         }
 
         mediaPlayer = new MediaPlayer();
