@@ -27,6 +27,18 @@
             android:padding="5dp" >
 
             <TextView
+                android:id="@+id/textAlbumName"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:selectAllOnFocus="true"
+                android:singleLine="true"
+                android:textColor="@color/anoopamCreamColor"
+                android:textSize="16dp"
+                android:text="Birudan"
+                />
+
+            <TextView
                 android:id="@+id/textSongName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -34,7 +46,9 @@
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:textColor="@color/anoopamCreamColor"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:text="Birudan"
+                />
 
         </LinearLayout>
 
@@ -47,6 +61,7 @@
 
             <Button
                 android:id="@+id/btnPause"
+
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_margin="5dp"
@@ -54,11 +69,13 @@
 
             <Button
                 android:id="@+id/btnPlay"
+
                 android:layout_width="28dp"
                 android:layout_height="28dp"
+
                 android:layout_margin="5dp"
                 android:background="@drawable/ic_action_play"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/btnNext"
@@ -66,7 +83,7 @@
                 android:layout_height="28dp"
                 android:layout_margin="5dp"
                 android:background="@drawable/ic_action_next"
-                android:visibility="invisible"
+                android:visibility="visible"
                 />
         </LinearLayout>
 
