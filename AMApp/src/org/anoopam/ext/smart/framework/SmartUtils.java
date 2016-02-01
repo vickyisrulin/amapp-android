@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,9 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.IntentCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -30,17 +34,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.anoopam.main.R;
-
 import org.anoopam.ext.smart.customviews.SmartButton;
 import org.anoopam.ext.smart.customviews.SmartTextView;
-
+import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -764,8 +772,96 @@ public class SmartUtils implements Constants{
         String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission";
         File dir = new File(cacheDir);
         if(!dir.exists()){
-            dir.mkdir();
+            dir.mkdirs();
         }
         return cacheDir;
     }
+
+    static public String getImageStorage(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"images";
+        File dir = new File(cacheDir);
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getThakorjiDarshanImageStorage(String temple){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Thakorji Darshan"+File.separator+getTodaysDate()+File.separator+temple.replaceAll("[^\\w\\s]","");
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getDailyQuotesImageStorage(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Weekly Quotes";
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getSahebjiDarshanImageStorage(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Sahebji Darshan";
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getAudioStorage(String catName){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator + "Audios" +File.separator+catName;
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getTodaysDate(){
+        Date d = Calendar.getInstance().getTime(); // Current time
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy"); // Set your date format
+        return sdf.format(d);
+    }
+
+    static public void exportDatabase(Context mContext,String databaseName) {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//" + mContext.getPackageName() + "//databases//" + databaseName + "";
+                String backupDBPath = "backupname.db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    static public void clearActivityStack(Context context,Intent intent){
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((AMAppMasterActivity) context);
+        Intent mainIntent= IntentCompat.makeRestartActivityTask(intent.getComponent());
+        mainIntent.putExtra(DO_LOGOUT,true);
+        ActivityCompat.startActivity((AMAppMasterActivity) context, mainIntent, options.toBundle());
+    }
+
 }
