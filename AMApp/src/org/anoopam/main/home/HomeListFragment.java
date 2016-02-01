@@ -1,25 +1,30 @@
 package org.anoopam.main.home;
 
 import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 
-import org.anoopam.main.AMApplication;
-import org.anoopam.main.R;
-import com.androidquery.AQuery;
+import com.squareup.picasso.Picasso;
+import com.thin.downloadmanager.DefaultRetryPolicy;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListener;
 
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartActivity;
+import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartFragment;
 import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -129,15 +134,48 @@ public class HomeListFragment extends SmartFragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
 
             ContentValues homeTile = homeTiles.get(position);
-            int imageId = homeTilesDefaultImages.get(position).intValue();
-            AQuery aq = AMApplication.getInstance().getAQuery();
-
-            //REF: https://code.google.com/p/android-query/wiki/ImageLoading
-            aq.id(holder.imgHomeTile)
-                    .progress(R.id.progress)
-                    .image(homeTile.getAsString("tileImage"), true, true, ((SmartActivity) getActivity()).getDeviceWidth(), imageId, null, AQuery.FADE_IN);
 
             holder.txtName.setText(homeTile.getAsString("tileName"));
+
+            final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(homeTile.getAsString("tileImage"), null, null));
+
+            if(destination.exists()){
+                Picasso.with(getActivity())
+                        .load(destination)
+                        .into(holder.imgHomeTile);
+
+            }else{
+                Uri downloadUri = Uri.parse(homeTile.getAsString("tileImage").replaceAll(" ", "%20"));
+                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
+
+                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                        .setRetryPolicy(new DefaultRetryPolicy())
+                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                        .setDownloadListener(new DownloadStatusListener() {
+                            @Override
+                            public void onDownloadComplete(int id) {
+                                Picasso.with(getActivity())
+                                        .load(destination)
+                                        .into(holder.imgHomeTile);
+                            }
+
+                            @Override
+                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+                                System.out.println("");
+                            }
+
+                            @Override
+                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
+                            }
+                        });
+
+
+                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
+
+            }
+
+
+
         }
 
         @Override

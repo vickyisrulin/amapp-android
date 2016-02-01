@@ -43,7 +43,6 @@
                     android:id="@+id/imgAlbum"
                     android:layout_width="155dp"
                     android:layout_height="135dp"
-                    android:src="@drawable/no_image_banner"
                     android:scaleType="fitCenter"
 
                     />

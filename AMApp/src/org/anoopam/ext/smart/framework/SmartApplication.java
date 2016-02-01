@@ -10,7 +10,8 @@ import android.graphics.Typeface;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
-import com.androidquery.util.AQUtility;
+import com.thin.downloadmanager.ThinDownloadManager;
+
 import org.anoopam.ext.smart.customviews.Log;
 
 import java.io.File;
@@ -54,9 +55,8 @@ public class SmartApplication extends Application {
     private SmartApplicationConfiguration smartApplicationConfiguration;
     private SmartVersionHandler smartVersionHandler;
 
-
-
     private AQuery aQuery;
+    private ThinDownloadManager thinDownloadManager;
 
     static Class<?> a = Activity.class;
     ;
@@ -76,7 +76,7 @@ public class SmartApplication extends Application {
         smartApplicationConfiguration=new ApplicationConfiguration();
         loadConfiguration();
 
-        AQUtility.setCacheDir(new File(SmartUtils.getStorageDirectory()));
+        //AQUtility.setCacheDir(new File(SmartUtils.getStorageDirectory()));
 
         @SuppressWarnings("unused")
         SmartFrameworkSecurity smartFrameworkSecurity = new SmartFrameworkSecurity(this);
@@ -103,20 +103,23 @@ public class SmartApplication extends Application {
 
             SmartUtils.SetIsApplicationLaunchedFirstTime(false);
         }*/
-
-
-
-
     }
 
 
     public AQuery getAQuery() {
-
         if (aQuery == null) {
             aQuery = new AQuery(this);
         }
         AjaxCallback.setReuseHttpClient(true);
         return aQuery;
+    }
+
+    public ThinDownloadManager getThinDownloadManager() {
+
+        if (thinDownloadManager == null) {
+            thinDownloadManager = new ThinDownloadManager();
+        }
+        return thinDownloadManager;
     }
 
 

@@ -14,6 +14,9 @@ public class Controls {
 	public static void pauseControl(Context context) {
 		sendMessage(context.getResources().getString(R.string.pause));
 	}
+	public static void seekControl(Context context,long msec) {
+		sendMessage("seek:"+ (msec));
+	}
 
 	public static void nextControl(Context context) {
 		boolean isServiceRunning = UtilFunctions.isServiceRunning(AudioService.class.getName(), context);
@@ -50,6 +53,8 @@ public class Controls {
 	private static void sendMessage(String message) {
 		try{
 			PlayerConstants.PLAY_PAUSE_HANDLER.sendMessage(PlayerConstants.PLAY_PAUSE_HANDLER.obtainMessage(0, message));
-		}catch(Exception e){}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }

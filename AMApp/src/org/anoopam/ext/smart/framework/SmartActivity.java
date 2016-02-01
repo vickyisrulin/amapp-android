@@ -190,9 +190,10 @@ public abstract class SmartActivity extends AppCompatActivity implements SmartAc
     protected void disableSideMenu() {
 
         if (drawerLayout != null && mDrawerToggle != null) {
-
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             mDrawerToggle.setDrawerIndicatorEnabled(false);
+        }else if (drawerLayout !=null){
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
     }

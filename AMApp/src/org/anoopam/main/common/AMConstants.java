@@ -29,8 +29,7 @@ public class AMConstants {
     public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=qow&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=sahebjidarshan&lastUpdatedTimestamp=%s&network=%s";
-    public static final String LIVE_AnoopamAudioCategory_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=audiocategory";
-    public static final String LIVE_AnoopamAudioList_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=audio&catid=%s";
+    public static final String LIVE_AnoopamAudioCategory_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=audio";
     public static final String LIVE_News_Endpoint_Suffix = "/v2/5686d01b130000ff1930ff63?feature=news&lastUpdatedTimestamp=%s&network=%s";
 
     // other AMS constants

@@ -5,8 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,38 +20,35 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
-import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.R;
+import com.github.lzyzsd.circleprogress.DonutProgress;
+import com.thin.downloadmanager.DefaultRetryPolicy;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListener;
 
-import org.anoopam.main.Environment;
-import org.anoopam.main.common.AMConstants;
-import org.anoopam.main.common.AMServiceResponseListener;
-import com.androidquery.callback.AjaxCallback;
-import com.androidquery.callback.AjaxStatus;
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
 import org.anoopam.ext.smart.framework.SmartApplication;
-import org.anoopam.ext.smart.weservice.SmartWebManager;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.Environment;
+import org.anoopam.main.R;
+import org.anoopam.main.common.AMConstants;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by tasol on 16/7/15.
@@ -71,12 +73,14 @@ public class AudioListActivity extends AMAppMasterActivity {
     private Button btnPrevious;
     private static Button btnPlay;
     private static Button btnPause;
+    private TextView textAlbumName;
+    private TextView textSongName;
+
     private Button btnStop;
     private Button btnNext;
-    private Button btnMusicPlayer;
     private TextView textBufferDuration;
     private TextView textDuration;
-    private ProgressBar progressBar;
+    private SeekBar progressBar;
 
     private SmartCaching smartCaching;
 
@@ -85,6 +89,8 @@ public class AudioListActivity extends AMAppMasterActivity {
     private static ImageView currentPlay;
 
     private String currentAudio;
+
+    private boolean isProgressBarTouching = false;
 
     @Override
     public View getLayoutView() {
@@ -131,6 +137,7 @@ public class AudioListActivity extends AMAppMasterActivity {
     @Override
     public void initComponents() {
         super.initComponents();
+        disableSideMenu();
         mContext = this;
         mRecyclerView = (SmartRecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -145,12 +152,13 @@ public class AudioListActivity extends AMAppMasterActivity {
         btnPrevious = (Button)findViewById( R.id.btnPrevious );
         btnPlay = (Button)findViewById( R.id.btnPlay );
         btnPause = (Button)findViewById( R.id.btnPause );
+        textAlbumName = (TextView) findViewById(R.id.textAlbumName);
+        textSongName = (TextView) findViewById(R.id.textSongName);
         btnStop = (Button)findViewById( R.id.btnStop );
         btnNext = (Button)findViewById( R.id.btnNext );
-        btnMusicPlayer = (Button)findViewById( R.id.btnMusicPlayer );
         textBufferDuration = (TextView)findViewById( R.id.textBufferDuration );
         textDuration = (TextView)findViewById( R.id.textDuration );
-        progressBar = (ProgressBar)findViewById( R.id.progressBar );
+        progressBar = (SeekBar)findViewById( R.id.progressBar );
 
         smartCaching = new SmartCaching(this);
 
@@ -159,30 +167,25 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     @Override
     public void prepareViews() {
-        mAdapter = new AudioCatAdapter();
-        mRecyclerView.setAdapter(mAdapter);
         currentAudio = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO,"");
-        getAudioList();
+
+        textAlbumName.setText(audioDetails.getAsString("catName"));
+        getAudioListFromCache();
     }
 
     @Override
     public void setActionListeners() {
         super.setActionListeners();
 
-        btnMusicPlayer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Controls.playControl(getApplicationContext());
-                if(currentPlay!=null){
-                    try{
+                if (currentPlay != null) {
+                    try {
                         currentPlay.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -218,18 +221,36 @@ public class AudioListActivity extends AMAppMasterActivity {
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                textBufferDuration.setText("0:0");
+                textDuration.setText("0:0");
+
                 Intent i = new Intent(getApplicationContext(), AudioService.class);
                 stopService(i);
-                linearLayoutPlayingSong.setVisibility(View.GONE);
-                if(currentPlay!=null){
-                    try{
-                        currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
+                stopPlayer();
             }
         });
+
+        progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (isProgressBarTouching) {
+                    textBufferDuration.setText(UtilFunctions.getDuration(seekBar.getProgress()));
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                isProgressBarTouching = true;
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isProgressBarTouching = false;
+                Controls.seekControl(getApplicationContext(), progressBar.getProgress());
+            }
+        });
+
+
         imageViewAlbumArt.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -257,7 +278,11 @@ public class AudioListActivity extends AMAppMasterActivity {
                     Integer i[] = (Integer[])msg.obj;
                     textBufferDuration.setText(UtilFunctions.getDuration(i[0]));
                     textDuration.setText(UtilFunctions.getDuration(i[1]));
-                    progressBar.setProgress(i[2]);
+                    progressBar.setMax(i[1]);
+                    if(!isProgressBarTouching){
+                        progressBar.setProgress(i[0]);
+                    }
+
                 }
             };
         }catch(Exception e){
@@ -267,6 +292,16 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                handleBackPress();
+
+            }
+        });
         toolbar.setTitle(getString(R.string.nav_audio_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
@@ -291,38 +326,44 @@ public class AudioListActivity extends AMAppMasterActivity {
         }
     }
 
-    private void getAudioList() {
+    private void getAudioListFromCache() {
+        SmartUtils.showProgressDialog(this, "Loading...", true);
 
-        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,this);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_List_Tag);
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, String.format(getAnoopamAudioListEndpoint(),audioDetails.getAsString("catID"))); //Passing parameter
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
-
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+        AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void,ArrayList<ContentValues>>() {
             @Override
-            public void onSuccess(JSONObject response) {
+            protected ArrayList<ContentValues> doInBackground(Void... params) {
                 try {
-                    JSONArray audios = response.getJSONArray("audios");
-                    if (audios != null) {
-                        audioList = smartCaching.parseResponse(audios, "audios").get("audios");
-                        PlayerConstants.SONGS_LIST = audioList;
-                        mAdapter.notifyDataSetChanged();
-                    }
-                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_LIST, response.toString());
+                    audioList = smartCaching.getDataFromCache("audios","SELECT * FROM audios WHERE catID='"+audioDetails.getAsString("catID")+"'");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+                return null;
             }
 
             @Override
-            public void onFailure(String failureMessage) {
-                Log.e(TAG, "Error obtaining Audio data: " + failureMessage);
+            protected void onPostExecute(ArrayList<ContentValues> result) {
+                super.onPostExecute(result);
+                SmartUtils.hideProgressDialog();
+
+                if(audioList!=null && audioList.size()>0){
+                    if(mAdapter==null){
+                        mAdapter = new AudioCatAdapter();
+                        mRecyclerView.setAdapter(mAdapter);
+                    }else{
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+
             }
-        });
-        SmartWebManager.getInstance(getApplicationContext()).addToRequestQueue(requestParams, null, true);
+        };
+
+        if(android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB){
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        }else{
+            task.execute();
+        }
+
     }
 
     class AudioCatAdapter extends RecyclerView.Adapter<AudioCatAdapter.ViewHolder> implements Constants {
@@ -332,7 +373,7 @@ public class AudioListActivity extends AMAppMasterActivity {
             public View view;
             public SmartTextView txtAudioTitle;
             public SmartTextView txtAudioDuration;
-            public ProgressBar pbrLoading;
+            public DonutProgress pbrLoading;
             public ImageView imgDownload;
 
             public ViewHolder(View view) {
@@ -341,7 +382,7 @@ public class AudioListActivity extends AMAppMasterActivity {
                 this.view = view;
                 txtAudioTitle = (SmartTextView) view.findViewById(R.id.txtAudioTitle);
                 txtAudioDuration = (SmartTextView) view.findViewById(R.id.txtAudioDuration);
-                pbrLoading = (ProgressBar) view.findViewById(R.id.pbrLoading);
+                pbrLoading = (DonutProgress) view.findViewById(R.id.pbrLoading);
                 imgDownload = (ImageView) view.findViewById(R.id.imgDownload);
 
             }
@@ -368,15 +409,21 @@ public class AudioListActivity extends AMAppMasterActivity {
             }else{
                 holder.pbrLoading.setVisibility(View.GONE);
             }
-            if(SmartApplication.REF_SMART_APPLICATION.getAQuery().getCachedFile(audio.getAsString("audioURL"))!=null){
 
+            final File destination = new File(SmartUtils.getAudioStorage(audioDetails.getAsString("catName"))+ File.separator + URLUtil.guessFileName(audio.getAsString("audioURL"), null, null));
+
+            if(destination.exists()){
                 if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && audio.getAsString("audioURL").equals(currentAudio)) {
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
+                    currentPlay = holder.imgDownload;
+                    textSongName.setText(audio.getAsString("audioTitle"));
                 }else{
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
                 }
+
             }else{
                 holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
+
             }
 
 
@@ -384,57 +431,42 @@ public class AudioListActivity extends AMAppMasterActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if(audio.containsKey("loading") && audio.getAsString("loading").equalsIgnoreCase("1")){
+
+                    if (audio.containsKey("loading") && audio.getAsString("loading").equalsIgnoreCase("1")) {
                         return;
                     }
 
-                    if(SmartApplication.REF_SMART_APPLICATION.getAQuery().getCachedFile(audio.getAsString("audioURL"))==null){
-                        holder.pbrLoading.setVisibility(View.VISIBLE);
-                        audio.put("loading", "1");
-                        SmartApplication.REF_SMART_APPLICATION.getAQuery().ajax(audio.getAsString("audioURL"),File.class,0,new AjaxCallback<File>(){
+                    if (destination.exists()) {
+                        PlayerConstants.CATEGORY = audioDetails;
+                        PlayerConstants.SONGS_LIST = audioList;
+                        textSongName.setText(audio.getAsString("audioTitle"));
 
-                            @Override
-                            public AjaxCallback<File> progress(Object progress) {
-                                return super.progress(progress);
-                            }
-
-                            @Override
-                            public void callback(String url, File object, AjaxStatus status) {
-                                super.callback(url, object, status);
-                                audio.put("loading", "0");
-                                holder.pbrLoading.setVisibility(View.GONE);
-                                holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
-                            }
-                        });
-
-                    }else{
-
-                        if(currentPlay!=null){
-                            try{
+                        if (currentPlay != null) {
+                            try {
                                 currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        currentPlay = (ImageView)v;
+                        currentPlay = (ImageView) v;
 
                         boolean isServiceRunning = UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext());
 
-                        if(!PlayerConstants.SONG_PAUSED && (PlayerConstants.SONG_NUMBER==position) && isServiceRunning){
+                        if (!PlayerConstants.SONG_PAUSED && (PlayerConstants.SONG_NUMBER == position) && isServiceRunning) {
                             currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
                             Controls.pauseControl(getApplicationContext());
                             PlayerConstants.SONG_PAUSED = true;
-                        } else if(PlayerConstants.SONG_NUMBER==position && isServiceRunning) {
+                        } else if (PlayerConstants.SONG_NUMBER == position && isServiceRunning) {
                             currentPlay.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
                             Controls.playControl(getApplicationContext());
                             PlayerConstants.SONG_PAUSED = false;
-                        }else {
+                        } else {
                             currentPlay.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
                             PlayerConstants.SONG_PAUSED = false;
                             PlayerConstants.SONG_NUMBER = position;
 
                             if (!isServiceRunning) {
-                                Intent i = new Intent(getApplicationContext(),AudioService.class);
+                                Intent i = new Intent(getApplicationContext(), AudioService.class);
                                 startService(i);
                             } else {
                                 PlayerConstants.SONG_CHANGE_HANDLER.sendMessage(PlayerConstants.SONG_CHANGE_HANDLER.obtainMessage());
@@ -442,7 +474,42 @@ public class AudioListActivity extends AMAppMasterActivity {
                         }
                         updateUI();
                         changeButton();
+                    } else {
+                        holder.imgDownload.setVisibility(View.GONE);
+                        holder.pbrLoading.setVisibility(View.VISIBLE);
+                        audio.put("loading", "1");
+
+                        Uri downloadUri = Uri.parse(audio.getAsString("audioURL").replaceAll(" ", "%20"));
+                        Uri destinationUri = Uri.parse(destination.getAbsolutePath());
+
+                        DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                                .setRetryPolicy(new DefaultRetryPolicy())
+                                .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                                .setDownloadListener(new DownloadStatusListener() {
+                                    @Override
+                                    public void onDownloadComplete(int id) {
+                                        audio.put("loading", "0");
+                                        holder.pbrLoading.setVisibility(View.GONE);
+                                        holder.imgDownload.setVisibility(View.VISIBLE);
+                                        holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
+                                    }
+
+                                    @Override
+                                    public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+                                        audio.put("loading", "0");
+                                        holder.imgDownload.setVisibility(View.VISIBLE);
+                                        holder.pbrLoading.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
+                                        holder.pbrLoading.setProgress(progressCount);
+                                    }
+                                });
+
+                        SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
                     }
+
                 }
             });
 
@@ -498,4 +565,49 @@ public class AudioListActivity extends AMAppMasterActivity {
         return Environment.ENV_LIVE.getAnoopamAudioListEndpoint();
     }
 
+    public static void stopPlayer(){
+
+        try{
+            linearLayoutPlayingSong.setVisibility(View.GONE);
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
+        if(currentPlay!=null){
+            try{
+                currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        handleBackPress();
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if(getIntent().getExtras().get(AUDIO_LIST)!=null){
+            audioDetails = (ContentValues) getIntent().getExtras().get(AUDIO_LIST);
+            PlayerConstants.CATEGORY = audioDetails;
+        }
+
+    }
+
+    private void handleBackPress(){
+        if(isTaskRoot()){
+            Intent intent = new Intent(this, AudioCatListActivity.class);
+            intent.putExtra(AudioListActivity.AUDIO_LIST, audioDetails);
+            intent.putExtra(AMAppMasterActivity.MANAGE_UP_NAVIGATION, true);
+            intent.putExtra(AudioCatListActivity.CAT_ID, audioDetails.getAsString("mainCatID"));
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+            ActivityCompat.startActivity(this, intent, options.toBundle());
+        }
+        supportFinishAfterTransition();
+    }
 }

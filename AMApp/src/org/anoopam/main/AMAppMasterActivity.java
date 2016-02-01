@@ -27,6 +27,8 @@ import org.anoopam.ext.smart.framework.SmartSuperMaster;
  */
 public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants {
 
+    public static String MANAGE_UP_NAVIGATION = "manage_up_navigation";
+
     public enum NAVIGATION_ITEMS{HOME, THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US,ABOUT_APP}
     private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 

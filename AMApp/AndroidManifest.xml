@@ -101,6 +101,7 @@
             android:theme="@style/AppTheme"/>
         <activity
             android:name="org.anoopam.main.anoopamaudio.AudioListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="org.anoopam.main.anoopamaudio.AudioPlayerActivity"
@@ -143,6 +144,8 @@
                 <action android:name="org.anoopam.main.next" />
                 <action android:name="org.anoopam.main.play" />
                 <action android:name="org.anoopam.main.previous" />
+                <action android:name="org.anoopam.main.audiolist" />
+
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>

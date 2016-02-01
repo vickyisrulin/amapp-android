@@ -1,6 +1,7 @@
 package org.anoopam.main.thakorjitoday;
 
 import android.content.ContentValues;
+import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -10,20 +11,26 @@ import android.transition.Fade;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.webkit.URLUtil;
+import android.widget.ProgressBar;
 
-import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.AMApplication;
-import org.anoopam.main.R;
-import org.anoopam.main.common.TouchImageView;
-import com.androidquery.AQuery;
+import com.squareup.picasso.Picasso;
+import com.thin.downloadmanager.DefaultRetryPolicy;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListener;
 
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.framework.Constants;
-
+import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.R;
+import org.anoopam.main.common.ExtendedViewPager;
+import org.anoopam.main.common.TouchImageView;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -35,7 +42,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     public static final String TEMPLE_DETAIL = "ALBUM_DETAIL";
     private ContentValues templeDetail;
     private ArrayList<ContentValues> templeImages;
-    private ViewPager viewPager;
+    private ExtendedViewPager viewPager;
 
     @Override
     public View getLayoutView() {
@@ -62,7 +69,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     @Override
     public void initComponents() {
         disableSideMenu();
-        viewPager= (ViewPager) findViewById(R.id.viewPager);
+        viewPager= (ExtendedViewPager) findViewById(R.id.viewPager);
     }
 
     @Override
@@ -91,6 +98,45 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public void setActionListeners() {
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position > 0) {
+                    View view = viewPager.getChildAt(position -1);
+                    if (view != null) {
+                        TouchImageView img = (TouchImageView) view.findViewById(R.id.imgAlbum);
+                        img.resetZoom();
+                    }
+                }
+
+                if (position > 0) {
+                    View view = viewPager.getChildAt(position + 1);
+                    if (view != null) {
+                        TouchImageView img = (TouchImageView) view.findViewById(R.id.imgAlbum);
+                        img.resetZoom();
+                    }
+                }
+
+                if (position < viewPager.getChildCount() - 1) {
+                    View view = viewPager.getChildAt(position + 1);
+                    if (view != null) {
+                        TouchImageView img = (TouchImageView) view.findViewById(R.id.imgAlbum);
+                        img.resetZoom();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 
@@ -121,26 +167,53 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
-            return view == ((FrameLayout) object);
+            return view == object;
         }
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
             final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
-            AQuery aq = AMApplication.getInstance().getAQuery();
+            final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
-            if(position==0){
-                setViewTransitionName(imgTemple,"image");
+            final File destination = new File(SmartUtils.getThakorjiDarshanImageStorage(templeDetail.getAsString("templePlace"))+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
+
+            if(destination.exists()){
+
+                Picasso.with(TempleGalleryActivity.this)
+                        .load(destination)
+                        .into(imgTemple);
+
+            }else{
+                Uri downloadUri = Uri.parse(images.get(position).getAsString("image").replaceAll(" ", "%20"));
+                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
+
+                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                        .setRetryPolicy(new DefaultRetryPolicy())
+                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                        .setDownloadListener(new DownloadStatusListener() {
+                            @Override
+                            public void onDownloadComplete(int id) {
+                                progress.setVisibility(View.GONE);
+                                Picasso.with(TempleGalleryActivity.this)
+                                        .load(destination)
+                                        .into(imgTemple);
+                            }
+
+                            @Override
+                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+                                progress.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
+                            }
+                        });
+
+
+                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
+
             }
-
-            String imageUrl = images.get(position).getAsString("image");
-
-            // fetches the image from the network, if it's not in the local cache
-            // displays it on the screen using imgTemple object
-            aq.id(imgTemple)
-                    .progress(R.id.progress)
-                    .image(imageUrl, true, true, getDeviceWidth(), 0, null, AQuery.FADE_IN);
 
             container.addView(itemView);
             return itemView;
@@ -148,7 +221,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((FrameLayout) object);
+            container.removeView((View) object);
         }
 
     }
