@@ -2,6 +2,7 @@ package org.anoopam.main;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -11,13 +12,21 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import org.anoopam.main.home.HomeListActivity;
-import com.androidquery.AQuery;
-import org.anoopam.ext.smart.caching.SmartCaching;
+import com.squareup.picasso.Picasso;
+import com.thin.downloadmanager.DefaultRetryPolicy;
+import com.thin.downloadmanager.DownloadRequest;
+import com.thin.downloadmanager.DownloadStatusListener;
 
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.home.HomeListActivity;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -60,10 +69,49 @@ public class SplashActivity extends AMAppMasterActivity {
         setSplashScreenImage();
     }
 
+
     private void setSplashScreenImage() {
-        AQuery aq =  AMApplication.getInstance().getAQuery();
+
         String imageUrl = getSplashScreenUpdatedUrl();
-        aq.id(splashImage).image(imageUrl, true, true, getDeviceWidth(), R.drawable.splash);
+
+        if(imageUrl==null || imageUrl.length()<=0){
+            return;
+        }
+
+        final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(imageUrl, null, null));
+
+        if(destination.exists()){
+            Picasso.with(this)
+                    .load(destination)
+                    .into(splashImage);
+
+        }else{
+            Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
+            Uri destinationUri = Uri.parse(destination.getAbsolutePath());
+
+            DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
+                    .setRetryPolicy(new DefaultRetryPolicy())
+                    .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                    .setDownloadListener(new DownloadStatusListener() {
+                        @Override
+                        public void onDownloadComplete(int id) {
+                            Picasso.with(SplashActivity.this)
+                                    .load(destination)
+                                    .into(splashImage);
+                        }
+
+                        @Override
+                        public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+                        }
+
+                        @Override
+                        public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
+                        }
+                    });
+
+
+            SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
+        }
     }
 
     private String getSplashScreenUpdatedUrl() {
@@ -76,6 +124,7 @@ public class SplashActivity extends AMAppMasterActivity {
 
     @Override
     public void initComponents() {
+        SmartUtils.exportDatabase(this,"amapp");
         mSmartCaching = new SmartCaching(this);
     }
 

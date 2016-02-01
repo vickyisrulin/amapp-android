@@ -12,9 +12,9 @@ public class ImagePrefetchUtil {
 
     public static void prefetchImageFromCache(String url, int targetWidth) {
         ImageView tempImage = new ImageView(AMApplication.getInstance().getApplicationContext());
-        SmartApplication.REF_SMART_APPLICATION.getAQuery().
-                id(tempImage).
-                image(url, true, true, targetWidth, 0);
+//        SmartApplication.REF_SMART_APPLICATION.getAQuery().
+//                id(tempImage).
+//                image(url, true, true, targetWidth, 0);
 
     }
 }

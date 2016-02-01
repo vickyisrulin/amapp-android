@@ -2,7 +2,6 @@ package org.anoopam.main.sahebjidarshan;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -14,16 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import org.anoopam.main.R;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartActivity;
-import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartFragment;
 import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.R;
 
 import java.util.ArrayList;
 
@@ -132,13 +127,7 @@ public class SahebjiAlbumListFragment extends SmartFragment {
 
             ContentValues temple= albums.get(position);
 
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(holder.imgAlbum).image(temple.getAsString("mainImage"),true,true,((SmartActivity)getActivity()).getDeviceWidth(),0,new BitmapAjaxCallback(){
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
 
-                }
-            });
 
             holder.txtName.setText(temple.getAsString("albumName"));
         }

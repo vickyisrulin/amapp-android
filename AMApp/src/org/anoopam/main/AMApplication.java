@@ -1,7 +1,6 @@
 package org.anoopam.main;
 
 import org.anoopam.main.common.AMServiceRequest;
-import com.androidquery.callback.BitmapAjaxCallback;
 import org.anoopam.ext.smart.framework.SmartApplication;
 
 /**
@@ -34,8 +33,6 @@ public class AMApplication extends SmartApplication {
     @Override
     public void onLowMemory(){
         super.onLowMemory();
-        //clear all memory cached images when system is in low memory
         //note that you can configure the max image cache count, see CONFIGURATION
-        BitmapAjaxCallback.clearCache();
     }
 }

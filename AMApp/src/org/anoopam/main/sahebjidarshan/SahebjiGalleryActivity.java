@@ -1,7 +1,6 @@
 package org.anoopam.main.sahebjidarshan;
 
 import android.content.ContentValues;
-import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -12,17 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.Constants;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
 import org.anoopam.main.common.TouchImageView;
-import com.androidquery.callback.AjaxStatus;
-import com.androidquery.callback.BitmapAjaxCallback;
-import org.anoopam.ext.smart.caching.SmartCaching;
-import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartApplication;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -133,13 +127,7 @@ public class SahebjiGalleryActivity extends AMAppMasterActivity implements Const
             if(position==0){
                 setViewTransitionName(imgAlbum,"image");
             }
-            SmartApplication.REF_SMART_APPLICATION.getAQuery().id(imgAlbum).image(images.get(position).getAsString("image"),true,true,getDeviceWidth(),0,new BitmapAjaxCallback(){
-                @Override
-                protected void callback(String url, ImageView iv, Bitmap bm, AjaxStatus status) {
-                    super.callback(url, iv, bm, status);
 
-                }
-            });
             container.addView(itemView);
             return itemView;
         }

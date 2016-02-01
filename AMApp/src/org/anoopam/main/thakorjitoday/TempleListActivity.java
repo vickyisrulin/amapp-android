@@ -15,17 +15,16 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.squareup.otto.Subscribe;
+
+import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
-import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.events.EventBus;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateFailedEvent;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateSuccessEvent;
-import org.anoopam.ext.smart.caching.SmartCaching;
-import org.anoopam.ext.smart.framework.SmartUtils;
-import org.anoopam.ext.smart.weservice.SmartWebManager;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 
@@ -102,6 +101,7 @@ public class TempleListActivity extends AMAppMasterActivity {
     public void initComponents() {
         super.initComponents();
 
+        disableSideMenu();
         frmListFragmentContainer = (FrameLayout) findViewById(R.id.frmListFragmentContainer);
         templeListFragment = new TempleListFragment();
         smartCaching = new SmartCaching(this);
@@ -111,12 +111,6 @@ public class TempleListActivity extends AMAppMasterActivity {
     public void prepareViews() {
         getSupportFragmentManager().beginTransaction().add(R.id.frmListFragmentContainer, templeListFragment).commit();
         getCachedTemples();
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        }, 500);
     }
 
     @Override
@@ -133,6 +127,15 @@ public class TempleListActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                supportFinishAfterTransition();
+
+            }
+        });
         toolbar.setTitle(getString(R.string.nav_thakorji_today_title));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
