@@ -1,5 +1,7 @@
 package org.anoopam.main;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.ext.smart.framework.SmartApplication;
 
@@ -26,6 +28,7 @@ public class AMApplication extends SmartApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         mEnvironment = Environment.ENV_LIVE;
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
     }

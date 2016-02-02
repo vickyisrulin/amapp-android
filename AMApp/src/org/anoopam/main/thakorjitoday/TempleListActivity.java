@@ -22,6 +22,7 @@ import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMServiceRequest;
+import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
 import org.anoopam.main.common.events.EventBus;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateFailedEvent;
 import org.anoopam.main.common.events.ThakorjiTodayUpdateSuccessEvent;
@@ -105,6 +106,7 @@ public class TempleListActivity extends AMAppMasterActivity {
         frmListFragmentContainer = (FrameLayout) findViewById(R.id.frmListFragmentContainer);
         templeListFragment = new TempleListFragment();
         smartCaching = new SmartCaching(this);
+        CrashlyticsUtils.crashlyticsLog("Thakorji Today Temple List Init");
     }
 
     @Override
@@ -160,7 +162,6 @@ public class TempleListActivity extends AMAppMasterActivity {
     }
 
     private void getCachedTemples() {
-
         SmartUtils.showProgressDialog(this, "Loading...", false);
         AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void,ArrayList<ContentValues>>() {
             @Override
