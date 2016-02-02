@@ -22,6 +22,7 @@ import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListener;
 
 import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,6 +101,7 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
         disableSideMenu();
         mSmartCaching = new SmartCaching(this);
         mSahebjiDarshanImage = (TouchImageView) findViewById(R.id.sahebji_darshan_image);
+        CrashlyticsUtils.crashlyticsLog("Sahebji Darshan Init");
     }
 
     @Override

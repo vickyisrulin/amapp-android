@@ -24,6 +24,7 @@ import com.thin.downloadmanager.DownloadStatusListener;
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
 import org.anoopam.main.home.HomeListActivity;
 
 import java.io.File;
@@ -67,8 +68,8 @@ public class SplashActivity extends AMAppMasterActivity {
         mLayout = (FrameLayout) findViewById(getLayoutID());
         splashImage = (ImageView) findViewById(R.id.splashscreen);
         setSplashScreenImage();
+        CrashlyticsUtils.crashlyticsLog("Started Splash Screen");
     }
-
 
     private void setSplashScreenImage() {
 
