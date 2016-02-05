@@ -1,0 +1,65 @@
+# Add project specific ProGuard rules here.
+# By default, the flags in this file are appended to flags specified
+# in /eclipse/android-sdk/tools/proguard/proguard-android.txt
+# You can edit the include path and order by changing the proguardFiles
+# directive in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# Add any project specific keep options here:
+
+# -- Remove all logging --
+# -assumenosideeffects class android.util.Log {
+#    public static boolean isLoggable(java.lang.String, int);
+#    public static int v(...);
+#    public static int i(...);
+#    public static int w(...);
+#    public static int d(...);
+#    public static int e(...);
+#}
+
+-dontskipnonpubliclibraryclassmembers
+-keepattributes SourceFile,InnerClasses,LineNumberTable,Signature,Exceptions,EnclosingMethod
+
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.**
+
+# OkHttp classes
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+
+# Event bus classes
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+
+# Crashlytics classes
+-keep class com.crashlytics.** { *; }
+
+# Android support lib
+-keep public class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep class !android.support.v7.internal.view.menu.**,android.support.v7.internal.view.** { *; }
+-keep public class android.support.v4.** { *; }
+
+-keep public class * extends android.support.v4.view.ActionProvider {
+    public <init>(android.content.Context);
+}
+
+# org.anoopam classes
+-keep class org.anoopam.main.** { *; }
+-keep class org.anoopam.ext.smart.** { *; }
+
+# Miscellaneous classes
+-keep class com.loopj.** { *; }
+-keep class com.squareup.picasso.** { *; }
+
+# -- Android Annotations --
+-dontwarn org.springframework.**
+-dontwarn com.squareup.picasso.**
+-dontwarn com.squareup.okhttp.**
+-dontwarn okio.**
+-dontwarn org.apache.**
+-dontwarn com.google.**
