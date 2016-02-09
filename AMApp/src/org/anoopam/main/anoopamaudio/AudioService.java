@@ -350,7 +350,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
 		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, data.getAsString(PlayerConstants.CATEGORY.getAsString("catName")));
 		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, data.getAsString("audioTitle"));
-		mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.default_album_art);
+		mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.anoopam_audio_lock_screen);
 		metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
 		metadataEditor.apply();
 		audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
