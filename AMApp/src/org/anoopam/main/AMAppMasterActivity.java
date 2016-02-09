@@ -1,5 +1,6 @@
 package org.anoopam.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+
+import com.github.tbouron.shakedetector.library.ShakeDetector;
 
 import org.anoopam.main.aboutapp.AboutAppActivity;
 import org.anoopam.main.anoopamaudio.AudioCatListActivity;
@@ -245,5 +248,33 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
     protected void selectDrawerItem(NAVIGATION_ITEMS item) {
         navigationView.getMenu().getItem(item.ordinal()).setChecked(true);
 
+    }
+
+    /**
+     *
+     * @param context
+     */
+    public void activateShakeDetector(Context context) {
+        ShakeDetector.create(context, new ShakeDetector.OnShakeListener() {
+            @Override
+            public void OnShake() {
+                invokeFeedbackEmailIntent();
+            }
+        });
+    }
+
+    /**
+     * invokes an intent to send Feedback email to AM
+     */
+    protected void invokeFeedbackEmailIntent() {
+        String subject = AMConstants.CONST_FeedbackEmailSubject;
+        String messageBody = AMConstants.CONST_FeedbackEmailBody;
+        String toEmailAddress = AMConstants.CONST_FeedbackEmailAddress;
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", toEmailAddress, null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, messageBody);
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{toEmailAddress});
+        startActivity(Intent.createChooser(emailIntent, "Send Feedback Email to Anoopam Mission..."));
     }
 }
