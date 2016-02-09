@@ -2,22 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/anoopamBackgroundColor"
+    android:background="@drawable/about_app"
     tools:context=".aboutapp.AboutAppActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:gravity="center_vertical"
+        android:paddingTop="150dp"
         android:layout_marginLeft="10sp"
-        android:background="@drawable/about_app"
         >
 
         <org.anoopam.ext.smart.customviews.SmartTextView
             android:id="@+id/txtVersion"
             style="@style/AnoopamTextView"
+            android:background="@null"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -27,6 +26,7 @@
         <org.anoopam.ext.smart.customviews.SmartTextView
             android:id="@+id/txtWebsite"
             style="@style/AnoopamTextView"
+            android:background="@null"
             android:layout_width="match_parent"
             android:text = "www.anoopam.org"
             android:autoLink="web"
