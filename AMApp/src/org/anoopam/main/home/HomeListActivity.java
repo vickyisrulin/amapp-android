@@ -1,7 +1,10 @@
 package org.anoopam.main.home;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -13,8 +16,10 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.BuildConfig;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
@@ -24,6 +29,8 @@ import org.anoopam.main.common.events.HomeTilesUpdateSuccessEvent;
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.ext.smart.weservice.SmartWebManager;
+
+import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -62,6 +69,26 @@ public class HomeListActivity extends AMAppMasterActivity {
 
     private void unregisterForEvents() {
         EventBus.getInstance().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectDrawerItem(NAVIGATION_ITEMS.HOME);
+        registerForEvents();
+        ShakeDetector.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ShakeDetector.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ShakeDetector.destroy();
     }
 
     @Override
@@ -109,7 +136,7 @@ public class HomeListActivity extends AMAppMasterActivity {
 
     @Override
     public void preOnCreate() {
-
+        activateShakeDetector(this);
     }
 
     @Override
@@ -140,13 +167,6 @@ public class HomeListActivity extends AMAppMasterActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        selectDrawerItem(NAVIGATION_ITEMS.HOME);
-        registerForEvents();
-    }
-
-    @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
         toolbar.setTitle(getString(R.string.app_name));
         SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
@@ -170,7 +190,6 @@ public class HomeListActivity extends AMAppMasterActivity {
             SmartUtils.showSnackBar(HomeListActivity.this, getString(R.string.generic_error), Snackbar.LENGTH_LONG);
         }
     }
-
 
     private void getHomeScreenTiles() {
         ArrayList<ContentValues> tiles = new SmartCaching(this).getDataFromCache("homeTiles");
