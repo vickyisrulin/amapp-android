@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2016. Anoopam Mission. This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License at "http://www.gnu.org/licenses/licenses.html" for more details.
+ *
+ */
+
 package org.anoopam.main.common;
 
 import org.anoopam.main.BuildConfig;
@@ -71,9 +78,13 @@ public class AMConstants {
     public static final String URL_ContactUs = "http://anoopam.org/contactus/contactus.php";
     public static final String URL_Events = "http://www.anoopam.org/events/indexevents.php";
     public static final String URL_Philosophy = "http://www.anoopam.org/philosophy/sahebji.php";
+    public static final String URL_Licenses = "http://www.anoopam.org"; //replace this when the licenses web page is ready
+
 
     // Feedback Email to AM
     public static final String CONST_FeedbackEmailAddress = "anoopamapps@gmail.com";
     public static final String CONST_FeedbackEmailSubject = "Feedback on AM Android App: " + BuildConfig.VERSION_NAME;
     public static final String CONST_FeedbackEmailBody = "Jay Shree Swaminarayan. Please write your feedback below\n\n";
+
+
 }
