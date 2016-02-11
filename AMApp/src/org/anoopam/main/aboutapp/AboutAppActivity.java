@@ -9,8 +9,11 @@ package org.anoopam.main.aboutapp;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 
 import org.anoopam.ext.smart.customviews.SmartTextView;
+import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.BuildConfig;
 import org.anoopam.main.R;
 
@@ -20,6 +23,8 @@ import org.anoopam.main.R;
 public class AboutAppActivity extends FragmentActivity {
 
     SmartTextView versionTextView;
+    SmartTextView copyRightView;
+    SmartTextView licenseTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +33,14 @@ public class AboutAppActivity extends FragmentActivity {
         versionTextView = (SmartTextView) findViewById(R.id.txtVersion);
         String versionName = "Version: " + BuildConfig.VERSION_NAME;
         versionTextView.setText(versionName);
+
+        copyRightView = (SmartTextView) findViewById(R.id.txtCopyRightView);
+        String copyRightMessage = "Copyright \u00a9 2016, Anoopam Mission" ;
+        copyRightView.setText(copyRightMessage);
+
+        licenseTextView = (SmartTextView) findViewById(R.id.txtLicenseView);
+        String licenseLink = "<a href='"+AMConstants.URL_Licenses+"'>License Information</a>";
+        licenseTextView.setText(Html.fromHtml(licenseLink));
+        licenseTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

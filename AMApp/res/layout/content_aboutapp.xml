@@ -24,6 +24,28 @@
             />
 
         <org.anoopam.ext.smart.customviews.SmartTextView
+            android:id="@+id/txtCopyRightView"
+            style="@style/AnoopamTextView"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            />
+
+        <org.anoopam.ext.smart.customviews.SmartTextView
+            android:id="@+id/txtLicenseView"
+            style="@style/AnoopamTextView"
+            android:background="@null"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:layout_marginTop="20dp"
+            />
+
+        <org.anoopam.ext.smart.customviews.SmartTextView
             android:id="@+id/txtWebsite"
             style="@style/AnoopamTextView"
             android:background="@null"

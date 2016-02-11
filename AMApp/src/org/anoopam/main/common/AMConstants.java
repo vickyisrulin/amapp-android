@@ -76,9 +76,13 @@ public class AMConstants {
     public static final String URL_ContactUs = "http://anoopam.org/contactus/contactus.php";
     public static final String URL_Events = "http://www.anoopam.org/events/indexevents.php";
     public static final String URL_Philosophy = "http://www.anoopam.org/philosophy/sahebji.php";
+    public static final String URL_Licenses = "http://www.anoopam.org"; //replace this when the licenses web page is ready
+
 
     // Feedback Email to AM
     public static final String CONST_FeedbackEmailAddress = "anoopamapps@gmail.com";
     public static final String CONST_FeedbackEmailSubject = "Feedback on AM Android App: " + BuildConfig.VERSION_NAME;
     public static final String CONST_FeedbackEmailBody = "Jay Shree Swaminarayan. Please write your feedback below\n\n";
+
+
 }
