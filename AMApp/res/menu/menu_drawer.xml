@@ -5,27 +5,21 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/navHome"
-            android:icon="@drawable/ic_home_variant_white_24dp"
             android:title="@string/nav_home" />
         <item
             android:id="@+id/navThakorjiToday"
-            android:icon="@drawable/ic_menu_thakorji_today"
             android:title="@string/nav_thakorji_today" />
         <item
             android:id="@+id/navSahebjiDarshan"
-            android:icon="@drawable/ic_menu_sahebji_darshan"
             android:title="@string/nav_sahebji_Darshan" />
         <item
             android:id="@+id/navMantralekhan"
-            android:icon="@drawable/ic_menu_mantralekhan"
             android:title="@string/nav_mantralekhan" />
         <item
             android:id="@+id/navQuoteOfTheWeek"
-            android:icon="@drawable/ic_menu_weekly_quote"
             android:title="@string/nav_quote_of_the_week" />
         <item
             android:id="@+id/navAudio"
-            android:icon="@drawable/ic_menu_anoopam_audio"
             android:title="@string/nav_audio" />
         <!--item
             android:id="@+id/navAnoopamEvents"
@@ -33,17 +27,18 @@
             android:title="@string/nav_anoopam_events" /-->
         <item
             android:id="@+id/navContactUs"
-            android:icon="@drawable/ic_menu_contact_us"
             android:title="@string/nav_contact_us" />
         <item
             android:id="@+id/navAbout"
-            android:icon="@drawable/ic_menu_about"
             android:title="@string/nav_about"
             app:showAsAction="always" />
         <item
             android:id="@+id/navAboutApp"
-            android:icon="@drawable/ic_menu_about"
             android:title="@string/nav_about_app"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/navAppFeedback"
+            android:title="@string/nav_app_feedback"
             app:showAsAction="always" />
     </group>
 </menu>

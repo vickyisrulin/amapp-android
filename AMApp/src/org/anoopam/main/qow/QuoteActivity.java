@@ -34,7 +34,7 @@ public class QuoteActivity extends AMAppMasterActivity {
     private void setQuoteImage() {
         String imageUrl = getQuoteUpdatedUrl();
 
-        final File destination = new File(SmartUtils.getDailyQuotesImageStorage()+ File.separator + URLUtil.guessFileName(imageUrl, null, null));
+        final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator + URLUtil.guessFileName(imageUrl, null, null));
 
         if(destination.exists()){
             Picasso.with(this)

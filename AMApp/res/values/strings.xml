@@ -291,6 +291,7 @@
     <string name="nav_about">About Us</string>
     <string name="nav_about_title">About Us</string>
     <string name="nav_about_app">About App</string>
+    <string name="nav_app_feedback">Submit Feedback</string>
     <string name="action_search">Search</string>
     <string name="toggle_map_list">Change view</string>
     <string name="label_activities">Activities</string>

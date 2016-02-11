@@ -37,6 +37,7 @@ import android.widget.Toast;
 import org.anoopam.ext.smart.customviews.SmartButton;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -768,8 +769,8 @@ public class SmartUtils implements Constants{
 
     }
 
-    static public String getStorageDirectory(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission";
+    static public String getAnoopamMissionImageStorage(){
+        String cacheDir = AMApplication.getInstance().getApplicationContext().getFilesDir() + File.separator + "AnoopamMission";
         File dir = new File(cacheDir);
         if(!dir.exists()){
             dir.mkdirs();
@@ -777,37 +778,8 @@ public class SmartUtils implements Constants{
         return cacheDir;
     }
 
-    static public String getImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"images";
-        File dir = new File(cacheDir);
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getThakorjiDarshanImageStorage(String temple){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Thakorji Darshan"+File.separator+getTodaysDate()+File.separator+temple.replaceAll("[^\\w\\s]","");
-        File dir = new File(cacheDir);
-
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getDailyQuotesImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Weekly Quotes";
-        File dir = new File(cacheDir);
-
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getSahebjiDarshanImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Sahebji Darshan";
+    static public String getAnoopamMissionDailyRefreshImageStorage(){
+        String cacheDir = AMApplication.getInstance().getApplicationContext().getFilesDir() + File.separator + "AnoopamMissionTemp";
         File dir = new File(cacheDir);
 
         if(!dir.exists()){
