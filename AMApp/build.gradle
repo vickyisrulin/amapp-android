@@ -64,35 +64,35 @@ android {
         versionName "v0.14"
     }
 
-//    signingConfigs {
-//        release {
-//            storeFile project.hasProperty('AnoopamMainGooglePlayStorePassword') ? file("${project.rootDir}/buildconfig/keystore/googleplay.keystore") : file("${project.rootDir}/buildconfig/keystore/debug.keystore")
-//            keyAlias project.hasProperty('AnoopamMainGooglePlayStorePassword') ? 'anoopam' : 'androiddebugkey'
-//            storePassword project.hasProperty('AnoopamMainGooglePlayStorePassword') ? project.property('AnoopamMainGooglePlayStorePassword') : 'android'
-//            keyPassword project.hasProperty('AnoopamMainGooglePlayKeyPassword') ? project.property('AnoopamMainGooglePlayKeyPassword') : 'android'
-//        }
-//        debug {
-//            storeFile file("${project.rootDir}/buildconfig/keystore/debug.keystore")
-//            storePassword 'android'
-//            keyAlias 'androiddebugkey'
-//            keyPassword 'android'
-//        }
-//    }
-//
-//    buildTypes {
-//        debug {
-//            debuggable true
-////            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard.conf"
-//        }
-//        release {
-//            if (project.hasProperty('AnoopamMainGooglePlayStorePassword') && project.hasProperty('AnoopamMainGooglePlayKeyPassword')) {
-//                signingConfig android.signingConfigs.release
-//            }
+    signingConfigs {
+        release {
+            storeFile project.hasProperty('AnoopamMainGooglePlayStorePassword') ? file("${project.rootDir}/buildconfig/keystore/googleplay.keystore") : file("${project.rootDir}/buildconfig/keystore/debug.keystore")
+            keyAlias project.hasProperty('AnoopamMainGooglePlayStorePassword') ? 'anoopam' : 'androiddebugkey'
+            storePassword project.hasProperty('AnoopamMainGooglePlayStorePassword') ? project.property('AnoopamMainGooglePlayStorePassword') : 'android'
+            keyPassword project.hasProperty('AnoopamMainGooglePlayKeyPassword') ? project.property('AnoopamMainGooglePlayKeyPassword') : 'android'
+        }
+        debug {
+            storeFile file("$rootDir/buildconfig/keystore/debug.keystore")
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
 //            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard.conf"
-//        }
-//    }
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard.conf"
+        }
+        release {
+            if (project.hasProperty('AnoopamMainGooglePlayStorePassword') && project.hasProperty('AnoopamMainGooglePlayKeyPassword')) {
+                signingConfig android.signingConfigs.release
+            }
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "proguard.conf"
+        }
+    }
 
     lintOptions {
         abortOnError false
