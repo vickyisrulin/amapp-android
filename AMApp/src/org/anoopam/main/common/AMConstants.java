@@ -63,6 +63,8 @@ public class AMConstants {
     public static final String KEY_NewsLastUpdatedTimestamp = "newsLastUpdatedTimestamp";
     public static final String KEY_CURRENT_AUDIO_LIST = "current_audio_list";
     public static final String KEY_CURRENT_AUDIO = "currentAudio";
+    public static final String KEY_CURRENT_CAT_NAME = "currentCatName";
+    public static final String KEY_CURRENT_AUDIO_NAME = "currentAudioName";
 
     // other URL Constants
     public static final String URL_AboutUs = "http://anoopam.org/aboutus/aboutus.php";

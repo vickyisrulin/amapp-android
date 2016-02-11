@@ -122,8 +122,13 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			if(currentVersionSupportLockScreenControls){
 				RegisterRemoteClient();
 			}
+
 			String songPath = data.getAsString("audioURL");
+
 			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
+			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
+
 			final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
 
 			if(destination.exists()){
@@ -364,17 +369,10 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			// Pause
 			Controls.pauseControl(this);
 		}
-		else if(focusChange == AudioManager.AUDIOFOCUS_GAIN)
-		{
-			// Resume
-			Controls.playControl(this);
-		}
 		else if(focusChange == AudioManager.AUDIOFOCUS_LOSS)
 		{
 			// Stop or pause depending on your need
 			Controls.pauseControl(this);
-		}else if(focusChange == AudioManager.AUDIOFOCUS_GAIN){
-			Controls.playControl(this);
 		}
 	}
 }

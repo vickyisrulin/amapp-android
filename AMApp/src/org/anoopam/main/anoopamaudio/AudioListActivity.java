@@ -73,8 +73,8 @@ public class AudioListActivity extends AMAppMasterActivity {
     private Button btnPrevious;
     private static Button btnPlay;
     private static Button btnPause;
-    private TextView textAlbumName;
-    private TextView textSongName;
+    private static TextView textAlbumName;
+    private static TextView textSongName;
 
     private Button btnStop;
     private Button btnNext;
@@ -169,7 +169,6 @@ public class AudioListActivity extends AMAppMasterActivity {
     public void prepareViews() {
         currentAudio = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO,"");
 
-        textAlbumName.setText(audioDetails.getAsString("catName"));
         getAudioListFromCache();
     }
 
@@ -439,8 +438,6 @@ public class AudioListActivity extends AMAppMasterActivity {
                     if (destination.exists()) {
                         PlayerConstants.CATEGORY = audioDetails;
                         PlayerConstants.SONGS_LIST = audioList;
-                        textSongName.setText(audio.getAsString("audioTitle"));
-
                         if (currentPlay != null) {
                             try {
                                 currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
@@ -525,6 +522,10 @@ public class AudioListActivity extends AMAppMasterActivity {
         try{
             imageViewAlbumArt.setBackgroundDrawable(new BitmapDrawable(UtilFunctions.getDefaultAlbumArt(mContext)));
             linearLayoutPlayingSong.setVisibility(View.VISIBLE);
+
+            textAlbumName.setText(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, ""));
+            textSongName.setText(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, ""));
+
         }catch(Exception e){}
     }
 
