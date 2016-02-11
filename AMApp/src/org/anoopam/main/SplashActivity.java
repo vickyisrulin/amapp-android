@@ -79,7 +79,7 @@ public class SplashActivity extends AMAppMasterActivity {
             return;
         }
 
-        final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(imageUrl, null, null));
+        final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(imageUrl, null, null));
 
         if(destination.exists()){
             Picasso.with(this)

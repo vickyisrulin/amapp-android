@@ -37,7 +37,7 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
 
         String imageUrl = getSahebjiDarshanUpdatedUrl();
 
-        final File destination = new File(SmartUtils.getSahebjiDarshanImageStorage()+ File.separator + URLUtil.guessFileName(imageUrl, null, null));
+        final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage() + File.separator + URLUtil.guessFileName(imageUrl, null, null));
 
         if(destination.exists()){
             Picasso.with(this)

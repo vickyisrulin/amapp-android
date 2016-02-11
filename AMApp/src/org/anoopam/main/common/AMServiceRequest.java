@@ -133,7 +133,7 @@ public class AMServiceRequest {
 
                                      /* Remove older images */
                             try {
-                                new File(SmartUtils.getThakorjiDarshanImageStorage()).delete();
+                                new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()).delete();
                             } catch (Throwable e) {
                                 e.printStackTrace();
                             }
@@ -184,7 +184,7 @@ public class AMServiceRequest {
 // WE DONT need to remove the hometiles images. Lets keep them cached for faster loading, since they dont change frequently
 //                            /* Remove older images */
 //                            try {
-//                                new File(SmartUtils.getImageStorage()).delete();
+//                                new File(SmartUtils.getAnoopamMissionImageStorage()).delete();
 //                            } catch (Throwable e){
 //                                e.printStackTrace();
 //                            }
@@ -232,13 +232,6 @@ public class AMServiceRequest {
                             AMApplication.getInstance()
                                     .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
                                             .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
-
-                            /* Remove older images */
-                            try {
-                                new File(SmartUtils.getSahebjiDarshanImageStorage()).delete();
-                            } catch (Throwable e) {
-                                e.printStackTrace();
-                            }
                         } catch (JSONException e) {
                             EventBus.getInstance().post(new SahebjiDarshanUpdateFailedEvent());
                             e.printStackTrace();

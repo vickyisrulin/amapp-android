@@ -378,7 +378,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             ContentValues audioCat= AudioCatListActivity.this.audioCat.get(position);
             holder.txtCatName.setText(audioCat.getAsString("catName"));
 
-            final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(audioCat.getAsString("catImage"), null, null));
+            final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(audioCat.getAsString("catImage"), null, null));
 
             if(destination.exists()){
                 Picasso.with(AudioCatListActivity.this)

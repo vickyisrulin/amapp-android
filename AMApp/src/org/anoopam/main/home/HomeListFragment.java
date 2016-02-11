@@ -137,7 +137,7 @@ public class HomeListFragment extends SmartFragment {
 
             holder.txtName.setText(homeTile.getAsString("tileName"));
 
-            final File destination = new File(SmartUtils.getImageStorage()+ File.separator +URLUtil.guessFileName(homeTile.getAsString("tileImage"), null, null));
+            final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(homeTile.getAsString("tileImage"), null, null));
 
             if(destination.exists()){
                 Picasso.with(getActivity())

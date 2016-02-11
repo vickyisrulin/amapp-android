@@ -768,7 +768,7 @@ public class SmartUtils implements Constants{
 
     }
 
-    static public String getStorageDirectory(){
+    static public String getAnoopamMissionImageStorage(){
         String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission";
         File dir = new File(cacheDir);
         if(!dir.exists()){
@@ -777,37 +777,8 @@ public class SmartUtils implements Constants{
         return cacheDir;
     }
 
-    static public String getImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"images";
-        File dir = new File(cacheDir);
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getThakorjiDarshanImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Thakorji Darshan";
-        File dir = new File(cacheDir);
-
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getDailyQuotesImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Weekly Quotes";
-        File dir = new File(cacheDir);
-
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-        return cacheDir;
-    }
-
-    static public String getSahebjiDarshanImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Sahebji Darshan";
+    static public String getAnoopamMissionDailyRefreshImageStorage(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMissionDaily";
         File dir = new File(cacheDir);
 
         if(!dir.exists()){

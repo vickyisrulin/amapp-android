@@ -176,7 +176,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
             final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
-            final File destination = new File(SmartUtils.getThakorjiDarshanImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
+            final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
 
             if(destination.exists()){
 
