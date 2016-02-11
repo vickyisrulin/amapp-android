@@ -37,6 +37,7 @@ import android.widget.Toast;
 import org.anoopam.ext.smart.customviews.SmartButton;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -769,7 +770,7 @@ public class SmartUtils implements Constants{
     }
 
     static public String getAnoopamMissionImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission";
+        String cacheDir = AMApplication.getInstance().getApplicationContext().getFilesDir() + File.separator + "AnoopamMission";
         File dir = new File(cacheDir);
         if(!dir.exists()){
             dir.mkdirs();
@@ -778,7 +779,7 @@ public class SmartUtils implements Constants{
     }
 
     static public String getAnoopamMissionDailyRefreshImageStorage(){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMissionDaily";
+        String cacheDir = AMApplication.getInstance().getApplicationContext().getFilesDir() + File.separator + "AnoopamMissionTemp";
         File dir = new File(cacheDir);
 
         if(!dir.exists()){
