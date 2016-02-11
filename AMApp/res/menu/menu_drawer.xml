@@ -36,5 +36,9 @@
             android:id="@+id/navAboutApp"
             android:title="@string/nav_about_app"
             app:showAsAction="always" />
+        <item
+            android:id="@+id/navAppFeedback"
+            android:title="@string/nav_app_feedback"
+            app:showAsAction="always" />
     </group>
 </menu>
