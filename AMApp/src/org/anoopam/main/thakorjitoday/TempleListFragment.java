@@ -145,7 +145,7 @@ public class TempleListFragment extends SmartFragment {
 
             ContentValues temple= temples.get(position);
 
-            final File destination = new File(SmartUtils.getThakorjiDarshanImageStorage(temple.getAsString("templePlace"))+ File.separator +temple.getAsString("templeID") +"_"+ URLUtil.guessFileName(temple.getAsString("mainImage"), null, null));
+            final File destination = new File(SmartUtils.getThakorjiDarshanImageStorage()+ File.separator +temple.getAsString("templeID") +"_"+ URLUtil.guessFileName(temple.getAsString("mainImage"), null, null));
 
             if(destination.exists()){
                 Picasso.with(getActivity())

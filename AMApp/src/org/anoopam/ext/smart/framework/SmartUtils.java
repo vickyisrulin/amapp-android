@@ -786,8 +786,8 @@ public class SmartUtils implements Constants{
         return cacheDir;
     }
 
-    static public String getThakorjiDarshanImageStorage(String temple){
-        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Thakorji Darshan"+File.separator+getTodaysDate()+File.separator+temple.replaceAll("[^\\w\\s]","");
+    static public String getThakorjiDarshanImageStorage(){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator+"Thakorji Darshan";
         File dir = new File(cacheDir);
 
         if(!dir.exists()){
