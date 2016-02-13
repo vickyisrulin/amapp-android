@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.15.2'
+        classpath 'io.fabric.tools:gradle:1.20.1'
     }
 }
 apply plugin: 'android'
@@ -48,6 +48,11 @@ dependencies {
     }
 }
 
+if(project.hasProperty("amapps.signing")
+        && new File(project.property("amapps.signing") + ".gradle").exists()) {
+    apply from: project.property("amapps.signing") + ".gradle";
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "21.0.2"
@@ -56,12 +61,13 @@ android {
         applicationId "org.anoopam.main"
         minSdkVersion 15
         targetSdkVersion 22
-        // <2-digit-APP_STORE_CODE>XXXXXX
+        // <1-digit ALPHA/BETA store code> <2-digit-APP_STORE_CODE>XXXXXX
+        // 9 - ALPHA, 7 - BETA
         // 10 - Google Play
         // e.g. 09 - Samsung App store, 08 - LG App Store, 11 - NEW-APP-STORE to override Google Play
-        versionCode 10000001
+        versionCode 710000001
         //versionName "1.0.001"
-        versionName "v0.14"
+        versionName "1.0.00"
     }
 
     lintOptions {

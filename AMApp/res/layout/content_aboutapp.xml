@@ -20,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="10sp"
             android:textAlignment="center"
             />
 
@@ -30,8 +31,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textSize="10sp"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             />
 
         <org.anoopam.ext.smart.customviews.SmartTextView
@@ -42,7 +44,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textAlignment="center"
-            android:layout_marginTop="20dp"
+            android:textSize="10sp"
+            android:layout_marginTop="10dp"
             />
 
         <org.anoopam.ext.smart.customviews.SmartTextView
@@ -54,8 +57,9 @@
             android:autoLink="web"
             android:textAlignment="center"
             android:gravity="center"
+            android:textSize="10sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             />
     </LinearLayout>
 
