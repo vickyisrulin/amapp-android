@@ -339,7 +339,7 @@ public class AudioListActivity extends AMAppMasterActivity {
             @Override
             protected ArrayList<ContentValues> doInBackground(Void... params) {
                 try {
-                    audioList = smartCaching.getDataFromCache("audios","SELECT * FROM audios WHERE catID='"+audioDetails.getAsString("catID")+"'");
+                    audioList = smartCaching.getDataFromCache("audios","SELECT * FROM audios WHERE catID='"+audioDetails.getAsString("catID")+"' ORDER BY audioTitle");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
