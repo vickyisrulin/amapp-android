@@ -5,6 +5,8 @@
     tools:context="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
     android:background="@color/black">
 
+    <include layout="@layout/appbar" />
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="45dip"

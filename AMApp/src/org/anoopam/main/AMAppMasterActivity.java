@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -287,5 +288,18 @@ public abstract class AMAppMasterActivity extends SmartSuperMaster implements Co
         emailIntent.putExtra(Intent.EXTRA_TEXT, messageBody);
         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{toEmailAddress});
         startActivity(Intent.createChooser(emailIntent, "Send Feedback Email to Anoopam Mission..."));
+    }
+
+    /**
+     * toggle the display of Action Bar
+     */
+    protected void toggleActionBarDisplay() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) return;
+        if(actionBar.isShowing()) {
+            actionBar.hide();
+        } else {
+            actionBar.show();
+        }
     }
 }

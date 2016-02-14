@@ -9,6 +9,8 @@
     android:background="@color/black"
     >
 
+    <include layout="@layout/appbar" />
+
     <org.anoopam.main.common.ExtendedViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

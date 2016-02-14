@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.anoopam.main.common.TouchImageView;
 
@@ -103,14 +102,24 @@ public class QuoteActivity extends AMAppMasterActivity {
 
     @Override
     public void initComponents() {
+        super.initComponents();
         disableSideMenu();
         mSmartCaching = new SmartCaching(this);
         mQuoteImage = (TouchImageView) findViewById(R.id.quote_image);
+        mQuoteImage.setOnLongClickListener(new PrivateOnLongClickListener());
+        // hide the Action Bar for the first time
+        toggleActionBarDisplay();
     }
 
     @Override
     public void setActionListeners() {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectDrawerItem(NAVIGATION_ITEMS.QUOTE_OF_DAY);
     }
 
     @Override
@@ -120,7 +129,22 @@ public class QuoteActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportFinishAfterTransition();
+            }
+        });
+        toolbar.setTitle(getString(R.string.nav_quote_of_the_week));
+    }
 
+    private class PrivateOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            toggleActionBarDisplay();
+            return true;
+        }
     }
 }
 
