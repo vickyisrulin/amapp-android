@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
 import org.anoopam.main.common.TouchImageView;
 
@@ -39,6 +38,11 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
     private TouchImageView mSahebjiDarshanImage;
     private SmartCaching mSmartCaching;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        selectDrawerItem(NAVIGATION_ITEMS.SAHEBJI_DARSHAN);
+    }
 
     private void setSahebjiDarshanImage() {
 
@@ -105,9 +109,13 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
 
     @Override
     public void initComponents() {
+        super.initComponents();
         disableSideMenu();
         mSmartCaching = new SmartCaching(this);
         mSahebjiDarshanImage = (TouchImageView) findViewById(R.id.sahebji_darshan_image);
+        mSahebjiDarshanImage.setOnLongClickListener(new PrivateOnLongClickListener());
+        // hide the Action Bar for the first time
+        toggleActionBarDisplay();
         CrashlyticsUtils.crashlyticsLog("Sahebji Darshan Init");
     }
 
@@ -123,6 +131,21 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportFinishAfterTransition();
+            }
+        });
+        toolbar.setTitle(getString(R.string.nav_sahebji_Darshan));
+    }
 
+    private class PrivateOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            toggleActionBarDisplay();
+            return true;
+        }
     }
 }

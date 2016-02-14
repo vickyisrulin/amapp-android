@@ -75,8 +75,11 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public void initComponents() {
+        super.initComponents();
         disableSideMenu();
         viewPager= (ExtendedViewPager) findViewById(R.id.viewPager);
+        // hide the Action Bar for the first time
+        toggleActionBarDisplay();
     }
 
     @Override
@@ -115,7 +118,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             @Override
             public void onPageSelected(int position) {
                 if (position > 0) {
-                    View view = viewPager.getChildAt(position -1);
+                    View view = viewPager.getChildAt(position - 1);
                     if (view != null) {
                         TouchImageView img = (TouchImageView) view.findViewById(R.id.imgAlbum);
                         img.resetZoom();
@@ -150,12 +153,15 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     @Override
     public void manageAppBar(ActionBar actionBar, Toolbar toolbar, ActionBarDrawerToggle actionBarDrawerToggle) {
-
-    }
-
-    @Override
-    public int getDrawerLayoutID() {
-        return 0;
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                supportFinishAfterTransition();
+            }
+        });
+        toolbar.setTitle(getString(R.string.nav_thakorji_today_title));
+        toolbar.setSubtitle(templeDetail.getAsString("templePlace"));
     }
 
     public class TemplePagerAdapter extends PagerAdapter {
@@ -181,6 +187,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         public Object instantiateItem(ViewGroup container, final int position) {
             View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
             final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
+            imgTemple.setOnLongClickListener(new PrivateOnLongClickListener());
             final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
             final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
@@ -233,4 +240,11 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     }
 
+    private class PrivateOnLongClickListener implements View.OnLongClickListener {
+        @Override
+        public boolean onLongClick(View v) {
+            toggleActionBarDisplay();
+            return true;
+        }
+    }
 }
