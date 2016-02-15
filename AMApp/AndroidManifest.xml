@@ -216,12 +216,6 @@
         <activity
             android:name="org.anoopam.main.anoopamaudio.AudioPlayerActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="org.anoopam.main.sahebjidarshan.SahebjiAlbumListActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="org.anoopam.main.sahebjidarshan.SahebjiGalleryActivity"
-            android:configChanges="orientation" />
 
         <activity
             android:name="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
