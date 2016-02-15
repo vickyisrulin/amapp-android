@@ -22,6 +22,8 @@ import android.widget.ImageView;
 
 import com.github.tbouron.shakedetector.library.ShakeDetector;
 
+import org.anoopam.ext.smart.framework.SharedPreferenceConstants;
+import org.anoopam.ext.smart.framework.SmartActivity;
 import org.anoopam.main.aboutapp.AboutAppActivity;
 import org.anoopam.main.anoopamaudio.AudioCatListActivity;
 import org.anoopam.main.common.AMConstants;
@@ -31,12 +33,11 @@ import org.anoopam.main.qow.QuoteActivity;
 import org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity;
 import org.anoopam.main.thakorjitoday.TempleListActivity;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartSuperMaster;
 
 /**
  * Created by tasol on 23/6/15.
  */
-public abstract class AMAppMasterActivity extends SmartSuperMaster implements Constants {
+public abstract class AMAppMasterActivity extends SmartActivity implements SharedPreferenceConstants, Constants {
 
     public static String MANAGE_UP_NAVIGATION = "manage_up_navigation";
 

@@ -14,8 +14,6 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-apply plugin: 'com.google.gms.google-services'
-
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
 
@@ -25,16 +23,7 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile 'com.androidmapsextensions:android-maps-extensions:2.2.0'
-    compile 'com.google.android.gms:play-services-maps:8.1.0'
-    compile 'com.google.android.gms:play-services-location:8.1.0'
-    compile 'com.google.android.gms:play-services-base:8.1.0'
-    compile 'com.google.android.gms:play-services-ads:8.1.0'
-    compile 'com.google.android.gms:play-services-identity:8.1.0'
-    compile 'com.google.android.gms:play-services-plus:8.1.0'
-    compile 'com.google.android.gms:play-services-gcm:8.1.0'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.google.code.gson:gson:2.2.4'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
