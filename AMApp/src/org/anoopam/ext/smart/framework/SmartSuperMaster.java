@@ -6,9 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 /**
  *
  * @author tasol
@@ -18,9 +15,8 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
 //    private GoogleCloudMessaging gcm;
-    protected GoogleApiClient mGoogleApiClient;
-    protected LocationListener locationListener;
-    protected Location mLastLocation;
+//    protected LocationListener locationListener;
+//    protected Location mLastLocation;
 
     /**
      * Constructor
@@ -49,9 +45,9 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
 ////        enableGCM();
 //    }
 //
-    @Override
-    public void onConnected(Bundle bundle) {
-
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//
 //
 //        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 //        if (locationListener != null) {
@@ -60,17 +56,17 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
 //                mGoogleApiClient.disconnect();
 //            }
 //        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(ConnectionResult connectionResult) {
+//
+//    }
 
 
     /**

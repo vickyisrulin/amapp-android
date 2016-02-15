@@ -25,7 +25,6 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import org.anoopam.main.R;
-import com.google.android.gms.common.api.GoogleApiClient;
 import org.anoopam.ext.smart.customviews.SwipeableTextView;
 import org.anoopam.ext.smart.exception.InvalidKeyFormatException;
 import org.anoopam.ext.smart.exception.NullDataException;
@@ -34,7 +33,7 @@ import org.anoopam.ext.smart.exception.WronNumberOfArgumentsException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class SmartActivity extends AppCompatActivity implements SmartActivityHandler, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public abstract class SmartActivity extends AppCompatActivity implements SmartActivityHandler {
 
     private static final String TAG = "SmartActivity";
 
