@@ -1,16 +1,13 @@
 package org.anoopam.ext.smart.framework;
 
-import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 
 /**
  *
@@ -32,88 +29,37 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
     }
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        if (mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.disconnect();
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-        if (SmartApplication.REF_SMART_APPLICATION.IS_HTTP_ALLOW_ACCESS) {
-        }
-
-//        enableGCM();
-    }
-
-    public void getCurrentLocation(LocationListener locationListener) {
-
-        this.locationListener = locationListener;
-        buildGoogleApiClient();
-        mGoogleApiClient.connect();
-
-    }
-
-    public void getAddress(Location location, final ResultReceiver resultReceiver) {
-
-        if (mGoogleApiClient == null) {
-            buildGoogleApiClient();
-            mGoogleApiClient.connect();
-        } else if (!mGoogleApiClient.isConnected()) {
-
-            mGoogleApiClient.connect();
-        }
-
-        if (mGoogleApiClient.isConnected()) {
-
-            startIntentService(location, resultReceiver);
-        }
-    }
-
-    public void getCurrentAddress(final ResultReceiver resultReceiver) {
-
-
-        getCurrentLocation(new LocationListener() {
-            @Override
-            public void onReceived(Location mLastLocation) {
-
-                // Only start the service to fetch the address if GoogleApiClient is
-                // connected.
-                if (mGoogleApiClient.isConnected() && mLastLocation != null) {
-                    startIntentService(mLastLocation, resultReceiver);
-                }
-
-            }
-
-        });
-
-    }
-
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
-    }
-
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//
+//        if (mGoogleApiClient!=null && mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
+//
+//
+//    @Override
+//    protected void onResume() {
+//
+//        super.onResume();
+//        if (SmartApplication.REF_SMART_APPLICATION.IS_HTTP_ALLOW_ACCESS) {
+//        }
+//
+////        enableGCM();
+//    }
+//
     @Override
     public void onConnected(Bundle bundle) {
 
-
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (locationListener != null) {
-            locationListener.onReceived(mLastLocation);
-            if (mGoogleApiClient.isConnected()) {
-                mGoogleApiClient.disconnect();
-            }
-        }
+//
+//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if (locationListener != null) {
+//            locationListener.onReceived(mLastLocation);
+//            if (mGoogleApiClient.isConnected()) {
+//                mGoogleApiClient.disconnect();
+//            }
+//        }
     }
 
     @Override
@@ -124,13 +70,6 @@ public abstract class  SmartSuperMaster extends SmartActivity implements SharedP
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
-    }
-
-    protected void startIntentService(Location location, ResultReceiver resultReceiver) {
-        Intent intent = new Intent(this, FetchAddressIntentService.class);
-        intent.putExtra(FetchAddressIntentService.RECEIVER, resultReceiver);
-        intent.putExtra(FetchAddressIntentService.LOCATION_DATA_EXTRA, location);
-        startService(intent);
     }
 
 
