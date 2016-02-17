@@ -62,10 +62,42 @@ public class AMServiceRequest {
     public void fetchUpdatedServerData() {
         //TODO: Optimize these calls to get the data in one server request
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
+        AMServiceRequest.getInstance().startFetchingAnoopamAudioFromServer();
         AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
         AMServiceRequest.getInstance().startQuoteOfTheWeekUpdatesFromServer();
         AMServiceRequest.getInstance().startNewsUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
+    }
+
+    /**
+     * invokes the request to get the updated Anoopam Audio metadata from the server
+     */
+    public void startFetchingAnoopamAudioFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_Cat_Tag);
+
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioEndpoint());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+                    smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", false);
+                    smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                Log.e(TAG, "Error obtaining Audio metadata: " + failureMessage);
+            }
+        });
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
 
     /**
@@ -379,6 +411,15 @@ public class AMServiceRequest {
                 .readSharedPreferences().getString(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, "");
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
+
+    /**
+     * returns the Anoopam Audio Endpoint
+     * @return String
+     */
+    public String getAnoopamAudioEndpoint() {
+        return AMApplication.getInstance().getEnv().getAnoopamAudioEndpoint();
+    }
+
 
     // gets the latest timestamp cached on the client side
     // and addes it into the News endpoint as param
