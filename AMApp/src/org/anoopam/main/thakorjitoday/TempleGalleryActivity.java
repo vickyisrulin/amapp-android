@@ -21,17 +21,12 @@ import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ProgressBar;
 
-import com.squareup.picasso.Picasso;
-import com.thin.downloadmanager.DefaultRetryPolicy;
-import com.thin.downloadmanager.DownloadRequest;
-import com.thin.downloadmanager.DownloadStatusListener;
-
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
+import org.anoopam.main.common.DataDownloadUtil;
 import org.anoopam.main.common.ExtendedViewPager;
 import org.anoopam.main.common.TouchImageView;
 import org.json.JSONArray;
@@ -191,43 +186,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
             final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
-
-            if(destination.exists()){
-
-                Picasso.with(TempleGalleryActivity.this)
-                        .load(destination)
-                        .into(imgTemple);
-
-            }else{
-                Uri downloadUri = Uri.parse(images.get(position).getAsString("image").replaceAll(" ", "%20"));
-                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
-
-                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
-                        .setRetryPolicy(new DefaultRetryPolicy())
-                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
-                        .setDownloadListener(new DownloadStatusListener() {
-                            @Override
-                            public void onDownloadComplete(int id) {
-                                progress.setVisibility(View.GONE);
-                                Picasso.with(TempleGalleryActivity.this)
-                                        .load(destination)
-                                        .into(imgTemple);
-                            }
-
-                            @Override
-                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-                                progress.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
-                            }
-                        });
-
-
-                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
-
-            }
+            Uri downloadUri = Uri.parse(images.get(position).getAsString("image").replaceAll(" ", "%20"));
+            DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, imgTemple, progress);
 
             container.addView(itemView);
             return itemView;

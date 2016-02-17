@@ -23,18 +23,16 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.squareup.picasso.Picasso;
-import com.thin.downloadmanager.DefaultRetryPolicy;
-import com.thin.downloadmanager.DownloadRequest;
-import com.thin.downloadmanager.DownloadStatusListener;
-
+import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartFragment;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.R;
+import org.anoopam.main.common.DataDownloadUtil;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -137,6 +135,8 @@ public class TempleListFragment extends SmartFragment {
                 public void onClick(View view) {
                     int index = mRecyclerView.getChildAdapterPosition(view);
 
+                    // attempts to pre-fetch all the images for this temple
+                    prefetchThakorjiPicsForTemple(index);
                     Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
                     intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
                     Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgAlbum), "image");
@@ -149,45 +149,10 @@ public class TempleListFragment extends SmartFragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-
             ContentValues temple= temples.get(position);
-
             final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +temple.getAsString("templeID") +"_"+ URLUtil.guessFileName(temple.getAsString("mainImage"), null, null));
-
-            if(destination.exists()){
-                Picasso.with(getActivity())
-                        .load(destination)
-                        .into(holder.imgTemple);
-
-            }else{
-                Uri downloadUri = Uri.parse(temple.getAsString("mainImage").replaceAll(" ", "%20"));
-                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
-
-                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
-                        .setRetryPolicy(new DefaultRetryPolicy())
-                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
-                        .setDownloadListener(new DownloadStatusListener() {
-                            @Override
-                            public void onDownloadComplete(int id) {
-                                Picasso.with(getActivity())
-                                        .load(destination)
-                                        .into(holder.imgTemple);
-                            }
-
-                            @Override
-                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-                            }
-
-                            @Override
-                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
-                            }
-                        });
-
-
-                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
-
-            }
-
+            Uri downloadUri = Uri.parse(temple.getAsString("mainImage").replaceAll(" ", "%20"));
+            DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, holder.imgTemple);
 
             holder.progressBar.setVisibility(View.VISIBLE);
             holder.txtTemplePlace.setText(temple.getAsString("templePlace"));
@@ -199,6 +164,30 @@ public class TempleListFragment extends SmartFragment {
             return temples.size();
         }
 
+        /**
+         * 1) Will load all the image URLs for the given temple referenced by templeIndex
+         * 2) Downloads the image from the given URL from the network, if it's not already in the memory/storage
+         * @param templeCenterIndex
+         */
+        private void prefetchThakorjiPicsForTemple(int templeCenterIndex) {
+            ArrayList<ContentValues> templeImages = null;
 
+            // grabs all the image URLs for the given temple
+            try {
+                templeImages =new SmartCaching(getActivity().getBaseContext()).
+                        parseResponse(new JSONArray(temples.get(templeCenterIndex).getAsString("images")),
+                                "images").get("images");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // iterates over all the URLs to load the images in the memory
+            for(int i=0; i<templeImages.size(); i++) {
+                String imageUrl = templeImages.get(i).getAsString("image");
+                final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator + templeCenterIndex+"_"+ URLUtil.guessFileName(imageUrl, null, null));
+                Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
+                DataDownloadUtil.downloadImageFromServer(downloadUri, destination);
+            }
+        }
     }
 }

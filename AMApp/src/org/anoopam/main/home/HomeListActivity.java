@@ -8,10 +8,7 @@
 package org.anoopam.main.home;
 
 import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -23,19 +20,15 @@ import android.transition.Slide;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.BuildConfig;
 import org.anoopam.main.R;
-import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.events.EventBus;
 import org.anoopam.main.common.events.HomeTilesUpdateFailedEvent;
 import org.anoopam.main.common.events.HomeTilesUpdateSuccessEvent;
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.framework.SmartUtils;
-import org.anoopam.ext.smart.weservice.SmartWebManager;
 
 import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.squareup.otto.Subscribe;

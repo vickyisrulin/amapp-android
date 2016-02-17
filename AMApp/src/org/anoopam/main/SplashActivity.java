@@ -23,14 +23,9 @@ import android.webkit.URLUtil;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-import com.thin.downloadmanager.DefaultRetryPolicy;
-import com.thin.downloadmanager.DownloadRequest;
-import com.thin.downloadmanager.DownloadStatusListener;
-
 import org.anoopam.ext.smart.caching.SmartCaching;
-import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
+import org.anoopam.main.common.DataDownloadUtil;
 import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
 import org.anoopam.main.home.HomeListActivity;
 
@@ -79,7 +74,6 @@ public class SplashActivity extends AMAppMasterActivity {
     }
 
     private void setSplashScreenImage() {
-
         String imageUrl = getSplashScreenUpdatedUrl();
 
         if(imageUrl==null || imageUrl.length()<=0){
@@ -87,39 +81,8 @@ public class SplashActivity extends AMAppMasterActivity {
         }
 
         final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(imageUrl, null, null));
-
-        if(destination.exists()){
-            Picasso.with(this)
-                    .load(destination)
-                    .into(splashImage);
-
-        }else{
-            Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
-            Uri destinationUri = Uri.parse(destination.getAbsolutePath());
-
-            DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
-                    .setRetryPolicy(new DefaultRetryPolicy())
-                    .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
-                    .setDownloadListener(new DownloadStatusListener() {
-                        @Override
-                        public void onDownloadComplete(int id) {
-                            Picasso.with(SplashActivity.this)
-                                    .load(destination)
-                                    .into(splashImage);
-                        }
-
-                        @Override
-                        public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-                        }
-
-                        @Override
-                        public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
-                        }
-                    });
-
-
-            SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
-        }
+        Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
+        DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, splashImage);
     }
 
     private String getSplashScreenUpdatedUrl() {
