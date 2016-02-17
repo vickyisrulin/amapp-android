@@ -98,4 +98,23 @@ public class DataDownloadUtil {
             SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
         }
     }
+
+    /**
+     * 1) If destinationFile exist locally on device, NO-ACTION required
+     * 2) Otherwise, downloads the image from downloadFromUri and stores it at destinationFile
+     *
+     * @param downloadFromUri Uri
+     * @param destinationFile File
+     */
+    public static void downloadImageFromServer(final Uri downloadFromUri, final File destinationFile) {
+        if(destinationFile.exists()){
+            return;
+        }else {
+            Uri destinationUri = Uri.parse(destinationFile.getAbsolutePath());
+            DownloadRequest downloadRequest = new DownloadRequest(downloadFromUri)
+                    .setRetryPolicy(new DefaultRetryPolicy())
+                    .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH);
+            SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
+        }
+    }
 }
