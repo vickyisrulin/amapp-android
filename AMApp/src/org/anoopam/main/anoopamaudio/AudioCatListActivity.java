@@ -49,6 +49,7 @@ import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.AMServiceResponseListener;
 import org.anoopam.main.common.CircleImageView;
+import org.anoopam.main.common.DataDownloadUtil;
 import org.anoopam.main.home.HomeListActivity;
 import org.json.JSONObject;
 
@@ -326,46 +327,13 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-
             ContentValues audioCat= AudioCatListActivity.this.audioCat.get(position);
             holder.txtCatName.setText(audioCat.getAsString("catName"));
 
             final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(audioCat.getAsString("catImage"), null, null));
+            final Uri downloadUri = Uri.parse(audioCat.getAsString("catImage").replaceAll(" ", "%20"));
 
-            if(destination.exists()){
-                Picasso.with(AudioCatListActivity.this)
-                        .load(destination)
-                        .into(holder.imgAudioCat);
-
-            }else{
-                Uri downloadUri = Uri.parse(audioCat.getAsString("catImage").replaceAll(" ", "%20"));
-                Uri destinationUri = Uri.parse(destination.getAbsolutePath());
-
-                DownloadRequest downloadRequest = new DownloadRequest(downloadUri)
-                        .setRetryPolicy(new DefaultRetryPolicy())
-                        .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
-                        .setDownloadListener(new DownloadStatusListener() {
-                            @Override
-                            public void onDownloadComplete(int id) {
-                                Picasso.with(AudioCatListActivity.this)
-                                        .load(destination)
-                                        .into(holder.imgAudioCat);
-                            }
-
-                            @Override
-                            public void onDownloadFailed(int id, int errorCode, String errorMessage) {
-                            }
-
-                            @Override
-                            public void onProgress(int id, long totalBytes, long downloadedBytes, int progressCount) {
-                            }
-                        });
-
-
-                SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
-
-            }
-
+            DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, holder.imgAudioCat);
         }
 
         @Override
