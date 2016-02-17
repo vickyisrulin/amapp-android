@@ -836,4 +836,28 @@ public class SmartUtils implements Constants{
         ActivityCompat.startActivity((AMAppMasterActivity) context, mainIntent, options.toBundle());
     }
 
+    /**
+     *
+     * Deletes the directory recursively
+     *
+     * @param file
+     * @return true if delete was successful
+     */
+    public static boolean deleteFileOrDirectoryRecursive(File file) {
+        if( file.exists() ) {
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                for(int i=0; i<files.length; i++) {
+                    if(files[i].isDirectory()) {
+                        deleteFileOrDirectoryRecursive(files[i]);
+                    }
+                    else {
+                        files[i].delete();
+                    }
+                }
+            }
+            return file.delete();
+        }
+        return false;
+    }
 }

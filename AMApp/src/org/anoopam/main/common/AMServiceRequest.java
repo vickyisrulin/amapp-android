@@ -140,7 +140,7 @@ public class AMServiceRequest {
 
                                      /* Remove older images */
                             try {
-                                new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()).delete();
+                                SmartUtils.deleteFileOrDirectoryRecursive(new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()));
                             } catch (Throwable e) {
                                 e.printStackTrace();
                             }
