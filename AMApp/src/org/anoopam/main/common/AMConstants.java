@@ -78,7 +78,7 @@ public class AMConstants {
     public static final String URL_ContactUs = "http://anoopam.org/contactus/contactus.php";
     public static final String URL_Events = "http://www.anoopam.org/events/indexevents.php";
     public static final String URL_Philosophy = "http://www.anoopam.org/philosophy/sahebji.php";
-    public static final String URL_Licenses = "http://www.anoopam.org"; //replace this when the licenses web page is ready
+    public static final String URL_Licenses = "http://www.anoopam.org/aboutus/android-app-license.php";
 
 
     // Feedback Email to AM
