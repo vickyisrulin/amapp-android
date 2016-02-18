@@ -136,7 +136,7 @@ public class TempleListFragment extends SmartFragment {
                     int index = mRecyclerView.getChildAdapterPosition(view);
 
                     // attempts to pre-fetch all the images for this temple
-                    prefetchThakorjiPicsForTemple(index);
+                    //prefetchThakorjiPicsForTemple(Integer.valueOf(temples.get(index).getAsString("templeID")));
                     Intent intent = new Intent(getActivity(), TempleGalleryActivity.class);
                     intent.putExtra(TempleGalleryActivity.TEMPLE_DETAIL, temples.get(index));
                     Pair<View, String> p1 = Pair.create(view.findViewById(R.id.imgAlbum), "image");
