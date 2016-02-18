@@ -42,11 +42,10 @@
 
             <org.anoopam.ext.smart.customviews.SmartTextView
                 android:id="@+id/txtCatName"
+                style="@style/AnoopamTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textColor="#0D4E76"
-                android:textSize="22dp"
+                android:textSize="18sp"
                 android:text="Bhajans"
                 android:maxLines="2"
                 android:layout_marginLeft="15dp"
