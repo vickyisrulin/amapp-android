@@ -26,15 +26,8 @@
             android:icon="@drawable/ic_star_half_white_24dp"
             android:title="@string/nav_anoopam_events" /-->
         <item
-            android:id="@+id/navContactUs"
-            android:title="@string/nav_contact_us" />
-        <item
             android:id="@+id/navAbout"
             android:title="@string/nav_about"
-            app:showAsAction="always" />
-        <item
-            android:id="@+id/navAboutApp"
-            android:title="@string/nav_about_app"
             app:showAsAction="always" />
         <item
             android:id="@+id/navAppFeedback"

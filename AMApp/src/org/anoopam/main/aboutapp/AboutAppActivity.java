@@ -25,6 +25,7 @@ public class AboutAppActivity extends FragmentActivity {
     SmartTextView versionTextView;
     SmartTextView copyRightView;
     SmartTextView licenseTextView;
+    SmartTextView contactUsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +43,10 @@ public class AboutAppActivity extends FragmentActivity {
         String licenseLink = "<a href='"+AMConstants.URL_Licenses+"'>License Information</a>";
         licenseTextView.setText(Html.fromHtml(licenseLink));
         licenseTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        String contactUsText = "<a href='"+AMConstants.URL_ContactUs+"'>Contact us</a>";
+        contactUsTextView = (SmartTextView) findViewById(R.id.txtContactUs);
+        contactUsTextView.setText(Html.fromHtml(contactUsText));
+        contactUsTextView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
