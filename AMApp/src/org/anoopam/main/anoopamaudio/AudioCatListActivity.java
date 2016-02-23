@@ -13,6 +13,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
@@ -77,6 +78,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     public static  final String CAT_ID = "catid";
 
     private String IN_CATID;
+    private String albumName = "Jay Shree Swaminarayan";
 
     @Override
     public View getLayoutView() {
@@ -139,7 +141,13 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public void prepareViews() {
+        Bundle b = getIntent().getExtras();
+
         IN_CATID = getIntent().getStringExtra(CAT_ID);
+
+        if(b != null && b.getString(AudioListActivity.ALBUM_NAME) != null) {
+            albumName = b.getString(AudioListActivity.ALBUM_NAME);
+        }
 
         getAudioCategoryFormCache();
     }
@@ -167,7 +175,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             }
         });
         toolbar.setTitle(getString(R.string.nav_audio_title));
-        SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
+        SpannableString spannableString=new SpannableString(albumName);
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
     }
@@ -311,11 +319,13 @@ public class AudioCatListActivity extends AMAppMasterActivity {
                     if(hasSubCategory(audioCat.get(index).getAsString("catID"))){
                         Intent intent = new Intent(AudioCatListActivity.this, AudioCatListActivity.class);
                         intent.putExtra(AudioCatListActivity.CAT_ID,audioCat.get(index).getAsString("catID"));
+                        intent.putExtra(AudioListActivity.ALBUM_NAME, audioCat.get(index).getAsString("catName"));
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
                         ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
                     }else{
                         Intent intent = new Intent(AudioCatListActivity.this, AudioListActivity.class);
                         intent.putExtra(AudioListActivity.AUDIO_LIST, audioCat.get(index));
+                        intent.putExtra(AudioListActivity.ALBUM_NAME, audioCat.get(index).getAsString("catName"));
                         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
                         ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
                     }

@@ -15,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
@@ -65,6 +66,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
 
     public static  final String AUDIO_LIST = "audio_list";
+    public static  final String ALBUM_NAME = "album_name";
     private static final String TAG = "AudioCatListActivity";
 
     private static Context mContext;
@@ -96,6 +98,8 @@ public class AudioListActivity extends AMAppMasterActivity {
     private static ImageView currentPlay;
 
     private String currentAudio;
+
+    private String currentAlbumName="Jay Shree Swaminarayan";
 
     private boolean isProgressBarTouching = false;
 
@@ -309,7 +313,7 @@ public class AudioListActivity extends AMAppMasterActivity {
             }
         });
         toolbar.setTitle(getString(R.string.nav_audio_title));
-        SpannableString spannableString=new SpannableString(getString(R.string.app_subtitle));
+        SpannableString spannableString=new SpannableString(currentAlbumName);
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
     }
@@ -325,8 +329,13 @@ public class AudioListActivity extends AMAppMasterActivity {
 
         if(getIntent()!=null && getIntent().getExtras()!=null){
 
-            if(getIntent().getExtras().get(AUDIO_LIST)!=null){
-                audioDetails = (ContentValues) getIntent().getExtras().get(AUDIO_LIST);
+            Bundle b = getIntent().getExtras();
+            if(b.get(AUDIO_LIST)!=null){
+                audioDetails = (ContentValues) b.get(AUDIO_LIST);
+            }
+
+            if(b.getString(ALBUM_NAME)!= null) {
+                currentAlbumName = b.getString(ALBUM_NAME);
             }
 
         }
