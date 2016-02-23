@@ -181,13 +181,15 @@
 
         <activity
             android:name="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            <!--android:theme="@style/FullscreenTheme" />-->
 
         <activity
             android:name="org.anoopam.main.qow.QuoteActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            <!--android:theme="@style/FullscreenTheme"></activity>-->
 
         <activity
             android:name="org.anoopam.main.aboutapp.AboutAppActivity"
