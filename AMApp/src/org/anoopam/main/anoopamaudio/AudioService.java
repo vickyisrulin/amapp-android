@@ -68,6 +68,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 	private static AudioService audioService;
 
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -90,6 +91,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		audioService = this;
 		super.onCreate();
 	}
+
 
 	/**
 	 * Send message from timer
@@ -143,65 +145,8 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 				newNotification();
 			}
 
-			PlayerConstants.SONG_CHANGE_HANDLER = new Handler(new Callback() {
-				@Override
-				public boolean handleMessage(Message msg) {
-					final ContentValues data = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER);
-					String songPath = data.getAsString("audioURL");
-					SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
-
-					final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
-
-					if(destination.exists()){
-						newNotification();
-						try{
-							playSong(destination.getAbsolutePath(), data);
-							AudioListActivity.changeUI();
-//						AudioPlayerActivity.changeUI();
-						}catch(Exception e){
-							e.printStackTrace();
-						}
-					}else{
-						Controls.nextControl(getApplicationContext());
-					}
-
-					return false;
-				}
-			});
-
-			PlayerConstants.PLAY_PAUSE_HANDLER = new Handler(new Callback() {
-				@Override
-				public boolean handleMessage(Message msg) {
-					String message = (String)msg.obj;
-					if(mp == null)
-						return false;
-					if(message.equalsIgnoreCase(getResources().getString(R.string.play))){
-						PlayerConstants.SONG_PAUSED = false;
-						if(currentVersionSupportLockScreenControls){
-							remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-						}
-						mp.start();
-					}else if(message.equalsIgnoreCase(getResources().getString(R.string.pause))){
-						PlayerConstants.SONG_PAUSED = true;
-						if(currentVersionSupportLockScreenControls){
-							remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-						}
-						mp.pause();
-
-					}else if(message.startsWith("seek")){
-						mp.seekTo(Integer.parseInt(message.split(":")[1]));
-					}
-
-
-					newNotification();
-					try{
-						AudioListActivity.changeButton();
-//						AudioPlayerActivity.changeButton();
-					}catch(Exception e){}
-					Log.d("TAG", "TAG Pressed: " + message);
-					return false;
-				}
-			});
+            createSongChangeHandler();
+            createPlayPauseHandler();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -209,6 +154,87 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		return START_STICKY;
 	}
 
+    /**
+     * create Song Change Handler
+     */
+    private void createSongChangeHandler() {
+
+        if(PlayerConstants.SONG_CHANGE_HANDLER != null) {
+            return;
+        }
+
+        PlayerConstants.SONG_CHANGE_HANDLER = new Handler(new Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                final ContentValues data = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER);
+                String songPath = data.getAsString("audioURL");
+                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO, songPath);
+                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
+
+                final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
+
+                if(destination.exists()){
+                    newNotification();
+                    try{
+                        playSong(destination.getAbsolutePath(), data);
+                        AudioListActivity.changeUI();
+//						AudioPlayerActivity.changeUI();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    Controls.nextControl(getApplicationContext());
+                }
+
+                return false;
+            }
+        });
+    }
+
+    /**
+     * Create a handler to Play/Pause the player
+     */
+	private void createPlayPauseHandler() {
+
+        if (PlayerConstants.PLAY_PAUSE_HANDLER != null) {
+            return;
+        }
+
+		PlayerConstants.PLAY_PAUSE_HANDLER = new Handler(new Callback() {
+			@Override
+			public boolean handleMessage(Message msg) {
+				String message = (String)msg.obj;
+				if(mp == null)
+					return false;
+				if(message.equalsIgnoreCase(getResources().getString(R.string.play))){
+					PlayerConstants.SONG_PAUSED = false;
+					if(currentVersionSupportLockScreenControls){
+						remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+					}
+					mp.start();
+				}else if(message.equalsIgnoreCase(getResources().getString(R.string.pause))){
+					PlayerConstants.SONG_PAUSED = true;
+					if(currentVersionSupportLockScreenControls){
+						remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+					}
+					mp.pause();
+
+				}else if(message.startsWith("seek")){
+					mp.seekTo(Integer.parseInt(message.split(":")[1]));
+				}
+
+				newNotification();
+
+				try{
+					AudioListActivity.changeButton();
+//						AudioPlayerActivity.changeButton();
+				}catch(Exception e){}
+				Log.d("TAG", "TAG Pressed: " + message);
+				return false;
+			}
+		});
+	}
 	/**
 	 * Notification
 	 * Custom Bignotification is available from API 16
@@ -258,12 +284,12 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		}
 
 
-		notification.contentView.setTextViewText(R.id.textAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-		notification.contentView.setTextViewText(R.id.textSongName, songName);
+		notification.contentView.setTextViewText(R.id.textCustomNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
+		notification.contentView.setTextViewText(R.id.textCustomNotificationSongName, songName);
 
 		if(currentVersionSupportBigNotification){
-			notification.bigContentView.setTextViewText(R.id.textAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-			notification.bigContentView.setTextViewText(R.id.textSongName, songName);
+			notification.bigContentView.setTextViewText(R.id.textBitNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
+			notification.bigContentView.setTextViewText(R.id.textBigNotificationSongName, songName);
 		}
 
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;

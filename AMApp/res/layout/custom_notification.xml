@@ -27,7 +27,7 @@
             android:padding="5dp" >
 
             <TextView
-                android:id="@+id/textAlbumName"
+                android:id="@+id/textCustomNotificationAlbumName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -39,7 +39,7 @@
                 />
 
             <TextView
-                android:id="@+id/textSongName"
+                android:id="@+id/textCustomNotificationSongName"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"

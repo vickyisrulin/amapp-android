@@ -73,8 +73,6 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         super.initComponents();
         disableSideMenu();
         viewPager= (ExtendedViewPager) findViewById(R.id.viewPager);
-        // hide the Action Bar for the first time
-        toggleActionBarDisplay();
     }
 
     @Override

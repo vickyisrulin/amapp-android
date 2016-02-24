@@ -19,6 +19,8 @@ import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.webkit.URLUtil;
 
@@ -52,6 +54,13 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
             return sahebjiDarshanImages.get(0).getAsString("imageUrl");
         }
         return "";
+    }
+
+    @Override
+    public void setAnimations() {
+        super.setAnimations();
+        getWindow().setEnterTransition(new Slide(Gravity.RIGHT));
+        getWindow().setReturnTransition(new Slide(Gravity.BOTTOM));
     }
 
     @Override

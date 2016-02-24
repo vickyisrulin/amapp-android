@@ -13,6 +13,8 @@ import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
@@ -40,6 +42,8 @@ public class DataDownloadUtil {
     private static void loadImageUsingPicasso(File destinationFile, final ImageView targetImageView) {
         Picasso.with(AMApplication.getInstance().getApplicationContext())
                 .load(destinationFile)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_STORE)
                 .into(targetImageView);
     }
 

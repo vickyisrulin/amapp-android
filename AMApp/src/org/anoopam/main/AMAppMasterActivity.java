@@ -41,7 +41,7 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
 
     public static String MANAGE_UP_NAVIGATION = "manage_up_navigation";
 
-    public enum NAVIGATION_ITEMS{HOME, THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,CONTACT_US,ABOUT_APP,APP_FEEDBACK}
+    public enum NAVIGATION_ITEMS{HOME, THAKORJI_TODAY,SAHEBJI_DARSHAN,MANTRALEKHAN,QUOTE_OF_DAY,ANOOPAM_AUDIO,ABOUT,APP_FEEDBACK}
     private static final String AM_MANTRALEKHAN_APP_PACKANGE_NAME="com.web.anoopam";
 
     protected NavigationView navigationView;
@@ -135,15 +135,15 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
                         invokeEvents();
                         return true;*/
 
+//                    case R.id.navAbout:
+//                        invokeAboutFlow();
+//                        return true;
+
+//                    case R.id.navContactUs:
+//                        invokeContactUsFlow();
+//                        return true;
+
                     case R.id.navAbout:
-                        invokeAboutFlow();
-                        return true;
-
-                    case R.id.navContactUs:
-                        invokeContactUsFlow();
-                        return true;
-
-                    case R.id.navAboutApp:
                         invokeAboutAppFlow();
                         return true;
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.anoopam.main">
+    package="org.anoopam.main"
+    android:installLocation="auto">
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -180,17 +181,20 @@
 
         <activity
             android:name="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            <!--android:theme="@style/FullscreenTheme" />-->
 
         <activity
             android:name="org.anoopam.main.qow.QuoteActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            <!--android:theme="@style/FullscreenTheme"></activity>-->
 
         <activity
             android:name="org.anoopam.main.aboutapp.AboutAppActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme"></activity>
 
         <activity
