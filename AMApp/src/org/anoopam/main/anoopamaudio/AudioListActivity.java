@@ -82,8 +82,8 @@ public class AudioListActivity extends AMAppMasterActivity {
     private Button btnPrevious;
     private static Button btnPlay;
     private static Button btnPause;
-    private static TextView textAlbumName;
-    private static TextView textSongName;
+    private static TextView textMainAudioPlayerAlbumName;
+    private static TextView textMainAudioPlayerSongName;
 
     private Button btnStop;
     private Button btnNext;
@@ -163,8 +163,9 @@ public class AudioListActivity extends AMAppMasterActivity {
         btnPrevious = (Button)findViewById( R.id.btnPrevious );
         btnPlay = (Button)findViewById( R.id.btnPlay );
         btnPause = (Button)findViewById( R.id.btnPause );
-        textAlbumName = (TextView) findViewById(R.id.textAlbumName);
-        textSongName = (TextView) findViewById(R.id.textSongName);
+        textMainAudioPlayerAlbumName = (TextView) findViewById(R.id.textMainPlayerAlbumName);
+        textMainAudioPlayerSongName = (TextView) findViewById(R.id.textMainPlayerSongName);
+
         btnStop = (Button)findViewById( R.id.btnStop );
         btnNext = (Button)findViewById( R.id.btnNext );
         textBufferDuration = (TextView)findViewById( R.id.textBufferDuration );
@@ -431,7 +432,7 @@ public class AudioListActivity extends AMAppMasterActivity {
                 if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && audio.getAsString("audioURL").equals(currentAudio)) {
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
                     currentPlay = holder.imgDownload;
-                    textSongName.setText(audio.getAsString("audioTitle"));
+                    textMainAudioPlayerSongName.setText(audio.getAsString("audioTitle"));
                 }else{
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
                 }
@@ -538,9 +539,11 @@ public class AudioListActivity extends AMAppMasterActivity {
         try{
             imageViewAlbumArt.setBackgroundDrawable(new BitmapDrawable(UtilFunctions.getDefaultAlbumArt(mContext)));
             linearLayoutPlayingSong.setVisibility(View.VISIBLE);
+            String cachedAlbumName = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, "");
+            String cachedSongName = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, "");
 
-            textAlbumName.setText(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, ""));
-            textSongName.setText(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, ""));
+            textMainAudioPlayerAlbumName.setText(cachedAlbumName);
+            textMainAudioPlayerSongName.setText(cachedSongName);
 
         }catch(Exception e){}
     }

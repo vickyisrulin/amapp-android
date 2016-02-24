@@ -68,6 +68,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 	private static AudioService audioService;
 
+
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -90,6 +91,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		audioService = this;
 		super.onCreate();
 	}
+
 
 	/**
 	 * Send message from timer
@@ -167,6 +169,8 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
                 final ContentValues data = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER);
                 String songPath = data.getAsString("audioURL");
                 SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO, songPath);
+                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
 
                 final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
 
@@ -280,12 +284,12 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		}
 
 
-		notification.contentView.setTextViewText(R.id.textAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-		notification.contentView.setTextViewText(R.id.textSongName, songName);
+		notification.contentView.setTextViewText(R.id.textCustomNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
+		notification.contentView.setTextViewText(R.id.textCustomNotificationSongName, songName);
 
 		if(currentVersionSupportBigNotification){
-			notification.bigContentView.setTextViewText(R.id.textAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-			notification.bigContentView.setTextViewText(R.id.textSongName, songName);
+			notification.bigContentView.setTextViewText(R.id.textBitNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
+			notification.bigContentView.setTextViewText(R.id.textBigNotificationSongName, songName);
 		}
 
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;

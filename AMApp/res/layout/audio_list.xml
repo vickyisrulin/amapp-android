@@ -60,7 +60,7 @@
             android:layout_marginLeft="5dp"
             >
             <TextView
-                android:id="@+id/textAlbumName"
+                android:id="@+id/textMainPlayerAlbumName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -70,7 +70,7 @@
                 android:text="Album Name"
                 />
             <TextView
-                android:id="@+id/textSongName"
+                android:id="@+id/textMainPlayerSongName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
