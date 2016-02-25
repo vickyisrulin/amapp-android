@@ -68,7 +68,6 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 	private static AudioService audioService;
 
-
 	@Override
 	public IBinder onBind(Intent intent) {
 		return null;
@@ -91,7 +90,6 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		audioService = this;
 		super.onCreate();
 	}
-
 
 	/**
 	 * Send message from timer
@@ -134,19 +132,85 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 			String songPath = data.getAsString("audioURL");
 
-			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
-			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
-			SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
+
 
 			final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
 
 			if(destination.exists()){
+				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
+				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
+				AudioListActivity.currentAudio= songPath;
 				playSong(destination.getAbsolutePath(), data);
 				newNotification();
+
 			}
 
-            createSongChangeHandler();
-            createPlayPauseHandler();
+			PlayerConstants.SONG_CHANGE_HANDLER = new Handler(new Callback() {
+				@Override
+				public boolean handleMessage(Message msg) {
+					final ContentValues data = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER);
+					String songPath = data.getAsString("audioURL");
+
+
+
+					final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
+
+					if(destination.exists()){
+						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
+						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, PlayerConstants.CATEGORY.getAsString("catName"));
+						AudioListActivity.currentAudio= songPath;
+						try{
+							playSong(destination.getAbsolutePath(), data);
+							newNotification();
+							AudioListActivity.changeUI();
+//						AudioPlayerActivity.changeUI();
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+					}else{
+						Controls.nextControl(getApplicationContext());
+					}
+
+					return false;
+				}
+			});
+
+			PlayerConstants.PLAY_PAUSE_HANDLER = new Handler(new Callback() {
+				@Override
+				public boolean handleMessage(Message msg) {
+					String message = (String)msg.obj;
+					if(mp == null)
+						return false;
+					if(message.equalsIgnoreCase(getResources().getString(R.string.play))){
+						PlayerConstants.SONG_PAUSED = false;
+						if(currentVersionSupportLockScreenControls){
+							remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
+						}
+						mp.start();
+					}else if(message.equalsIgnoreCase(getResources().getString(R.string.pause))){
+						PlayerConstants.SONG_PAUSED = true;
+						if(currentVersionSupportLockScreenControls){
+							remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
+						}
+						mp.pause();
+
+					}else if(message.startsWith("seek")){
+						mp.seekTo(Integer.parseInt(message.split(":")[1]));
+					}
+
+
+					newNotification();
+					try{
+						AudioListActivity.changeButton();
+						AudioListActivity.updateUI();
+//						AudioPlayerActivity.changeButton();
+					}catch(Exception e){}
+					Log.d("TAG", "TAG Pressed: " + message);
+					return false;
+				}
+			});
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -154,100 +218,20 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		return START_STICKY;
 	}
 
-    /**
-     * create Song Change Handler
-     */
-    private void createSongChangeHandler() {
-
-        if(PlayerConstants.SONG_CHANGE_HANDLER != null) {
-            return;
-        }
-
-        PlayerConstants.SONG_CHANGE_HANDLER = new Handler(new Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                final ContentValues data = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER);
-                String songPath = data.getAsString("audioURL");
-                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO, songPath);
-                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
-                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
-
-                final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
-
-                if(destination.exists()){
-                    newNotification();
-                    try{
-                        playSong(destination.getAbsolutePath(), data);
-                        AudioListActivity.changeUI();
-//						AudioPlayerActivity.changeUI();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }else{
-                    Controls.nextControl(getApplicationContext());
-                }
-
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Create a handler to Play/Pause the player
-     */
-	private void createPlayPauseHandler() {
-
-        if (PlayerConstants.PLAY_PAUSE_HANDLER != null) {
-            return;
-        }
-
-		PlayerConstants.PLAY_PAUSE_HANDLER = new Handler(new Callback() {
-			@Override
-			public boolean handleMessage(Message msg) {
-				String message = (String)msg.obj;
-				if(mp == null)
-					return false;
-				if(message.equalsIgnoreCase(getResources().getString(R.string.play))){
-					PlayerConstants.SONG_PAUSED = false;
-					if(currentVersionSupportLockScreenControls){
-						remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PLAYING);
-					}
-					mp.start();
-				}else if(message.equalsIgnoreCase(getResources().getString(R.string.pause))){
-					PlayerConstants.SONG_PAUSED = true;
-					if(currentVersionSupportLockScreenControls){
-						remoteControlClient.setPlaybackState(RemoteControlClient.PLAYSTATE_PAUSED);
-					}
-					mp.pause();
-
-				}else if(message.startsWith("seek")){
-					mp.seekTo(Integer.parseInt(message.split(":")[1]));
-				}
-
-				newNotification();
-
-				try{
-					AudioListActivity.changeButton();
-//						AudioPlayerActivity.changeButton();
-				}catch(Exception e){}
-				Log.d("TAG", "TAG Pressed: " + message);
-				return false;
-			}
-		});
-	}
 	/**
 	 * Notification
 	 * Custom Bignotification is available from API 16
 	 */
 	@SuppressLint("NewApi")
 	private void newNotification() {
-		String songName = PlayerConstants.SONGS_LIST.get(PlayerConstants.SONG_NUMBER).getAsString("audioTitle");
+
+
 		RemoteViews simpleContentView = new RemoteViews(getApplicationContext().getPackageName(),R.layout.custom_notification);
 		RemoteViews expandedView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.big_notification);
 
 		Notification notification = new NotificationCompat.Builder(getApplicationContext())
 				.setSmallIcon(R.drawable.ic_music)
-				.setContentTitle(songName).build();
+				.setContentTitle(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, "")).build();
 
 		setListeners(simpleContentView);
 		setListeners(expandedView);
@@ -284,12 +268,12 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 		}
 
 
-		notification.contentView.setTextViewText(R.id.textCustomNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-		notification.contentView.setTextViewText(R.id.textCustomNotificationSongName, songName);
+		notification.contentView.setTextViewText(R.id.textCustomNotificationAlbumName, SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, ""));
+		notification.contentView.setTextViewText(R.id.textCustomNotificationSongName, SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, ""));
 
 		if(currentVersionSupportBigNotification){
-			notification.bigContentView.setTextViewText(R.id.textBitNotificationAlbumName, PlayerConstants.CATEGORY.getAsString("catName"));
-			notification.bigContentView.setTextViewText(R.id.textBigNotificationSongName, songName);
+			notification.bigContentView.setTextViewText(R.id.textBitNotificationAlbumName, SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, ""));
+			notification.bigContentView.setTextViewText(R.id.textBigNotificationSongName, SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_AUDIO_NAME, ""));
 		}
 
 		notification.flags |= Notification.FLAG_ONGOING_EVENT;
@@ -383,15 +367,21 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 	@SuppressLint("NewApi")
 	private void UpdateMetadata(ContentValues data){
-		if (remoteControlClient == null)
+		if (remoteControlClient == null){
 			return;
-		MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
-		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, data.getAsString(PlayerConstants.CATEGORY.getAsString("catName")));
-		metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, data.getAsString("audioTitle"));
-		mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.anoopam_audio_lock_screen);
-		metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
-		metadataEditor.apply();
-		audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+		}
+
+		try{
+			MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
+			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, data.getAsString(PlayerConstants.CATEGORY.getAsString("catName")));
+			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, data.getAsString("audioTitle"));
+			mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.anoopam_audio_lock_screen);
+			metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
+			metadataEditor.apply();
+			audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+		}catch (Throwable e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override

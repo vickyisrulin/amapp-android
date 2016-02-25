@@ -54,6 +54,8 @@ import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.Environment;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMConstants;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,7 +73,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     private static Context mContext;
     private SmartRecyclerView mRecyclerView;
-    private AudioCatAdapter mAdapter;
+    private static AudioListAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<ContentValues> audioList =new ArrayList<>();
     private SmartTextView emptyView;
@@ -97,7 +99,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     private static ImageView currentPlay;
 
-    private String currentAudio;
+    public static String currentAudio;
 
     private String currentAlbumName="Jay Shree Swaminarayan";
 
@@ -149,6 +151,7 @@ public class AudioListActivity extends AMAppMasterActivity {
     public void initComponents() {
         super.initComponents();
         disableSideMenu();
+        mAdapter = null;
         mContext = this;
         mRecyclerView = (SmartRecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -364,7 +367,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
                 if(audioList!=null && audioList.size()>0){
                     if(mAdapter==null){
-                        mAdapter = new AudioCatAdapter();
+                        mAdapter = new AudioListAdapter();
                         mRecyclerView.setAdapter(mAdapter);
                     }else{
                         mAdapter.notifyDataSetChanged();
@@ -382,7 +385,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     }
 
-    class AudioCatAdapter extends RecyclerView.Adapter<AudioCatAdapter.ViewHolder> implements Constants {
+    class AudioListAdapter extends RecyclerView.Adapter<AudioListAdapter.ViewHolder> implements Constants {
 
         public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -405,7 +408,7 @@ public class AudioListActivity extends AMAppMasterActivity {
         }
 
         @Override
-        public AudioCatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public AudioListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
             final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.audio_list_item, parent, false);
             final ViewHolder vh = new ViewHolder(v);
@@ -432,7 +435,9 @@ public class AudioListActivity extends AMAppMasterActivity {
                 if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && audio.getAsString("audioURL").equals(currentAudio)) {
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
                     currentPlay = holder.imgDownload;
-                    textMainAudioPlayerSongName.setText(audio.getAsString("audioTitle"));
+                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, audioDetails.getAsString("catName"));
+                    PlayerConstants.CATEGORY = audioDetails;
+                    PlayerConstants.SONGS_LIST = audioList;
                 }else{
                     holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
                 }
@@ -447,14 +452,40 @@ public class AudioListActivity extends AMAppMasterActivity {
                 @Override
                 public void onClick(View v) {
 
-
                     if (audio.containsKey("loading") && audio.getAsString("loading").equalsIgnoreCase("1")) {
                         return;
                     }
 
                     if (destination.exists()) {
+
+                        if(!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, "").equals(audioDetails.getAsString("catName"))){
+                            PlayerConstants.SONG_NUMBER = -1;
+                        }
+
+                        try{
+                            JSONObject currentCat = new JSONObject();
+                            JSONArray catList = new JSONArray();
+
+                            for (int i = 0; i < audioList.size() ; i++) {
+                                JSONObject obj = new JSONObject();
+                                obj.put("catID",audioList.get(i).getAsString("catID"));
+                                obj.put("audioID",audioList.get(i).getAsString("audioID"));
+                                obj.put("audioTitle",audioList.get(i).getAsString("audioTitle"));
+                                obj.put("audioURL",audioList.get(i).getAsString("audioURL"));
+                                obj.put("duration",audioList.get(i).getAsString("duration"));
+                                catList.put(obj);
+                            }
+                            currentCat.put("audios",catList);
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_LIST, currentCat.toString());
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, audioDetails.getAsString("catName"));
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+
                         PlayerConstants.CATEGORY = audioDetails;
                         PlayerConstants.SONGS_LIST = audioList;
+
+
                         if (currentPlay != null) {
                             try {
                                 currentPlay.setImageResource(R.drawable.ic_action_av_play_circle_outline);
@@ -486,6 +517,12 @@ public class AudioListActivity extends AMAppMasterActivity {
                                 PlayerConstants.SONG_CHANGE_HANDLER.sendMessage(PlayerConstants.SONG_CHANGE_HANDLER.obtainMessage());
                             }
                         }
+
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME, audio.getAsString("audioTitle"));
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO, audio.getAsString("audioURL"));
+
+                        currentAudio = audio.getAsString("audioURL");
+
                         updateUI();
                         changeButton();
                     } else {
@@ -548,6 +585,14 @@ public class AudioListActivity extends AMAppMasterActivity {
         }catch(Exception e){}
     }
 
+
+    private static void notifyList(){
+        try {
+            mAdapter.notifyDataSetChanged();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     public static void changeButton() {
         if(PlayerConstants.SONG_PAUSED){
             btnPause.setVisibility(View.GONE);
@@ -570,6 +615,8 @@ public class AudioListActivity extends AMAppMasterActivity {
                 }
             }
         }
+
+        notifyList();
     }
 
     public static void changeUI(){
