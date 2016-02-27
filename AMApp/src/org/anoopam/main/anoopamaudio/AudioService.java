@@ -15,7 +15,6 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -375,7 +374,6 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
 			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, data.getAsString(PlayerConstants.CATEGORY.getAsString("catName")));
 			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, data.getAsString("audioTitle"));
-//          /* TODO: commented this out for now - there is OOM exception happening due to this. We will come back to this later */
 //			mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.anoopam_audio_lock_screen);
 //			metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
 			metadataEditor.apply();

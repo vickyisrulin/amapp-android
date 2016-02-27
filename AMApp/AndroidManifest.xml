@@ -20,6 +20,7 @@
 
     <!-- GCM PERMISSIONS END -->
     <application
+        android:largeHeap="true"
         android:name="org.anoopam.main.AMApplication"
         android:allowTaskReparenting="true"
         android:icon="@drawable/ic_launcher"

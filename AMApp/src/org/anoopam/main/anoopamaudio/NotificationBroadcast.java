@@ -54,15 +54,16 @@ public class NotificationBroadcast extends BroadcastReceiver {
         		} else if (intent.getAction().equals(AudioService.NOTIFY_NEXT)) {
         			Controls.nextControl(context);
         		} else if (intent.getAction().equals(AudioService.NOTIFY_DELETE)) {
+
 					Intent i = new Intent(context, AudioService.class);
 					context.stopService(i);
 
 					AudioListActivity.stopPlayer();
 
-					Intent in = new Intent(context, AudioListActivity.class);
-					in.putExtra(AudioListActivity.AUDIO_LIST, PlayerConstants.CATEGORY);
-			        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			        context.startActivity(in);
+//					Intent in = new Intent(context, AudioListActivity.class);
+//					in.putExtra(AudioListActivity.AUDIO_LIST, PlayerConstants.CATEGORY);
+//			        in.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			        context.startActivity(in);
 
         		}else if (intent.getAction().equals(AudioService.NOTIFY_PREVIOUS)) {
     				Controls.previousControl(context);
