@@ -164,6 +164,7 @@
                     app:progressBackgroundColor="#ffffff"
                     app:thumbColor="@color/anoopamCreamColor"
                     app:thumbAlpha="1.0"
+                    android:maxHeight="200dp"
                     />
 
                 <TextView

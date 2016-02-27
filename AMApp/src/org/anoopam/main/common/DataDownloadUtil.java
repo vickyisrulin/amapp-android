@@ -9,20 +9,17 @@ package org.anoopam.main.common;
 
 import android.net.Uri;
 import android.view.View;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListener;
 
-import org.anoopam.ext.smart.framework.SmartUtils;
-import org.anoopam.main.AMApplication;
 import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.main.AMApplication;
 
 import java.io.File;
 
@@ -44,6 +41,7 @@ public class DataDownloadUtil {
                 .load(destinationFile)
                 .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .memoryPolicy(MemoryPolicy.NO_STORE)
+                .skipMemoryCache()
                 .into(targetImageView);
     }
 

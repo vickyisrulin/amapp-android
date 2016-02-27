@@ -548,6 +548,11 @@ public class AudioListActivity extends AMAppMasterActivity {
                                     @Override
                                     public void onDownloadFailed(int id, int errorCode, String errorMessage) {
                                         audio.put("loading", "0");
+                                        try{
+                                            destination.delete();
+                                        }catch (Error e){
+                                            e.printStackTrace();
+                                        }
                                         holder.imgDownload.setVisibility(View.VISIBLE);
                                         holder.pbrLoading.setVisibility(View.GONE);
                                     }
@@ -655,6 +660,8 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     }
 
+
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -667,6 +674,7 @@ public class AudioListActivity extends AMAppMasterActivity {
     }
 
     private void handleBackPress(){
+        mAdapter = null;
         if(isTaskRoot()){
             Intent intent = new Intent(this, AudioCatListActivity.class);
             intent.putExtra(AudioListActivity.AUDIO_LIST, audioDetails);
