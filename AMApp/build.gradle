@@ -56,7 +56,7 @@ android {
         // e.g. 09 - Samsung App store, 08 - LG App Store, 11 - NEW-APP-STORE to override Google Play
         versionCode 710000003
         //versionName "1.0.000"
-        versionName "beta-v3"
+        versionName "0.0.003"
     }
 
     lintOptions {
