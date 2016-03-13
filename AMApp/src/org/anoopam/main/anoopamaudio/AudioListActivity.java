@@ -101,7 +101,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     public static String currentAudio;
 
-    private String currentAlbumName="Jay Shree Swaminarayan";
+    private String currentAlbumName="Jai Shree Swaminarayan";
 
     private boolean isProgressBarTouching = false;
 

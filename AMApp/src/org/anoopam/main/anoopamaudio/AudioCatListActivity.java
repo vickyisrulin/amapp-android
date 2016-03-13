@@ -78,7 +78,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     public static  final String CAT_ID = "catid";
 
     private String IN_CATID;
-    private String albumName = "Jay Shree Swaminarayan";
+    private String albumName = "Jai Shree Swaminarayan";
 
     @Override
     public View getLayoutView() {

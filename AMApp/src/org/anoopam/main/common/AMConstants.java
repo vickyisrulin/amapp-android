@@ -84,7 +84,7 @@ public class AMConstants {
     // Feedback Email to AM
     public static final String CONST_FeedbackEmailAddress = "anoopamapps@gmail.com";
     public static final String CONST_FeedbackEmailSubject = "Feedback on AM Android App: " + BuildConfig.VERSION_NAME;
-    public static final String CONST_FeedbackEmailBody = "Jay Shree Swaminarayan. Please write your feedback below\n\n";
+    public static final String CONST_FeedbackEmailBody = "Jai Shree Swaminarayan. Please write your feedback below\n\n";
 
 
 }
