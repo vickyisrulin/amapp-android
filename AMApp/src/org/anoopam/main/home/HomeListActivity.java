@@ -136,7 +136,8 @@ public class HomeListActivity extends AMAppMasterActivity {
 
     @Override
     public void preOnCreate() {
-        activateShakeDetector(this);
+        // disable feedback/response option on shaking
+        //activateShakeDetector(this);
     }
 
     @Override
