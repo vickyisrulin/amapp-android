@@ -147,9 +147,9 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
                         invokeAboutAppFlow();
                         return true;
 
-                    case R.id.navAppFeedback:
-                        invokeFeedbackEmailIntent();
-                        return true;
+//                    case R.id.navAppFeedback:
+//                        invokeFeedbackEmailIntent();
+//                        return true;
 
                     default:
                         invokeHome();

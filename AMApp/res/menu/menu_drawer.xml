@@ -29,9 +29,5 @@
             android:id="@+id/navAbout"
             android:title="@string/nav_about"
             app:showAsAction="always" />
-        <item
-            android:id="@+id/navAppFeedback"
-            android:title="@string/nav_app_feedback"
-            app:showAsAction="always" />
     </group>
 </menu>
