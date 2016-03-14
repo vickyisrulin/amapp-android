@@ -20,7 +20,6 @@ public enum Environment {
             AMConstants.MOCK_MOCKY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix,
-            AMConstants.MOCK_MOCKY_AnoopamAudio_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_QuoteOfTheWeek_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_News_Endpoint_Suffix
     ),
@@ -31,7 +30,6 @@ public enum Environment {
             AMConstants.MOCK_APIARY_ThakorjiToday_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_SahebjiDarshan_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_AnoopamAudio_Endpoint_Suffix,
-            AMConstants.MOCK_APIARY_AnoopamAudio_Endpoint_Suffix,
             AMConstants.MOCK_APIARY_QuoteOfTheWeek_Endpoint_Suffix,
             AMConstants.MOCK_MOCKY_News_Endpoint_Suffix
     ),
@@ -41,8 +39,7 @@ public enum Environment {
             AMConstants.LIVE_HomeScreen_Endpoint_Suffix,
             AMConstants.LIVE_ThakorjiToday_Endpoint_Suffix,
             AMConstants.LIVE_SahebjiDarshan_Endpoint_Suffix,
-            AMConstants.LIVE_AnoopamAudioCategory_Endpoint_Suffix,
-            AMConstants.LIVE_AnoopamAudioCategory_Endpoint_Suffix,
+            AMConstants.LIVE_AnoopamAudio_Endpoint_Suffix,
             AMConstants.LIVE_QuoteOfTheWeek_Endpoint_Suffix,
             AMConstants.LIVE_News_Endpoint_Suffix
     );
@@ -53,20 +50,18 @@ public enum Environment {
     private String mThakorjiTodayEndpoint;
     private String mSahebjiDarshanEndpiont;
     private String mAnoopamAudioEndpoint;
-    private String mAnoopamAudioListEndpoint;
     private String mQuoteOfTheWeekEndpoint;
     private String mNewsEndpoint;
 
 
     Environment(String domainUrl, String splashScreenEndpointSuffix, String homeTilesEndpointSuffix, String thakorjiTodayEndpointSuffix, String sahebjiDarshanEndpointSuffix,
-                String anoopamAudioEndpointSuffix,String anoopamAudioListEndpointSuffix, String quoteOfTheWeekEndpointSuffix, String newsEndpointSuffix) {
+                String anoopamAudioEndpointSuffix, String quoteOfTheWeekEndpointSuffix, String newsEndpointSuffix) {
         mDomainUrl = domainUrl;
         mSplashScreenEndpoint = domainUrl + splashScreenEndpointSuffix;
         mHomeTilesEndpoint = domainUrl + homeTilesEndpointSuffix;
         mThakorjiTodayEndpoint = domainUrl+thakorjiTodayEndpointSuffix;
         mSahebjiDarshanEndpiont = domainUrl+sahebjiDarshanEndpointSuffix;
         mAnoopamAudioEndpoint = domainUrl+anoopamAudioEndpointSuffix;
-        mAnoopamAudioListEndpoint = domainUrl+anoopamAudioListEndpointSuffix;
         mQuoteOfTheWeekEndpoint = domainUrl+quoteOfTheWeekEndpointSuffix;
         mNewsEndpoint = domainUrl + newsEndpointSuffix;
     }
@@ -114,12 +109,6 @@ public enum Environment {
      * @return String
      */
     public String getAnoopamAudioEndpoint() { return mAnoopamAudioEndpoint;}
-
-    /**
-     * returns the Anoopam Audio List endpoint
-     * @return String
-     */
-    public String getAnoopamAudioListEndpoint() { return mAnoopamAudioListEndpoint;}
 
     /**
      * returns the Quote of the Day Endpoint

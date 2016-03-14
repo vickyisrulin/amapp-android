@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by dadesai on 12/23/15.
@@ -61,6 +62,7 @@ public class AMServiceRequest {
      */
     public void fetchUpdatedServerData() {
         //TODO: Optimize these calls to get the data in one server request
+        AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingAnoopamAudioFromServer();
         AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();
@@ -79,14 +81,17 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_Cat_Tag);
 
-        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioEndpoint());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, getAnoopamAudioLastUpdatedTimeStamp());
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
-                    smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", false);
-                    smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", false);
+                    smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", true);
+                    smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", true);
+                    AMApplication.getInstance()
+                            .writeSharedPreferences(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, response
+                                    .getString(AMConstants.AMS_RequestParam_AnoopamAudio_LastUpdatedTimestamp));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -412,14 +417,14 @@ public class AMServiceRequest {
         return String.format(endpoint,lastUpdatedTimeStamp,getNetworkSpeedParamValue());
     }
 
-    /**
-     * returns the Anoopam Audio Endpoint
-     * @return String
-     */
-    public String getAnoopamAudioEndpoint() {
-        return AMApplication.getInstance().getEnv().getAnoopamAudioEndpoint();
+    // gets the latest timestamp cached on the client side
+    // and addes it into the Anoopam Audio endpoint as param
+    public String getAnoopamAudioLastUpdatedTimeStamp() {
+        String endpoint = mEnvironment.getAnoopamAudioEndpoint();
+        String lastUpdatedTimeStamp = AMApplication.getInstance()
+                .readSharedPreferences().getString(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, "");
+        return String.format(endpoint, lastUpdatedTimeStamp, getNetworkSpeedParamValue());
     }
-
 
     // gets the latest timestamp cached on the client side
     // and addes it into the News endpoint as param
@@ -437,5 +442,19 @@ public class AMServiceRequest {
         } else {
             return "fast";
         }
+    }
+
+    /**
+     * obtains the device Country from the Device Local
+     * @return
+     */
+    public static String getDeviceCountry() {
+        Locale deviceLocal = AMApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale;
+        String deviceCountry = "COULD NOT OBTAIN";
+
+        if (deviceLocal != null) {
+            deviceCountry = deviceLocal.getCountry();
+        }
+        return deviceCountry;
     }
 }

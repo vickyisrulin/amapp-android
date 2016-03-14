@@ -101,7 +101,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
     public static String currentAudio;
 
-    private String currentAlbumName="Jay Shree Swaminarayan";
+    private String currentAlbumName="Jai Shree Swaminarayan";
 
     private boolean isProgressBarTouching = false;
 
@@ -627,14 +627,6 @@ public class AudioListActivity extends AMAppMasterActivity {
     public static void changeUI(){
         updateUI();
         changeButton();
-    }
-    /**
-     * returns the Anoopam Audio Endpoint
-     * @return String
-     */
-    private String getAnoopamAudioListEndpoint() {
-        // FIXME: Since AMS still doesnt have endpoint for audio, return MOCK endpoint
-        return Environment.ENV_LIVE.getAnoopamAudioListEndpoint();
     }
 
     public static void stopPlayer(){
