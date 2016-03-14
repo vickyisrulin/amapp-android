@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,6 +25,7 @@ import android.widget.FrameLayout;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMServiceRequest;
+import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
 import org.anoopam.main.common.events.EventBus;
 import org.anoopam.main.common.events.HomeTilesUpdateFailedEvent;
 import org.anoopam.main.common.events.HomeTilesUpdateSuccessEvent;
@@ -149,6 +151,10 @@ public class HomeListActivity extends AMAppMasterActivity {
         smartCaching = new SmartCaching(this);
         //TODO: is this the best way/place for this?
         AMServiceRequest.getInstance().fetchUpdatedServerData();
+
+        String deviceCountry = AMServiceRequest.getDeviceCountry();
+        Log.d(TAG, "deviceCountry:  " + deviceCountry);
+        CrashlyticsUtils.crashlyticsLog("Home Screen Init from Country: " + deviceCountry);
     }
 
     @Override
