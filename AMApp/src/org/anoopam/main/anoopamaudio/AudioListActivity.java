@@ -628,14 +628,6 @@ public class AudioListActivity extends AMAppMasterActivity {
         updateUI();
         changeButton();
     }
-    /**
-     * returns the Anoopam Audio Endpoint
-     * @return String
-     */
-    private String getAnoopamAudioListEndpoint() {
-        // FIXME: Since AMS still doesnt have endpoint for audio, return MOCK endpoint
-        return Environment.ENV_LIVE.getAnoopamAudioListEndpoint();
-    }
 
     public static void stopPlayer(){
 
