@@ -21,6 +21,9 @@
         <item
             android:id="@+id/navAudio"
             android:title="@string/nav_audio" />
+        <item
+            android:id="@+id/navVideo"
+            android:title="@string/nav_video" />
         <!--item
             android:id="@+id/navAnoopamEvents"
             android:icon="@drawable/ic_star_half_white_24dp"

@@ -62,6 +62,7 @@ public class AMServiceRequest {
      */
     public void fetchUpdatedServerData() {
         //TODO: Optimize these calls to get the data in one server request
+        AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingAnoopamAudioFromServer();
         AMServiceRequest.getInstance().startSahebjiDarshanUpdatesFromServer();

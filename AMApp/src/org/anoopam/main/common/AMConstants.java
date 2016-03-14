@@ -80,7 +80,7 @@ public class AMConstants {
     public static final String URL_Events = "http://www.anoopam.org/events/indexevents.php";
     public static final String URL_Philosophy = "http://www.anoopam.org/philosophy/sahebji.php";
     public static final String URL_Licenses = "http://www.anoopam.org/aboutus/android-app-license.php";
-
+    public static final String URL_AnoopamVideoYoutubeChannel = "https://www.youtube.com/channel/UCv2Y-JlQkR8DV36mVecs6rQ";
 
     // Feedback Email to AM
     public static final String CONST_FeedbackEmailAddress = "anoopamapps@gmail.com";

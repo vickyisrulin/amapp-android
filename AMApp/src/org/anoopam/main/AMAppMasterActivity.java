@@ -131,6 +131,9 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
                         invokeQuoteOfTheWeekFlow();
                         return true;
 
+                    case R.id.navVideo:
+                        invokeVideoFlow();
+                        return true;
                     /*case R.id.navAnoopamEvents:
                         invokeEvents();
                         return true;*/
@@ -181,6 +184,12 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
         Intent intent = new Intent(AMAppMasterActivity.this, AudioCatListActivity.class);
         activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
         ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+    }
+
+    protected void invokeVideoFlow() {
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(AMConstants.URL_AnoopamVideoYoutubeChannel));
+        startActivity(intent);
     }
 
     protected void invokeNewsUpdatesFlow() {

@@ -60,9 +60,7 @@ public class HomeListActivity extends AMAppMasterActivity {
         MANTRALEKHAN,
         QUOTE_OF_DAY,
         ANOOPAM_AUDIO,
-        CONTACT_US,
-        ABOUT,
-        ABOUT_APP;
+        ANOOPAM_VIDEO;
     }
 
     private void registerForEvents() {
@@ -239,16 +237,8 @@ public class HomeListActivity extends AMAppMasterActivity {
                 invokeQuoteOfTheWeekFlow();
                 return;
 
-            case ABOUT:
-                invokeAboutFlow();
-                return;
-
-            case CONTACT_US:
-                invokeContactUsFlow();
-                return;
-
-            case ABOUT_APP:
-                invokeAboutAppFlow();
+            case ANOOPAM_VIDEO:
+                invokeVideoFlow();
                 return;
 
             default:
