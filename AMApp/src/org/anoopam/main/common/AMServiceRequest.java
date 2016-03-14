@@ -33,6 +33,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by dadesai on 12/23/15.
@@ -440,5 +441,19 @@ public class AMServiceRequest {
         } else {
             return "fast";
         }
+    }
+
+    /**
+     * obtains the device Country from the Device Local
+     * @return
+     */
+    public static String getDeviceCountry() {
+        Locale deviceLocal = AMApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale;
+        String deviceCountry = "COULD NOT OBTAIN";
+
+        if (deviceLocal != null) {
+            deviceCountry = deviceLocal.getCountry();
+        }
+        return deviceCountry;
     }
 }
