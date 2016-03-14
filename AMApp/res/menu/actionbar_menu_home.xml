@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item
+    android:id="@+id/action_download"
+    android:icon="@drawable/ic_action_file_white_cloud_download"
+    android:title="@string/action_download"
+    app:showAsAction="always"/>
+
+    <item android:id="@+id/action_share"
+    android:title="@string/share"
+    android:icon="@drawable/ic_share_variant_white_24dp"
+    app:showAsAction="ifRoom"/>
+
+</menu>

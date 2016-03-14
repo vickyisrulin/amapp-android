@@ -8,7 +8,10 @@
 package org.anoopam.main.thakorjitoday;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,12 +19,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 import android.widget.ProgressBar;
 
 import org.anoopam.ext.smart.caching.SmartCaching;
+import org.anoopam.ext.smart.customviews.Log;
 import org.anoopam.ext.smart.framework.Constants;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
@@ -33,11 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-/**
- * Created by tasol on 23/7/15.
- */
 
 public class TempleGalleryActivity extends AMAppMasterActivity implements Constants {
 
@@ -45,6 +49,16 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     private ContentValues templeDetail;
     private ArrayList<ContentValues> templeImages;
     private ExtendedViewPager viewPager;
+    private String downloadFileName;
+    private String downloadFilePath;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_home, menu);
+        return true;
+        }
+
+
 
     @Override
     public View getLayoutView() {
@@ -177,13 +191,24 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
         }
 
         @Override
+        public void setPrimaryItem(ViewGroup viewGroup, int position, Object object){
+            downloadFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null);
+            downloadFilePath = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
+        }
+
+        @Override
         public Object instantiateItem(ViewGroup container, final int position) {
             View itemView = LayoutInflater.from(TempleGalleryActivity.this).inflate(R.layout.temple_pager_item, container, false);
             final TouchImageView imgTemple= (TouchImageView) itemView.findViewById(R.id.imgAlbum);
             imgTemple.setOnLongClickListener(new PrivateOnLongClickListener());
             final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
-            final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
+            //final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
+
+           // downloadFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null);
+           // downloadFilePath = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
+            final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator + templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
+
             Uri downloadUri = Uri.parse(images.get(position).getAsString("image").replaceAll(" ", "%20"));
             DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, imgTemple, progress);
 
@@ -205,4 +230,48 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             return true;
         }
     }
+    public boolean onOptionsItemSelected(MenuItem item)  {
+        switch (item.getItemId()) {
+            case R.id.action_download:
+                saveImageToGallery();
+                return true;
+
+            case R.id.action_share:
+                shareImage();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    protected void saveImageToGallery() {
+        String fromDir = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
+        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator;
+        File checkfile = new File(fromDir+downloadFileName);
+        if (checkfile.isFile()) {
+            SmartUtils.copyFile(fromDir, downloadFileName, toDir);
+        }
+        SmartUtils.ting(this, "Downloaded Successfully");
+        //  MediaScannerConnection mediaScanner =  new MediaScannerConnection(getApplicationContext(),null);
+        //  mediaScanner.scanFile(toDir+File.separator+downloadFileName, null);
+    }
+
+    protected void shareImage () {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        String combinedImagePath = downloadFilePath+downloadFileName;
+        try {
+            String path = MediaStore.Images.Media.insertImage(getContentResolver(), combinedImagePath, downloadFileName, null);
+            Uri imageUri = Uri.parse(path);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+        } catch (Exception e)
+        {
+            Log.e("tag", e.getMessage());
+        }
+
+    }
+
 }
+
