@@ -35,6 +35,7 @@ public class SmartTextView extends AppCompatTextView {
 
     private void init(Context mContext) {
 
+        setLineSpacing(0.5f,1.5f);
         try {
             if (SmartApplication.REF_SMART_APPLICATION.FONT != null) {
                 if (getTypeface() != null) {

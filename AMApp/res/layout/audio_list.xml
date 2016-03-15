@@ -165,6 +165,7 @@
                     app:thumbColor="@color/anoopamCreamColor"
                     app:thumbAlpha="1.0"
                     android:maxHeight="200dp"
+                    android:maxWidth="1000dp"
                     />
 
                 <TextView
