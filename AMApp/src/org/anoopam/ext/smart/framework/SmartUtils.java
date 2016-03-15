@@ -57,6 +57,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 
 /**
  * Created by tasol on 23/5/15.
@@ -860,4 +864,44 @@ public class SmartUtils implements Constants{
         }
         return false;
     }
+
+
+    static public void copyFile(String inputPath, String inputFile, String outputPath) {
+
+        FileChannel in = null;
+        FileChannel out = null;
+        try {
+
+            //create output directory if it doesn't exist
+            File dir = new File (outputPath);
+            if (!dir.isDirectory())
+            {
+                dir.mkdirs();
+            }
+
+
+            in = new FileInputStream(inputPath+inputFile).getChannel();
+            out = new FileOutputStream(outputPath+inputFile).getChannel();
+            Long insize = in.size();
+            if (out != null && in != null) {
+                out.transferFrom(in, 0, in.size());
+            }
+            Long outside = out.size();
+
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+
+        }  catch (FileNotFoundException fnfe1) {
+            Log.e("tag", fnfe1.getMessage());
+        }
+        catch (Exception e) {
+            Log.e("tag", e.getMessage());
+        }
+
+    }
+
 }

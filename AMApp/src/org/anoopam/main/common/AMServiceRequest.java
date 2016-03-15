@@ -217,7 +217,7 @@ public class AMServiceRequest {
                                 public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                     if (mapTableNameAndData.get("homeTiles") != null) {
                                         Log.d(TAG, "obtained homeTiles data successfully");
-                                        EventBus.getInstance().post(new HomeTilesUpdateSuccessEvent());
+//                                        EventBus.getInstance().post(new HomeTilesUpdateSuccessEvent());
                                     }
                                 }
                             }, /*runOnMainThread*/ false, "homeTiles");
@@ -234,7 +234,7 @@ public class AMServiceRequest {
 //                            }
 
                         } catch (JSONException e) {
-                            EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
+//                            EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
                             e.printStackTrace();
                         }
                     }

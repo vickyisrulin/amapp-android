@@ -7,7 +7,11 @@
 
 package org.anoopam.main.common;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,7 +22,9 @@ import com.thin.downloadmanager.DefaultRetryPolicy;
 import com.thin.downloadmanager.DownloadRequest;
 import com.thin.downloadmanager.DownloadStatusListener;
 
+import org.anoopam.ext.smart.customviews.Log;
 import org.anoopam.ext.smart.framework.SmartApplication;
+import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMApplication;
 
 import java.io.File;
@@ -119,4 +125,44 @@ public class DataDownloadUtil {
             SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
         }
     }
+
+    /**
+     * Stores the image to Gallery
+     * @param fromPathPrefix
+     * @param imageFilename
+     */
+    public static void saveImageToGallery(String fromPathPrefix, String imageFilename) {
+        String fromDir = fromPathPrefix;
+        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator;
+        File checkfile = new File(fromDir+imageFilename);
+        if (checkfile.isFile()) {
+            SmartUtils.copyFile(fromDir, imageFilename, toDir);
+        }
+        //  MediaScannerConnection mediaScanner =  new MediaScannerConnection(getApplicationContext(),null);
+        //  mediaScanner.scanFile(toDir+File.separator+downloadFileName, null);
+    }
+
+    /**
+     * raises the sharing intent for the Image File located at fromPathPrefix + imageFilename
+     *
+     * @param callingActivity
+     * @param fromPathPrefix
+     * @param imageFilename
+     */
+    public static void shareImage (Activity callingActivity, String fromPathPrefix, String imageFilename) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        String fullImagePath = fromPathPrefix + imageFilename;
+        try {
+            String path = MediaStore.Images.Media.insertImage(callingActivity.getContentResolver(), fullImagePath, imageFilename, null);
+            Uri imageUri = Uri.parse(path);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            callingActivity.startActivity(Intent.createChooser(shareIntent, "Share via"));
+        } catch (Exception e)
+        {
+            Log.e("tag", e.getMessage());
+        }
+    }
+
 }

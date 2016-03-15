@@ -21,6 +21,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.URLUtil;
 
@@ -33,12 +35,43 @@ public class QuoteActivity extends AMAppMasterActivity {
 
     private TouchImageView mQuoteImage;
     private SmartCaching mSmartCaching;
+    private String destinationImageFileName;
+    private String destinationImageFilePathPrefix;
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu_home, menu);
+        return true;
+    }
 
     private void setQuoteImage() {
         String imageUrl = getQuoteUpdatedUrl();
-        final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator + URLUtil.guessFileName(imageUrl, null, null));
+        destinationImageFileName = URLUtil.guessFileName(imageUrl, null, null);
+        destinationImageFilePathPrefix = SmartUtils.getAnoopamMissionImageStorage()+ File.separator;
+
+        final File destination = new File(destinationImageFilePathPrefix + destinationImageFileName);
         Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
         DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, mQuoteImage);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_download:
+                saveImageToGallery();
+                return true;
+
+            case R.id.action_share:
+                DataDownloadUtil.shareImage(this, destinationImageFilePathPrefix, destinationImageFileName);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void saveImageToGallery() {
+        DataDownloadUtil.saveImageToGallery(destinationImageFilePathPrefix, destinationImageFileName);
+        SmartUtils.ting(this, "Downloaded Successfully");
     }
 
     private String getQuoteUpdatedUrl() {
