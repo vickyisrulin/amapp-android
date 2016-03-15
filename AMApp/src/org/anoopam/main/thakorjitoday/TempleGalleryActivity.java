@@ -11,6 +11,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -39,7 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 
@@ -49,8 +49,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
     private ContentValues templeDetail;
     private ArrayList<ContentValues> templeImages;
     private ExtendedViewPager viewPager;
-    private String downloadFileName;
-    private String downloadFilePath;
+    private String destinationImageFileName;
+    private String destinationImageFilePathPrefix;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -192,8 +192,8 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
         @Override
         public void setPrimaryItem(ViewGroup viewGroup, int position, Object object){
-            downloadFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null);
-            downloadFilePath = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
+            destinationImageFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null);
+            destinationImageFilePathPrefix = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
         }
 
         @Override
@@ -203,10 +203,6 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             imgTemple.setOnLongClickListener(new PrivateOnLongClickListener());
             final ProgressBar progress = (ProgressBar) itemView.findViewById(R.id.progress);
 
-            //final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
-
-           // downloadFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null);
-           // downloadFilePath = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
             final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator + templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(images.get(position).getAsString("image"),null,null));
 
             Uri downloadUri = Uri.parse(images.get(position).getAsString("image").replaceAll(" ", "%20"));
@@ -237,40 +233,17 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
                 return true;
 
             case R.id.action_share:
-                shareImage();
+                DataDownloadUtil.shareImage(this, destinationImageFilePathPrefix, destinationImageFileName);
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-    protected void saveImageToGallery() {
-        String fromDir = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
-        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator;
-        File checkfile = new File(fromDir+downloadFileName);
-        if (checkfile.isFile()) {
-            SmartUtils.copyFile(fromDir, downloadFileName, toDir);
-        }
+
+    void saveImageToGallery() {
+        DataDownloadUtil.saveImageToGallery(destinationImageFilePathPrefix, destinationImageFileName);
         SmartUtils.ting(this, "Downloaded Successfully");
-        //  MediaScannerConnection mediaScanner =  new MediaScannerConnection(getApplicationContext(),null);
-        //  mediaScanner.scanFile(toDir+File.separator+downloadFileName, null);
-    }
-
-    protected void shareImage () {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        String combinedImagePath = downloadFilePath+downloadFileName;
-        try {
-            String path = MediaStore.Images.Media.insertImage(getContentResolver(), combinedImagePath, downloadFileName, null);
-            Uri imageUri = Uri.parse(path);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            startActivity(Intent.createChooser(shareIntent, "Share via"));
-        } catch (Exception e)
-        {
-            Log.e("tag", e.getMessage());
-        }
-
     }
 
 }
