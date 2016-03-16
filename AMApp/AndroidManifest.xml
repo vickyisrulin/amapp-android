@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -172,6 +174,15 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".anoopamaudio.DownloadListenerService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="org.anoopam.main.anoopamaudio.AudioListActivity"
             android:launchMode="singleTop"
@@ -184,13 +195,13 @@
             android:name="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-            <!--android:theme="@style/FullscreenTheme" />-->
+        <!--android:theme="@style/FullscreenTheme" />-->
 
         <activity
             android:name="org.anoopam.main.qow.QuoteActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-            <!--android:theme="@style/FullscreenTheme"></activity>-->
+        <!--android:theme="@style/FullscreenTheme"></activity>-->
 
         <activity
             android:name="org.anoopam.main.aboutapp.AboutAppActivity"

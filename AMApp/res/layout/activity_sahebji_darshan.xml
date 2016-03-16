@@ -1,25 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity"
+    android:orientation="vertical"
     android:background="@color/black">
 
     <include layout="@layout/appbar" />
 
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="45dip"
-        android:layout_height="45dip"
-        android:layout_gravity="center" />
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
+            android:layout_gravity="center" />
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <org.anoopam.main.common.TouchImageView
-        android:id="@+id/sahebji_darshan_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        <!-- The primary full-screen view. This can be replaced with whatever view
+             is needed to present your content, e.g. VideoView, SurfaceView,
+             TextureView, etc. -->
+        <org.anoopam.main.common.TouchImageView
+            android:id="@+id/sahebji_darshan_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
-</FrameLayout>
+</LinearLayout>

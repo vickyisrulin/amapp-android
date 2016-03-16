@@ -99,8 +99,6 @@ public class SahebjiDarshanActivity extends AMAppMasterActivity {
         mSmartCaching = new SmartCaching(this);
         mSahebjiDarshanImage = (TouchImageView) findViewById(R.id.sahebji_darshan_image);
         mSahebjiDarshanImage.setOnLongClickListener(new PrivateOnLongClickListener());
-        // hide the Action Bar for the first time
-        toggleActionBarDisplay();
         CrashlyticsUtils.crashlyticsLog("Sahebji Darshan Init");
     }
 

@@ -8,6 +8,7 @@
 package org.anoopam.main.anoopamaudio;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -15,6 +16,7 @@ import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
@@ -42,7 +44,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class AudioService extends Service implements AudioManager.OnAudioFocusChangeListener,SharedPreferenceConstants{
+public class AudioService extends Service implements AudioManager.OnAudioFocusChangeListener,SharedPreferenceConstants {
 	String LOG_CLASS = "SongService";
 	public MediaPlayer mp;
 	int NOTIFICATION_ID = 1111;
@@ -66,6 +68,11 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 	}
 
 	private static AudioService audioService;
+
+	private DownloadManager downloadManager;
+	private DownloadManagerPro downloadManagerPro;
+
+	private boolean wasPlaying=false;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -120,6 +127,9 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 
+		downloadManager = (DownloadManager)getSystemService(DOWNLOAD_SERVICE);
+		downloadManagerPro = new DownloadManagerPro(downloadManager);
+
 		try {
 			if(PlayerConstants.SONGS_LIST.size() <= 0){
 				PlayerConstants.SONGS_LIST = UtilFunctions.listOfSongs(getApplicationContext());
@@ -138,7 +148,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			if(destination.exists()){
 				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
 				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
-				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME,PlayerConstants.CATEGORY.getAsString("catName"));
+				SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, PlayerConstants.CATEGORY.getAsString("catName"));
 				AudioListActivity.currentAudio= songPath;
 				playSong(destination.getAbsolutePath(), data);
 				newNotification();
@@ -156,18 +166,26 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 					final File destination = new File(SmartUtils.getAudioStorage(PlayerConstants.CATEGORY.getAsString("catName"))+ File.separator + URLUtil.guessFileName(songPath, null, null));
 
 					if(destination.exists()){
-						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
-						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
-						SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, PlayerConstants.CATEGORY.getAsString("catName"));
-						AudioListActivity.currentAudio= songPath;
-						try{
-							playSong(destination.getAbsolutePath(), data);
-							newNotification();
-							AudioListActivity.changeUI();
-//						AudioPlayerActivity.changeUI();
-						}catch(Exception e){
-							e.printStackTrace();
+
+						int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(songPath,-1));
+
+						if(!AudioListActivity.isDownloading((Integer) bytesAndStatus[2])){
+							SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);
+							SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO_NAME,data.getAsString("audioTitle"));
+							SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, PlayerConstants.CATEGORY.getAsString("catName"));
+							AudioListActivity.currentAudio= songPath;
+							try{
+								playSong(destination.getAbsolutePath(), data);
+								newNotification();
+								AudioListActivity.changeUI();
+							}catch(Exception e){
+								e.printStackTrace();
+							}
+						}else{
+							Controls.nextControl(getApplicationContext());
 						}
+
+
 					}else{
 						Controls.nextControl(getApplicationContext());
 					}
@@ -225,7 +243,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 	private void newNotification() {
 
 
-		RemoteViews simpleContentView = new RemoteViews(getApplicationContext().getPackageName(),R.layout.custom_notification);
+		RemoteViews simpleContentView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.custom_notification);
 		RemoteViews expandedView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.big_notification);
 
 		Notification notification = new NotificationCompat.Builder(getApplicationContext())
@@ -374,8 +392,8 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 			MetadataEditor metadataEditor = remoteControlClient.editMetadata(true);
 			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_ALBUM, data.getAsString(PlayerConstants.CATEGORY.getAsString("catName")));
 			metadataEditor.putString(MediaMetadataRetriever.METADATA_KEY_TITLE, data.getAsString("audioTitle"));
-//			mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.anoopam_audio_lock_screen);
-//			metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
+			mDummyAlbumArt = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+			metadataEditor.putBitmap(MetadataEditor.BITMAP_KEY_ARTWORK, mDummyAlbumArt);
 			metadataEditor.apply();
 			audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 		}catch (Throwable e){
@@ -386,15 +404,28 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 	@Override
 	public void onAudioFocusChange(int focusChange) {
 
-		if(focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT)
-		{
-			// Pause
-			Controls.pauseControl(this);
+
+		switch (focusChange) {
+			case AudioManager.AUDIOFOCUS_LOSS:
+			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+			case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+				try{
+					wasPlaying = mp.isPlaying();
+					Controls.pauseControl(this);
+				}catch (Throwable e){
+					e.printStackTrace();
+				}
+				break;
+			case AudioManager.AUDIOFOCUS_GAIN:
+			case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+			case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK:
+
+				if(wasPlaying){
+					wasPlaying=false;
+					Controls.playControl(this);
+				}
+				break;
 		}
-		else if(focusChange == AudioManager.AUDIOFOCUS_LOSS)
-		{
-			// Stop or pause depending on your need
-			Controls.pauseControl(this);
-		}
+
 	}
 }

@@ -111,8 +111,6 @@ public class QuoteActivity extends AMAppMasterActivity {
         mSmartCaching = new SmartCaching(this);
         mQuoteImage = (TouchImageView) findViewById(R.id.quote_image);
         mQuoteImage.setOnLongClickListener(new PrivateOnLongClickListener());
-        // hide the Action Bar for the first time
-        toggleActionBarDisplay();
     }
 
     @Override

@@ -8,6 +8,7 @@
 package org.anoopam.main.common;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.util.Log;
 
 import org.anoopam.ext.smart.framework.SmartUtils;
@@ -27,6 +28,10 @@ import org.anoopam.main.common.events.ThakorjiTodayUpdateSuccessEvent;
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.weservice.SmartWebManager;
 
+import org.anoopam.main.common.notifications.NotificationsUtil;
+import org.anoopam.main.qow.QuoteActivity;
+import org.anoopam.main.sahebjidarshan.SahebjiDarshanActivity;
+import org.anoopam.main.thakorjitoday.TempleListActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -175,6 +180,9 @@ public class AMServiceRequest {
                                     .writeSharedPreferences(AMConstants.KEY_ThakorjiTodayLastUpdatedTimestamp, response
                                             .getString(AMConstants.AMS_RequestParam_ThakorjiToday_LastUpdatedTimestamp));
 
+//                            Intent actionIntent = new Intent(AMApplication.getInstance().getApplicationContext(), TempleListActivity.class);
+//                            NotificationsUtil.raiseOnetimeNewNotification("Thakorji Today updated", "ABC", actionIntent);
+
                                      /* Remove older images */
                             try {
                                 SmartUtils.deleteFileOrDirectoryRecursive(new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()));
@@ -276,6 +284,9 @@ public class AMServiceRequest {
                             AMApplication.getInstance()
                                     .writeSharedPreferences(AMConstants.KEY_SahebjiDarshanLastUpdatedTimestamp, response
                                             .getString(AMConstants.AMS_RequestParam_SahebjiDarshan_LastUpdatedTimestamp));
+
+//                            Intent actionIntent = new Intent(AMApplication.getInstance().getApplicationContext(), SahebjiDarshanActivity.class);
+//                            NotificationsUtil.raiseOnetimeNewNotification("New Update available in Sahebji Darshan", "ABC", actionIntent);
                         } catch (JSONException e) {
                             EventBus.getInstance().post(new SahebjiDarshanUpdateFailedEvent());
                             e.printStackTrace();
@@ -318,6 +329,9 @@ public class AMServiceRequest {
                             AMApplication.getInstance()
                                     .writeSharedPreferences(AMConstants.KEY_QuoteOfTheWeekLastUpdatedTimestamp, response
                                             .getString(AMConstants.AMS_RequestParam_QuoteOfTheWeek_LastUpdatedTimestamp));
+
+//                            Intent actionIntent = new Intent(AMApplication.getInstance().getApplicationContext(), QuoteActivity.class);
+//                            NotificationsUtil.raiseOnetimeNewNotification("New Update available in Weekly Quote", "ABC", actionIntent);
                         } catch (JSONException e) {
                             EventBus.getInstance().post(new QuoteOfTheWeekUpdateFailedEvent());
                             e.printStackTrace();

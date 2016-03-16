@@ -24,39 +24,26 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
 
-import com.squareup.picasso.Picasso;
-import com.thin.downloadmanager.DefaultRetryPolicy;
-import com.thin.downloadmanager.DownloadRequest;
-import com.thin.downloadmanager.DownloadStatusListener;
-
 import org.anoopam.ext.smart.caching.SmartCaching;
 import org.anoopam.ext.smart.customviews.SmartRecyclerView;
 import org.anoopam.ext.smart.customviews.SmartTextView;
 import org.anoopam.ext.smart.framework.Constants;
-import org.anoopam.ext.smart.framework.SmartApplication;
 import org.anoopam.ext.smart.framework.SmartUtils;
-import org.anoopam.ext.smart.weservice.SmartWebManager;
 import org.anoopam.main.AMAppMasterActivity;
-import org.anoopam.main.AMApplication;
 import org.anoopam.main.R;
-import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.common.AMServiceRequest;
-import org.anoopam.main.common.AMServiceResponseListener;
 import org.anoopam.main.common.CircleImageView;
 import org.anoopam.main.common.DataDownloadUtil;
 import org.anoopam.main.home.HomeListActivity;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by tasol on 16/7/15.
@@ -190,7 +177,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             @Override
             protected ArrayList<ContentValues> doInBackground(Void... params) {
                 try {
-                    return audioCat = smartCaching.getDataFromCache("categories", "SELECT * FROM categories WHERE mainCatID='0'");
+                    return audioCat = smartCaching.getDataFromCache("categories", "SELECT * FROM categories WHERE mainCatID='0' ORDER BY catName ASC");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -215,7 +202,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             }
         };
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         } else {
             task.execute();
@@ -232,13 +219,13 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
                 if(IN_CATID!=null && IN_CATID.length()>0){
                     try {
-                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='"+IN_CATID+"'");
+                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='"+IN_CATID+"' ORDER BY catName ASC");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
                     try {
-                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='0'");
+                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='0' ORDER BY catName ASC");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -270,7 +257,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             }
         };
 
-        if(android.os.Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB){
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.HONEYCOMB){
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }else{
             task.execute();
