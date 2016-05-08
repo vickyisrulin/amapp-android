@@ -303,7 +303,7 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
     /**
      * toggle the display of Action Bar
      */
-    protected void toggleActionBarDisplay() {
+    public void toggleActionBarDisplay() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar == null) return;
         if(actionBar.isShowing()) {

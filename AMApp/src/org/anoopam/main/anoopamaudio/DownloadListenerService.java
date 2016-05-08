@@ -21,7 +21,7 @@ public class DownloadListenerService extends BroadcastReceiver {
         System.out.println("got here");
 
         try{
-            long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
+            long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L);
 
             downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
             downloadManagerPro = new DownloadManagerPro(downloadManager);

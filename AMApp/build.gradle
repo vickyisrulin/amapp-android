@@ -54,7 +54,7 @@ android {
         // 9 - ALPHA, 7 - BETA
         // 10 - Google Play
         // e.g. 09 - Samsung App store, 08 - LG App Store, 11 - NEW-APP-STORE to override Google Play
-        versionCode 710000004
+        versionCode 710000005
         //versionName "1.0.000"
         versionName "1.0"
     }

@@ -167,7 +167,7 @@ public class AudioService extends Service implements AudioManager.OnAudioFocusCh
 
 					if(destination.exists()){
 
-						int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(songPath,-1));
+						int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(songPath,0L));
 
 						if(!AudioListActivity.isDownloading((Integer) bytesAndStatus[2])){
 							SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_AUDIO,songPath);

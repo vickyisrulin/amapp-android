@@ -76,9 +76,11 @@ public class DataDownloadUtil {
      * @param progressBar Progress
      */
     public static void downloadImageFromServerAndRender(final Uri downloadFromUri, final File destinationFile, final ImageView targetImageView, final ProgressBar progressBar) {
-        if(destinationFile.exists()){
+        int isDownloaded = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getInt(downloadFromUri.toString(),0);
+        if(destinationFile.exists() && isDownloaded==1){
             loadImageUsingPicasso(destinationFile, targetImageView);
         }else{
+
             Uri destinationUri = Uri.parse(destinationFile.getAbsolutePath());
             DownloadRequest downloadRequest = new DownloadRequest(downloadFromUri)
                     .setRetryPolicy(new DefaultRetryPolicy())
@@ -86,6 +88,7 @@ public class DataDownloadUtil {
                     .setDownloadListener(new DownloadStatusListener() {
                         @Override
                         public void onDownloadComplete(int id) {
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(downloadFromUri.toString(),1);
                             if (progressBar != null) {
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -115,13 +118,30 @@ public class DataDownloadUtil {
      * @param destinationFile File
      */
     public static void downloadImageFromServer(final Uri downloadFromUri, final File destinationFile) {
-        if(destinationFile.exists()){
+        int isDownloaded = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getInt(downloadFromUri.toString(),0);
+        if(destinationFile.exists() && isDownloaded==1){
             return;
         }else {
             Uri destinationUri = Uri.parse(destinationFile.getAbsolutePath());
             DownloadRequest downloadRequest = new DownloadRequest(downloadFromUri)
                     .setRetryPolicy(new DefaultRetryPolicy())
-                    .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH);
+                    .setDestinationURI(destinationUri).setPriority(DownloadRequest.Priority.HIGH)
+                    .setDownloadListener(new DownloadStatusListener() {
+                        @Override
+                        public void onDownloadComplete(int id) {
+                            SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(downloadFromUri.toString(),1);
+                        }
+
+                        @Override
+                        public void onDownloadFailed(int id, int errorCode, String errorMessage) {
+
+                        }
+
+                        @Override
+                        public void onProgress(int id, long totalBytes, long downloadedBytes, int progress) {
+
+                        }
+                    });
             SmartApplication.REF_SMART_APPLICATION.getThinDownloadManager().add(downloadRequest);
         }
     }
@@ -133,8 +153,10 @@ public class DataDownloadUtil {
      */
     public static void saveImageToGallery(String fromPathPrefix, String imageFilename) {
         String fromDir = fromPathPrefix;
-        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator;
+        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator+"SavedPictures"+File.separator;
         File checkfile = new File(fromDir+imageFilename);
+
+
         if (checkfile.isFile()) {
             SmartUtils.copyFile(fromDir, imageFilename, toDir);
         }
@@ -164,5 +186,7 @@ public class DataDownloadUtil {
             Log.e("tag", e.getMessage());
         }
     }
+
+
 
 }
