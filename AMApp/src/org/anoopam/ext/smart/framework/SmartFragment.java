@@ -19,6 +19,12 @@ public abstract class SmartFragment extends Fragment implements SmartFragmentHan
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		if (setLayoutView() != null) {
@@ -32,6 +38,7 @@ public abstract class SmartFragment extends Fragment implements SmartFragmentHan
 		initComponents(fragmentView);
 		prepareViews(fragmentView);
 		setActionListeners(fragmentView);
+
 
 		return fragmentView;
 	}

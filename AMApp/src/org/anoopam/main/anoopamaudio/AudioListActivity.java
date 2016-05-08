@@ -408,7 +408,7 @@ public class AudioListActivity extends AMAppMasterActivity {
             public SmartTextView txtAudioDuration;
             public DonutProgress pbrLoading;
             public ImageView imgDownload;
-            public long downloadID=-1;
+            public long downloadID=0L;
             public ContentValues audio;
             public File destination;
 
@@ -444,7 +444,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
             holder.destination = new File(SmartUtils.getAudioStorage(audioDetails.getAsString("catName"))+ File.separator + URLUtil.guessFileName(holder.audio.getAsString("audioURL"), null, null));
 
-            holder.downloadID = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(holder.audio.getAsString("audioURL"),-1);
+            holder.downloadID = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(holder.audio.getAsString("audioURL"),0L);
 
 
             if(holder.destination.exists()){
@@ -459,7 +459,7 @@ public class AudioListActivity extends AMAppMasterActivity {
                         PlayerConstants.CATEGORY = audioDetails;
                         PlayerConstants.SONGS_LIST = audioList;
                     }else{
-                        if((Integer)bytesAndStatus[2]==DownloadManager.STATUS_SUCCESSFUL || holder.downloadID==-1){
+                        if((Integer)bytesAndStatus[2]==DownloadManager.STATUS_SUCCESSFUL || holder.downloadID==0){
                             holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
                         }else{
                             holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
@@ -704,7 +704,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
             }
 
-        }, 0, 700);
+        }, 0, 500);
     }
 
     private void stopTimer(){
@@ -727,7 +727,7 @@ public class AudioListActivity extends AMAppMasterActivity {
             for (int i = ((LinearLayoutManager)mLayoutManager).findFirstVisibleItemPosition(); i < ((LinearLayoutManager)mLayoutManager).findLastVisibleItemPosition(); i++) {
                 AudioListAdapter.ViewHolder viewHolder = (AudioListAdapter.ViewHolder) mLayoutManager.getChildAt(i).getTag();
                 int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(viewHolder.downloadID);
-                if(viewHolder.downloadID!=-1){
+                if(viewHolder.downloadID!=0){
                     ArrayList<Object> obj = new ArrayList<>();
                     obj.add(viewHolder);
                     obj.add(bytesAndStatus[2]);
@@ -792,7 +792,7 @@ public class AudioListActivity extends AMAppMasterActivity {
 
                             }else{
                                 viewHolder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
-                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(viewHolder.audio.getAsString("audioURL"),-1);
+                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(viewHolder.audio.getAsString("audioURL"),0L);
                                 try{
                                     viewHolder.destination.delete();
                                 }catch(Throwable e){

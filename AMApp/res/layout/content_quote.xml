@@ -8,16 +8,23 @@
 
     <include layout="@layout/appbar" />
 
-    <ProgressBar
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        />
-
-    <org.anoopam.main.common.TouchImageView
-        android:id="@+id/quote_image"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            />
+
+        <org.anoopam.main.common.TouchImageView
+            android:id="@+id/quote_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </RelativeLayout>
+
 
 </LinearLayout>

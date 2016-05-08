@@ -45,6 +45,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
@@ -57,9 +58,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 
 /**
@@ -881,7 +879,9 @@ public class SmartUtils implements Constants{
 
 
             in = new FileInputStream(inputPath+inputFile).getChannel();
-            out = new FileOutputStream(outputPath+inputFile).getChannel();
+            out = new FileOutputStream(outputPath+getTodaysDate()+"_"+inputFile).getChannel();
+
+
             Long insize = in.size();
             if (out != null && in != null) {
                 out.transferFrom(in, 0, in.size());
