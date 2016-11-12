@@ -133,7 +133,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
 
     public void setDownloadPath(int pos){
         destinationImageFileName = templeDetail.getAsString("templeID") +"_"+ URLUtil.guessFileName(templeImages.get(pos).getAsString("image"),null,null);
-        destinationImageFilePathPrefix = SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator;
+        destinationImageFilePathPrefix = SmartUtils.getAnoopamMissionDailyRefreshImageStorage(templeDetail.getAsString("templeID"))+File.separator;
     }
 
     public ViewPager getViewPager(){
@@ -149,7 +149,7 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
                 return true;
 
             case R.id.action_share:
-                DataDownloadUtil.shareImage(this, destinationImageFilePathPrefix, destinationImageFileName);
+                DataDownloadUtil.shareImage(this, DataDownloadUtil.saveSharedToGallery(destinationImageFilePathPrefix, destinationImageFileName), destinationImageFileName);
                 return true;
 
             default:
@@ -193,6 +193,12 @@ public class TempleGalleryActivity extends AMAppMasterActivity implements Consta
             toggleActionBarDisplay();
             return true;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DataDownloadUtil.removeSharedDir();
     }
 }
 

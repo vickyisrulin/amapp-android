@@ -51,7 +51,7 @@ import java.util.ArrayList;
 
 public class AudioCatListActivity extends AMAppMasterActivity {
 
-    private static final String TAG = "AudioCatListActivity";
+    private static final String TAG = "audioCatListActivity";
 
     private SmartRecyclerView mRecyclerView;
     private AudioCatAdapter mAdapter;

@@ -258,7 +258,7 @@ public class SeekBarCompat extends SeekBar implements View.OnTouchListener {
             mProgressBackgroundColor = a.getColor(R.styleable.SeekBarCompat_progressBackgroundColor, Color.BLACK);
             mThumbAlpha = (int) (a.getFloat(R.styleable.SeekBarCompat_thumbAlpha, 1) * 255);
             mActualBackgroundColor = b.getColor(0, Color.TRANSPARENT);
-            mIsEnabled = b.getBoolean(1, true);
+            mIsEnabled = b.getBoolean((int)1, true);
             if (lollipopAndAbove()) {
                 setSplitTrack(false);
                 setupThumbColorLollipop();

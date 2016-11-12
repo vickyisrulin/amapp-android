@@ -790,6 +790,26 @@ public class SmartUtils implements Constants{
         return cacheDir;
     }
 
+    static public String getAnoopamMissionDailyRefreshImageStorage(String templeID){
+        String cacheDir = AMApplication.getInstance().getApplicationContext().getFilesDir() + File.separator + "AnoopamMissionTemp"+ File.separator+templeID;
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
+    static public String getAudioTempDownloadStorage(String catName){
+        String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + ".AMTemp" +File.separator + "Audios" +File.separator+catName;
+        File dir = new File(cacheDir);
+
+        if(!dir.exists()){
+            dir.mkdirs();
+        }
+        return cacheDir;
+    }
+
     static public String getAudioStorage(String catName){
         String cacheDir = android.os.Environment.getExternalStorageDirectory() + File.separator + "AnoopamMission" +File.separator + "Audios" +File.separator+catName;
         File dir = new File(cacheDir);
@@ -864,7 +884,7 @@ public class SmartUtils implements Constants{
     }
 
 
-    static public void copyFile(String inputPath, String inputFile, String outputPath) {
+    static public void copyFile(String inputPath, String inputFile, String outputPath,boolean addPrefix,boolean deleteOriginal) {
 
         FileChannel in = null;
         FileChannel out = null;
@@ -872,14 +892,18 @@ public class SmartUtils implements Constants{
 
             //create output directory if it doesn't exist
             File dir = new File (outputPath);
-            if (!dir.isDirectory())
+            if (!dir.exists())
             {
                 dir.mkdirs();
             }
 
 
             in = new FileInputStream(inputPath+inputFile).getChannel();
-            out = new FileOutputStream(outputPath+getTodaysDate()+"_"+inputFile).getChannel();
+            if(addPrefix){
+                out = new FileOutputStream(outputPath+getTodaysDate()+"_"+inputFile).getChannel();
+            }else{
+                out = new FileOutputStream(outputPath+inputFile).getChannel();
+            }
 
 
             Long insize = in.size();
@@ -895,11 +919,19 @@ public class SmartUtils implements Constants{
                 out.close();
             }
 
-        }  catch (FileNotFoundException fnfe1) {
+
+        }  catch (Exception fnfe1) {
             Log.e("tag", fnfe1.getMessage());
         }
-        catch (Exception e) {
-            Log.e("tag", e.getMessage());
+        finally {
+            if(deleteOriginal){
+                try {
+                    new File(inputPath+inputFile).delete();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
         }
 
     }
