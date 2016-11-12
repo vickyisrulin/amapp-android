@@ -5,7 +5,7 @@
  *
  */
 
-package org.anoopam.main.anoopamaudio;
+package org.anoopam.main.anoopamvideo;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -37,6 +37,7 @@ import org.anoopam.ext.smart.framework.Constants;
 import org.anoopam.ext.smart.framework.SmartUtils;
 import org.anoopam.main.AMAppMasterActivity;
 import org.anoopam.main.R;
+import org.anoopam.main.anoopamaudio.AudioListActivity;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.CircleImageView;
 import org.anoopam.main.common.DataDownloadUtil;
@@ -49,14 +50,14 @@ import java.util.ArrayList;
  * Created by tasol on 16/7/15.
  */
 
-public class AudioCatListActivity extends AMAppMasterActivity {
+public class VideoCatListActivity extends AMAppMasterActivity {
 
-    private static final String TAG = "audioCatListActivity";
+    private static final String TAG = "videoCatListActivity";
 
     private SmartRecyclerView mRecyclerView;
     private AudioCatAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<ContentValues> audioCat=new ArrayList<>();
+    private ArrayList<ContentValues> videoCat =new ArrayList<>();
     private SmartTextView emptyView;
 
     private SmartCaching smartCaching;
@@ -74,7 +75,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     @Override
     public int getLayoutID() {
-        return R.layout.audio_cat_list;
+        return R.layout.video_cat_list;
     }
 
     @Override
@@ -136,7 +137,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
             albumName = b.getString(AudioListActivity.ALBUM_NAME);
         }
 
-        getAudioCategoryFormCache();
+        getVideoCategoryFormCache();
     }
 
     @Override
@@ -147,7 +148,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        selectDrawerItem(NAVIGATION_ITEMS.ANOOPAM_AUDIO);
+//        selectDrawerItem(NAVIGATION_ITEMS.ANOOPAM_AUDIO);
     }
 
     @Override
@@ -161,7 +162,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
             }
         });
-        toolbar.setTitle(getString(R.string.nav_audio_title));
+        toolbar.setTitle(getString(R.string.nav_video_title));
         SpannableString spannableString=new SpannableString(albumName);
         spannableString.setSpan(new StyleSpan(Typeface.ITALIC), 0, spannableString.length(), 0);
         toolbar.setSubtitle(spannableString);
@@ -172,12 +173,12 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         return false;
     }
 
-    private void getAudioCategories() {
+    private void getVideoCategories() {
         AsyncTask<Void, Void, ArrayList<ContentValues>> task = new AsyncTask<Void, Void, ArrayList<ContentValues>>() {
             @Override
             protected ArrayList<ContentValues> doInBackground(Void... params) {
                 try {
-                    return audioCat = smartCaching.getDataFromCache("categories", "SELECT * FROM categories WHERE mainCatID='0' ORDER BY catName ASC");
+                    return videoCat = smartCaching.getDataFromCache("videocategories", "SELECT * FROM videocategories WHERE mainCatID='1' ORDER BY catName ASC");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -189,7 +190,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
                 super.onPostExecute(result);
                 SmartUtils.hideProgressDialog();
 
-                if (audioCat == null || audioCat.size() <= 0) {
+                if (videoCat == null || videoCat.size() <= 0) {
                     AMServiceRequest.getInstance().startFetchingAnoopamAudioFromServer();
                 } else {
                     if(mAdapter==null){
@@ -209,7 +210,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         }
     }
 
-    private void getAudioCategoryFormCache(){
+    private void getVideoCategoryFormCache(){
 
         SmartUtils.showProgressDialog(this, "Loading...", true);
 
@@ -219,13 +220,13 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
                 if(IN_CATID!=null && IN_CATID.length()>0){
                     try {
-                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='"+IN_CATID+"' ORDER BY catName ASC");
+                        videoCat = smartCaching.getDataFromCache("videocategories","SELECT * FROM videocategories WHERE mainCatID='"+IN_CATID+"' ORDER BY catName ASC");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }else{
                     try {
-                        audioCat = smartCaching.getDataFromCache("categories","SELECT * FROM categories WHERE mainCatID='0' ORDER BY catName ASC");
+                        videoCat = smartCaching.getDataFromCache("videocategories","SELECT * FROM videocategories WHERE mainCatID='1' ORDER BY catName ASC");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -238,7 +239,7 @@ public class AudioCatListActivity extends AMAppMasterActivity {
                 super.onPostExecute(result);
                 SmartUtils.hideProgressDialog();
 
-                if(audioCat!=null && audioCat.size()>0){
+                if(videoCat !=null && videoCat.size()>0){
                     if(mAdapter==null){
                         mAdapter = new AudioCatAdapter();
                         mRecyclerView.setAdapter(mAdapter);
@@ -250,8 +251,8 @@ public class AudioCatListActivity extends AMAppMasterActivity {
                     showProgress=true;
                 }
 
-                if(IN_CATID==null || IN_CATID.length()<=0 || IN_CATID.equals("0")){
-                    getAudioCategories();
+                if(IN_CATID==null || IN_CATID.length()<=0 || IN_CATID.equals("1")){
+                    getVideoCategories();
                 }
 
             }
@@ -266,8 +267,11 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
     private boolean hasSubCategory(final String catID){
         try {
-           ArrayList<ContentValues> subCat = smartCaching.getDataFromCache("categories","SELECT catName FROM categories WHERE mainCatID='"+catID+"'");
+           ArrayList<ContentValues> subCat = smartCaching.getDataFromCache("videocategories","SELECT catName FROM videocategories WHERE mainCatID='"+catID+"'");
            if(subCat!=null && subCat.size()>0){
+               if(subCat.get(0).getAsString("mainCatID").equals(subCat.get(0).getAsString("catID"))){
+                return false;
+               }
                 return true;
            }
         } catch (Exception e) {
@@ -281,19 +285,19 @@ public class AudioCatListActivity extends AMAppMasterActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             public View view;
             public SmartTextView txtCatName;
-            public CircleImageView imgAudioCat;
+            public CircleImageView imgVideoCat;
 
             public ViewHolder(View view) {
                 super(view);
                 this.view = view;
                 txtCatName = (SmartTextView) view.findViewById(R.id.txtCatName);
-                imgAudioCat = (CircleImageView) view.findViewById(R.id.imgAudioCat);
+                imgVideoCat = (CircleImageView) view.findViewById(R.id.imgVideoCat);
             }
         }
 
         @Override
         public AudioCatAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.audio_cat_list_item, parent, false);
+            final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_cat_list_item, parent, false);
             final ViewHolder vh = new ViewHolder(v);
 
             v.setOnClickListener(new View.OnClickListener() {
@@ -303,18 +307,18 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
                     int index = mRecyclerView.getChildAdapterPosition(view);
 
-                    if(hasSubCategory(audioCat.get(index).getAsString("catID"))){
-                        Intent intent = new Intent(AudioCatListActivity.this, AudioCatListActivity.class);
-                        intent.putExtra(AudioCatListActivity.CAT_ID,audioCat.get(index).getAsString("catID"));
-                        intent.putExtra(AudioListActivity.ALBUM_NAME, audioCat.get(index).getAsString("catName"));
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
-                        ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
+                    if(hasSubCategory(videoCat.get(index).getAsString("catID"))){
+                        Intent intent = new Intent(VideoCatListActivity.this, VideoCatListActivity.class);
+                        intent.putExtra(VideoCatListActivity.CAT_ID, videoCat.get(index).getAsString("catID"));
+                        intent.putExtra(AudioListActivity.ALBUM_NAME, videoCat.get(index).getAsString("catName"));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(VideoCatListActivity.this);
+                        ActivityCompat.startActivity(VideoCatListActivity.this, intent, options.toBundle());
                     }else{
-                        Intent intent = new Intent(AudioCatListActivity.this, AudioListActivity.class);
-                        intent.putExtra(AudioListActivity.AUDIO_LIST, audioCat.get(index));
-                        intent.putExtra(AudioListActivity.ALBUM_NAME, audioCat.get(index).getAsString("catName"));
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(AudioCatListActivity.this);
-                        ActivityCompat.startActivity(AudioCatListActivity.this, intent, options.toBundle());
+                        Intent intent = new Intent(VideoCatListActivity.this, VideoListActivity.class);
+                        intent.putExtra(VideoListActivity.VIDEO_LIST, videoCat.get(index));
+                        intent.putExtra(VideoListActivity.ALBUM_NAME, videoCat.get(index).getAsString("catName"));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(VideoCatListActivity.this);
+                        ActivityCompat.startActivity(VideoCatListActivity.this, intent, options.toBundle());
                     }
 
                 }
@@ -324,18 +328,18 @@ public class AudioCatListActivity extends AMAppMasterActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            ContentValues audioCat= AudioCatListActivity.this.audioCat.get(position);
+            ContentValues audioCat= VideoCatListActivity.this.videoCat.get(position);
             holder.txtCatName.setText(audioCat.getAsString("catName"));
 
             final File destination = new File(SmartUtils.getAnoopamMissionImageStorage()+ File.separator +URLUtil.guessFileName(audioCat.getAsString("catImage"), null, null));
             final Uri downloadUri = Uri.parse(audioCat.getAsString("catImage").replaceAll(" ", "%20"));
 
-            DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, holder.imgAudioCat);
+            DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, holder.imgVideoCat);
         }
 
         @Override
         public int getItemCount() {
-            return audioCat.size();
+            return videoCat.size();
         }
     }
 
@@ -348,10 +352,10 @@ public class AudioCatListActivity extends AMAppMasterActivity {
     private void handleBackPress(){
         if (getIntent().getBooleanExtra(MANAGE_UP_NAVIGATION, false)){
 
-            if(!IN_CATID.equals("0")){
-                Intent intent = new Intent(this, AudioCatListActivity.class);
+            if(!IN_CATID.equals("1")){
+                Intent intent = new Intent(this, VideoCatListActivity.class);
                 intent.putExtra(AMAppMasterActivity.MANAGE_UP_NAVIGATION, true);
-                intent.putExtra(AudioCatListActivity.CAT_ID, "0");
+                intent.putExtra(VideoCatListActivity.CAT_ID, "1");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this);
                 ActivityCompat.startActivity(this, intent, options.toBundle());
             }else{

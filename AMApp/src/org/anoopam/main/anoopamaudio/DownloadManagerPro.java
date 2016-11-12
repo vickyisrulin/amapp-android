@@ -326,7 +326,7 @@ public class DownloadManagerPro {
      * @param columnName
      * @return
      */
-    private String getString(long downloadId, String columnName) {
+    public String getString(long downloadId, String columnName) {
         DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
         String result = null;
         Cursor c = null;

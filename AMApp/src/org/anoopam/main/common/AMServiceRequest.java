@@ -74,6 +74,8 @@ public class AMServiceRequest {
         AMServiceRequest.getInstance().startQuoteOfTheWeekUpdatesFromServer();
         AMServiceRequest.getInstance().startNewsUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
+        AMServiceRequest.getInstance().startFetchingAnoopamVideoFromServer();
+
     }
 
     /**
@@ -109,6 +111,51 @@ public class AMServiceRequest {
         });
         SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
     }
+
+
+    /**
+     * invokes the request to get the updated Anoopam Video metadata from the server
+     */
+    public void startFetchingAnoopamVideoFromServer() {
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Video_Tag);
+
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, "http://anoopam.org/api/ams/v2/fetch_images.php?feature=video");
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+
+                try {
+                    smartCaching.cacheResponse(response.getJSONArray("categories"), "videocategories", true);
+//                    AMApplication.getInstance()
+//                            .writeSharedPreferences(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, response
+//                                    .getString(AMConstants.AMS_RequestParam_AnoopamAudio_LastUpdatedTimestamp));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    smartCaching.cacheResponse(response.getJSONArray("videos"), "videos", true);
+//                    AMApplication.getInstance()
+//                            .writeSharedPreferences(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, response
+//                                    .getString(AMConstants.AMS_RequestParam_AnoopamAudio_LastUpdatedTimestamp));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                Log.e(TAG, "Error obtaining Audio metadata: " + failureMessage);
+            }
+        });
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
+    }
+
 
     /**
      * invokes the request to get the updated Splash Screen data from the server
@@ -165,13 +212,29 @@ public class AMServiceRequest {
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
                     @Override
-                    public void onSuccess(JSONObject response) {
+                    public void onSuccess(final JSONObject response) {
                         try {
                             smartCaching.cacheResponse(response.getJSONArray("temples"), "temples", true, new SmartCaching.OnResponseParsedListener() {
                                 @Override
                                 public void onParsed(HashMap<String, ArrayList<ContentValues>> mapTableNameAndData) {
                                     if (mapTableNameAndData.get("temples") != null) {
                                         Log.d(TAG, "obtained temple data successfully");
+
+                                        try{
+                                            String[] updatedTemples = response.getString("updatedtemples").split(",");
+                                            for (int i = 0; i < updatedTemples.length; i++) {
+                                                try {
+                                                    if(updatedTemples[i].trim().length()>0){
+                                                        SmartUtils.deleteFileOrDirectoryRecursive(new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage(updatedTemples[i])));
+                                                    }
+                                                } catch (Throwable e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }catch (Throwable e){
+                                            e.printStackTrace();
+                                        }
+
                                         EventBus.getInstance().post(new ThakorjiTodayUpdateSuccessEvent());
                                     }
                                 }
@@ -184,11 +247,9 @@ public class AMServiceRequest {
 //                            NotificationsUtil.raiseOnetimeNewNotification("Thakorji Today updated", "ABC", actionIntent);
 
                                      /* Remove older images */
-                            try {
-                                SmartUtils.deleteFileOrDirectoryRecursive(new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()));
-                            } catch (Throwable e) {
-                                e.printStackTrace();
-                            }
+
+
+
 
                         } catch (JSONException e) {
                             EventBus.getInstance().post(new ThakorjiTodayUpdateFailedEvent());
@@ -233,16 +294,7 @@ public class AMServiceRequest {
                                     .writeSharedPreferences(AMConstants.KEY_HomeScreenLastUpdatedTimestamp, response
                                             .getString(AMConstants.AMS_RequestParam_HomeScreen_LastUpdatedTimestamp));
 
-// WE DONT need to remove the hometiles images. Lets keep them cached for faster loading, since they dont change frequently
-//                            /* Remove older images */
-//                            try {
-//                                new File(SmartUtils.getAnoopamMissionImageStorage()).delete();
-//                            } catch (Throwable e){
-//                                e.printStackTrace();
-//                            }
-
                         } catch (JSONException e) {
-//                            EventBus.getInstance().post(new HomeTilesUpdateFailedEvent());
                             e.printStackTrace();
                         }
                     }
@@ -438,6 +490,14 @@ public class AMServiceRequest {
         String lastUpdatedTimeStamp = AMApplication.getInstance()
                 .readSharedPreferences().getString(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, "");
         return String.format(endpoint, lastUpdatedTimeStamp, getNetworkSpeedParamValue());
+    }
+
+    public String getAnoopamVideoLastUpdatedTimeStamp() {
+        String endpoint = mEnvironment.getVideoEndpoint();
+        return endpoint;
+//        String lastUpdatedTimeStamp = AMApplication.getInstance()
+//                .readSharedPreferences().getString(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, "");
+//        return String.format(endpoint, lastUpdatedTimeStamp, getNetworkSpeedParamValue());
     }
 
     // gets the latest timestamp cached on the client side

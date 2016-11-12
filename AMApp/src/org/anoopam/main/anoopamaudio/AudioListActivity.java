@@ -25,6 +25,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -32,6 +33,7 @@ import android.text.style.StyleSpan;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
@@ -57,8 +59,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by tasol on 16/7/15.
@@ -110,7 +115,11 @@ public class AudioListActivity extends AMAppMasterActivity {
     private  DownloadManagerPro     downloadManagerPro;
 
     private Timer myTimer;
-    private MyHandler handler;
+
+    private HashMap<Long,AudioDownloadListener> audioDownloadListeners = new HashMap<>();
+
+    private HashMap<Long,Long> completeDownloadIds = new HashMap<>();
+
 
     @Override
     public View getLayoutView() {
@@ -157,8 +166,6 @@ public class AudioListActivity extends AMAppMasterActivity {
     public void initComponents() {
         super.initComponents();
         disableSideMenu();
-
-        handler = new MyHandler();
 
         mAdapter = null;
         mContext = this;
@@ -408,9 +415,12 @@ public class AudioListActivity extends AMAppMasterActivity {
             public SmartTextView txtAudioDuration;
             public DonutProgress pbrLoading;
             public ImageView imgDownload;
+            public ImageView imgCancelDownload;
             public long downloadID=0L;
             public ContentValues audio;
-            public File destination;
+            public File finalDestination;
+            public String downloadDestination;
+            public AudioDownloadListener audioDownloadListener;
 
             public ViewHolder(View view) {
                 super(view);
@@ -420,6 +430,7 @@ public class AudioListActivity extends AMAppMasterActivity {
                 txtAudioDuration = (SmartTextView) view.findViewById(R.id.txtAudioDuration);
                 pbrLoading = (DonutProgress) view.findViewById(R.id.pbrLoading);
                 imgDownload = (ImageView) view.findViewById(R.id.imgDownload);
+                imgCancelDownload = (ImageView) view.findViewById(R.id.imgCancelDownload);
 
             }
         }
@@ -438,60 +449,148 @@ public class AudioListActivity extends AMAppMasterActivity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
             holder.audio = audioList.get(position);
-
             holder.txtAudioTitle.setText(holder.audio.getAsString("audioTitle"));
             holder.txtAudioDuration.setText(holder.audio.getAsString("duration"));
+            holder.pbrLoading.setMax(100);
+            holder.pbrLoading.setVisibility(View.GONE);
+            holder.imgCancelDownload.setVisibility(View.GONE);
 
-            holder.destination = new File(SmartUtils.getAudioStorage(audioDetails.getAsString("catName"))+ File.separator + URLUtil.guessFileName(holder.audio.getAsString("audioURL"), null, null));
+            holder.finalDestination = new File(SmartUtils.getAudioStorage(audioDetails.getAsString("catName"))+ File.separator + URLUtil.guessFileName(holder.audio.getAsString("audioURL"), null, null));
+            holder.downloadDestination = SmartUtils.getAudioTempDownloadStorage(audioDetails.getAsString("catName"))+ File.separator + URLUtil.guessFileName(holder.audio.getAsString("audioURL"), null, null);
 
             holder.downloadID = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getLong(holder.audio.getAsString("audioURL"),0L);
+            int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(holder.downloadID);
+
+            if(holder.audioDownloadListener==null){
+                holder.audioDownloadListener = new AudioDownloadListener() {
 
 
-            if(holder.destination.exists()){
-
-                int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(holder.downloadID);
-
-                if(!isDownloading((Integer)bytesAndStatus[2])){
-                    if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && holder.audio.getAsString("audioURL").equals(currentAudio)) {
-                        holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
-                        currentPlay = holder.imgDownload;
-                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, audioDetails.getAsString("catName"));
-                        PlayerConstants.CATEGORY = audioDetails;
-                        PlayerConstants.SONGS_LIST = audioList;
-                    }else{
-                        if((Integer)bytesAndStatus[2]==DownloadManager.STATUS_SUCCESSFUL || holder.downloadID==0){
-                            holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
-                        }else{
-                            holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
+                    @Override
+                    public void onProgressUpdate(long downloadID, int progress) {
+                        if(downloadID==holder.downloadID){
+                            holder.pbrLoading.setVisibility(View.VISIBLE);
+                            holder.imgCancelDownload.setVisibility(View.VISIBLE);
+                            holder.pbrLoading.setProgress(progress);
                         }
                     }
-                }else{
-                    holder.audio.put("loading","1");
-                    holder.pbrLoading.setProgress(getNotiPercent(bytesAndStatus[0], bytesAndStatus[1]));
+
+                    @Override
+                    public void onDownloadComplete() {
+                        try{
+                            completeDownloadIds.put(holder.downloadID,holder.downloadID);
+
+                        }catch (Throwable e){
+                            e.printStackTrace();
+                        }
+                        holder.pbrLoading.setVisibility(View.GONE);
+                        holder.pbrLoading.setProgress(0);
+                        holder.pbrLoading.setMax(100);
+                        holder.imgCancelDownload.setVisibility(View.GONE);
+                        holder.imgDownload.setVisibility(View.VISIBLE);
+                        if (!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && holder.audio.getAsString("audioURL").equals(currentAudio)) {
+                            holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
+                            currentPlay = holder.imgDownload;
+                        } else {
+                            holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
+                        }
+                        holder.audio.put("loading", "0");
+                    }
+                    @Override
+                    public void onFail() {
+
+                        completeDownloadIds.put(holder.downloadID,holder.downloadID);
+                        holder.pbrLoading.setProgress(0);
+                        holder.pbrLoading.setMax(100);
+                        holder.pbrLoading.setVisibility(View.GONE);
+                        holder.imgCancelDownload.setVisibility(View.GONE);
+                        holder.imgDownload.setVisibility(View.VISIBLE);
+                        holder.audio.put("loading", "0");
+                        holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
+                        SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(holder.audio.getAsString("audioURL"),0L);
+                    }
+                };
+            }
+
+            if(holder.finalDestination.exists()){
+                try{
+                    File tmp = new File(holder.downloadDestination);
+                    tmp.delete();
+
+                }catch (Throwable e){
+                    e.printStackTrace();
+                }
+                holder.audio.put("loading","0");
+                holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
+                if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && holder.audio.getAsString("audioURL").equals(currentAudio)) {
+                    holder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
+                    currentPlay = holder.imgDownload;
+                    SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(AMConstants.KEY_CURRENT_CAT_NAME, audioDetails.getAsString("catName"));
+                    PlayerConstants.CATEGORY = audioDetails;
+                    PlayerConstants.SONGS_LIST = audioList;
                 }
 
             }else{
-                holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
+
+                if(isDownloading((Integer)bytesAndStatus[2])){
+                    holder.audio.put("loading","1");
+                    setDownloadListener(holder.downloadID,holder.audioDownloadListener);
+
+                }else{
+                    if (bytesAndStatus[2] == DownloadManager.STATUS_SUCCESSFUL) {
+                        holder.audio.put("loading", "0");
+                        holder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
+                    }else{
+                        holder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
+                    }
+                }
+
             }
 
             if(holder.audio.containsKey("loading") && holder.audio.getAsString("loading").equalsIgnoreCase("1")){
                 holder.pbrLoading.setVisibility(View.VISIBLE);
+                holder.imgCancelDownload.setVisibility(View.VISIBLE);
                 holder.imgDownload.setVisibility(View.GONE);
+
             }else{
                 holder.pbrLoading.setVisibility(View.GONE);
+                holder.imgCancelDownload.setVisibility(View.GONE);
                 holder.imgDownload.setVisibility(View.VISIBLE);
             }
 
+            holder.imgCancelDownload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popup = new PopupMenu(v.getContext(), v);
+                    popup.inflate(R.menu.menu_audio_list);
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+
+                            if (item.getItemId() == R.id.action_cancel_download) {
+
+                                cancelDownload(holder.downloadID,holder.audio.getAsString("audioURL"),holder.downloadDestination);
+                                return true;
+                            }
+                            return false;
+                        }
+
+
+                    });
+                    popup.show();
+                }
+            });
 
             holder.imgDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (holder.audio.containsKey("loading") && holder.audio.getAsString("loading").equalsIgnoreCase("1")) {
+
                         return;
                     }
 
-                    if (holder.destination.exists()) {
+                    if (holder.finalDestination.exists()) {
 
                         if(!SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getString(AMConstants.KEY_CURRENT_CAT_NAME, "").equals(audioDetails.getAsString("catName"))){
                             PlayerConstants.SONG_NUMBER = -1;
@@ -568,15 +667,21 @@ public class AudioListActivity extends AMAppMasterActivity {
 
                         holder.imgDownload.setVisibility(View.GONE);
                         holder.pbrLoading.setVisibility(View.VISIBLE);
+                        holder.imgCancelDownload.setVisibility(View.VISIBLE);
                         holder.audio.put("loading", "1");
 
                         Uri downloadUri = Uri.parse(holder.audio.getAsString("audioURL").replaceAll(" ", "%20"));
                         DownloadManager.Request request = new DownloadManager.Request(downloadUri);
-                        request.setDestinationUri(Uri.parse("file://" +holder.destination.getAbsolutePath()));
+
+                        request.setDestinationUri(Uri.parse("file://" +holder.downloadDestination));
                         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN);
                         request.setVisibleInDownloadsUi(false);
+                        request.setDescription(audioDetails.getAsString("catName"));
+                        request.setTitle(URLUtil.guessFileName(holder.audio.getAsString("audioURL"), null, null));
                         holder.downloadID = downloadManager.enqueue(request);
                         SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(holder.audio.getAsString("audioURL"),holder.downloadID);
+                        setDownloadListener(holder.downloadID,holder.audioDownloadListener);
+
 
                     }
 
@@ -699,12 +804,10 @@ public class AudioListActivity extends AMAppMasterActivity {
         myTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-
                 updateList();
-
             }
 
-        }, 0, 500);
+        }, 500, 500);
     }
 
     private void stopTimer(){
@@ -723,21 +826,72 @@ public class AudioListActivity extends AMAppMasterActivity {
     public void updateList() {
 
         try{
+            if(audioDownloadListeners!=null && audioDownloadListeners.size()>0 ){
 
-            for (int i = ((LinearLayoutManager)mLayoutManager).findFirstVisibleItemPosition(); i < ((LinearLayoutManager)mLayoutManager).findLastVisibleItemPosition(); i++) {
-                AudioListAdapter.ViewHolder viewHolder = (AudioListAdapter.ViewHolder) mLayoutManager.getChildAt(i).getTag();
-                int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(viewHolder.downloadID);
-                if(viewHolder.downloadID!=0){
-                    ArrayList<Object> obj = new ArrayList<>();
-                    obj.add(viewHolder);
-                    obj.add(bytesAndStatus[2]);
-                    handler.sendMessage(handler.obtainMessage(0, bytesAndStatus[0], bytesAndStatus[1], obj));
+                try{
+                    for (Map.Entry<Long, AudioDownloadListener> entry : audioDownloadListeners.entrySet()) {
+
+                        try{
+                            final long downloadID = entry.getKey();
+                            final AudioDownloadListener value = entry.getValue();
+
+                            if(downloadID!=0 && value!=null && (!completeDownloadIds.containsKey(downloadID))){
+                                final int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(downloadID);
+
+                                if (isDownloading(bytesAndStatus[2])){
+                                    if(bytesAndStatus[1]<0){
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                value.onProgressUpdate(downloadID,0);
+                                            }
+                                        });
+
+                                    }else{
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                value.onProgressUpdate(downloadID,getNotiPercent( bytesAndStatus[0], bytesAndStatus[1]));
+                                            }
+                                        });
+
+
+                                    }
+                                }else{
+                                    if (bytesAndStatus[2] == DownloadManager.STATUS_SUCCESSFUL) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                value.onDownloadComplete();
+                                            }
+                                        });
+
+                                    }else {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                value.onFail();
+                                            }
+                                        });
+
+                                    }
+                                }
+
+                            }
+                        }catch (Throwable e){
+                            e.printStackTrace();
+                        }
+
+                    }
+                }catch (Throwable e){
+                    e.printStackTrace();
                 }
-            }
 
+            }
         }catch (Throwable e){
             e.printStackTrace();
         }
+
 
     }
     class CompleteReceiver extends BroadcastReceiver {
@@ -749,66 +903,7 @@ public class AudioListActivity extends AMAppMasterActivity {
     };
 
 
-    private class MyHandler extends Handler {
 
-        AudioListAdapter.ViewHolder viewHolder;
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            try{
-                viewHolder = (AudioListAdapter.ViewHolder) ((ArrayList<Object>)msg.obj).get(0);
-
-                switch (msg.what) {
-
-                    case 0:
-                        int status = (Integer)((ArrayList<Object>)msg.obj).get(1);
-                        if (isDownloading(status)) {
-                            viewHolder.pbrLoading.setVisibility(View.VISIBLE);
-                            viewHolder.pbrLoading.setMax(100);
-                            viewHolder.pbrLoading.setProgress(0);
-                            viewHolder.imgDownload.setVisibility(View.GONE);
-
-                            if (msg.arg2 < 0) {
-                                viewHolder.pbrLoading.setProgress(0);
-                            } else {
-                                viewHolder.pbrLoading.setMax(100);
-                                viewHolder.pbrLoading.setProgress(getNotiPercent(msg.arg1, msg.arg2));
-                            }
-                        } else {
-                            viewHolder.pbrLoading.setVisibility(View.GONE);
-                            viewHolder.imgDownload.setVisibility(View.VISIBLE);
-
-                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
-
-                                if(!PlayerConstants.SONG_PAUSED && UtilFunctions.isServiceRunning(AudioService.class.getName(), getApplicationContext()) && viewHolder.audio.getAsString("audioURL").equals(currentAudio)) {
-                                    viewHolder.imgDownload.setImageResource(R.drawable.ic_action_av_pause_circle_outline);
-                                    currentPlay = viewHolder.imgDownload;
-                                }else{
-                                    viewHolder.imgDownload.setImageResource(R.drawable.ic_action_av_play_circle_outline);
-                                }
-                                viewHolder.audio.put("loading", "0");
-
-                            }else{
-                                viewHolder.imgDownload.setImageResource(R.drawable.ic_action_file_cloud_download);
-                                SmartApplication.REF_SMART_APPLICATION.writeSharedPreferences(viewHolder.audio.getAsString("audioURL"),0L);
-                                try{
-                                    viewHolder.destination.delete();
-                                }catch(Throwable e){
-                                    e.printStackTrace();
-                                }
-
-                            }
-                        }
-
-                        break;
-                }
-            }catch (Throwable e){
-                e.printStackTrace();
-            }
-        }
-    }
 
 
     public static int getNotiPercent(long progress, long max) {
@@ -838,6 +933,41 @@ public class AudioListActivity extends AMAppMasterActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+
+    private interface AudioDownloadListener{
+        void onProgressUpdate(long downloadID,int progress);
+        void onDownloadComplete();
+        void onFail();
+    }
+
+    private void setDownloadListener(long downloadID,AudioDownloadListener audioDownloadListener){
+        audioDownloadListeners.put(downloadID,audioDownloadListener);
+    }
+
+    private void cancelDownload(final long downloadID,final String url,final String downloadDestination){
+        try{
+
+            audioDownloadListeners.get(downloadID).onFail();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    downloadManager.remove(downloadID);
+                    try{
+                        File tmp = new File(downloadDestination);
+                        tmp.delete();
+
+                    }catch (Throwable e){
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

@@ -26,6 +26,8 @@ import org.anoopam.ext.smart.framework.SharedPreferenceConstants;
 import org.anoopam.ext.smart.framework.SmartActivity;
 import org.anoopam.main.aboutapp.AboutAppActivity;
 import org.anoopam.main.anoopamaudio.AudioCatListActivity;
+import org.anoopam.main.anoopamvideo.VideoCatListActivity;
+import org.anoopam.main.anoopamvideo.VideoListActivity;
 import org.anoopam.main.common.AMConstants;
 import org.anoopam.main.home.HomeListActivity;
 import org.anoopam.main.news.NewsListActivity;
@@ -187,9 +189,13 @@ public abstract class AMAppMasterActivity extends SmartActivity implements Share
     }
 
     protected void invokeVideoFlow() {
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(AMConstants.URL_AnoopamVideoYoutubeChannel));
-        startActivity(intent);
+        Intent intent = new Intent(AMAppMasterActivity.this, VideoCatListActivity.class);
+        activityInvocationOptionsBunble = ActivityOptionsCompat.makeSceneTransitionAnimation(AMAppMasterActivity.this).toBundle();
+        ActivityCompat.startActivity(AMAppMasterActivity.this, intent, activityInvocationOptionsBunble);
+
+//        Intent intent = new Intent(Intent.ACTION_VIEW,
+//                Uri.parse(AMConstants.URL_AnoopamVideoYoutubeChannel));
+//        startActivity(intent);
     }
 
     protected void invokeNewsUpdatesFlow() {

@@ -2,7 +2,6 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
@@ -72,9 +71,19 @@
                     android:id="@+id/pbrLoading"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    custom:donut_finished_stroke_width="3.5dp"
-                    custom:donut_unfinished_stroke_width="2.5dp"
-                    custom:donut_text_size="10dp"
+                    card_view:donut_finished_stroke_width="3.5dp"
+                    card_view:donut_unfinished_stroke_width="2.5dp"
+                    card_view:donut_text_size="1dp"
+                    card_view:circle_text_color="#CFE1F9"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    />
+
+                <ImageView
+                    android:id="@+id/imgCancelDownload"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/close"
                     android:layout_centerInParent="true"
                     android:visibility="gone"
                     />

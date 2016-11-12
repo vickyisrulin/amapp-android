@@ -35,17 +35,22 @@ public class AMConstants {
     public static final String LIVE_Domain_Url = "http://anoopam.org";
     public static final String LIVE_SplashScreen_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=splash&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_HomeScreen_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=hometiles&lastUpdatedTimestamp=%s&network=%s";
-    public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v1/thakorji.php?lastUpdatedTimestamp=%s&network=%s";
+    public static final String LIVE_ThakorjiToday_Endpoint_Suffix = "/api/ams/v2/thakorji.php?lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_QuoteOfTheWeek_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=qow&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_SahebjiDarshan_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=sahebjidarshan&lastUpdatedTimestamp=%s&network=%s";
     public static final String LIVE_AnoopamAudio_Endpoint_Suffix = "/api/ams/v1/fetch_images.php?feature=audio&lastUpdatedTimestamp=%s";
     public static final String LIVE_News_Endpoint_Suffix = "/v2/5686d01b130000ff1930ff63?feature=news&lastUpdatedTimestamp=%s&network=%s";
+    public static final String LIVE_Video_Endpoint_Suffix = "/v2/fetch_images.php?feature=video";
+
+
+
 
     // other AMS constants
     public static final String AM_Application_Title = "Anoopam Mission";
     public static final String AMS_Request_Get_Temples_Tag = "ams_get_temples";
     public static final String AMS_Request_Get_Sahebji_Tag = "ams_get_sahebji";
     public static final String AMS_Request_Get_Audio_Cat_Tag = "ams_get_audio_cat";
+    public static final String AMS_Request_Get_Video_Tag = "ams_get_video";
     public static final String AMS_Request_Get_Quotes_Tag = "ams_get_quotes";
     public static final String AMS_Request_Get_HomeScreen_List_Tag = "ams_get_home_screen_list";
     public static final String AMS_Request_Get_SplashScreen_Tag = "ams_get_splash_screen";

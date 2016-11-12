@@ -95,7 +95,6 @@ public class SplashActivity extends AMAppMasterActivity {
 
     @Override
     public void initComponents() {
-        SmartUtils.exportDatabase(this,"amapp");
         mSmartCaching = new SmartCaching(this);
     }
 

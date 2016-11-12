@@ -9,6 +9,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import org.anoopam.ext.smart.framework.SmartUtils;
+
 import java.io.File;
 
 public class DownloadListenerService extends BroadcastReceiver {
@@ -21,21 +23,26 @@ public class DownloadListenerService extends BroadcastReceiver {
         System.out.println("got here");
 
         try{
+            String dirName="";
+            String fileName="";
             long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L);
-
             downloadManager = (DownloadManager)context.getSystemService(Context.DOWNLOAD_SERVICE);
             downloadManagerPro = new DownloadManagerPro(downloadManager);
             int[] bytesAndStatus = downloadManagerPro.getBytesAndStatus(downloadId);
 
-            if(AudioListActivity.isDownloading((Integer) bytesAndStatus[2])){
-                return;
-            }else{
-                if(!((Integer)bytesAndStatus[2]==DownloadManager.STATUS_SUCCESSFUL)){
+            if(bytesAndStatus[2]==DownloadManager.STATUS_SUCCESSFUL){
 
-                    File removeFile = new File(getFilePathFromUri(context,Uri.parse(downloadManagerPro.getUri(downloadId))));
-                    removeFile.delete();
-                }
+                dirName = downloadManagerPro.getString(downloadId,DownloadManager.COLUMN_DESCRIPTION);
+                fileName = downloadManagerPro.getString(downloadId,DownloadManager.COLUMN_TITLE);
+
+                SmartUtils.copyFile(SmartUtils.getAudioTempDownloadStorage(dirName)+File.separator,fileName,SmartUtils.getAudioStorage(dirName)+File.separator,false,true);
+
+
+            }else{
+                downloadManager.remove(downloadId);
+                new File(SmartUtils.getAudioTempDownloadStorage(dirName)+File.separator,fileName);
             }
+
         }catch (Throwable e){
             e.printStackTrace();
         }

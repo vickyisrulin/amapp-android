@@ -150,7 +150,7 @@ public class TempleListFragment extends SmartFragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             ContentValues temple= temples.get(position);
-            final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator +temple.getAsString("templeID") +"_"+ URLUtil.guessFileName(temple.getAsString("mainImage"), null, null));
+            final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage(temple.getAsString("templeID"))+ File.separator +temple.getAsString("templeID") +"_"+ URLUtil.guessFileName(temple.getAsString("mainImage"), null, null));
             Uri downloadUri = Uri.parse(temple.getAsString("mainImage").replaceAll(" ", "%20"));
             DataDownloadUtil.downloadImageFromServerAndRender(downloadUri, destination, holder.imgTemple);
 
@@ -164,30 +164,6 @@ public class TempleListFragment extends SmartFragment {
             return temples.size();
         }
 
-        /**
-         * 1) Will load all the image URLs for the given temple referenced by templeIndex
-         * 2) Downloads the image from the given URL from the network, if it's not already in the memory/storage
-         * @param templeCenterIndex
-         */
-        private void prefetchThakorjiPicsForTemple(int templeCenterIndex) {
-            ArrayList<ContentValues> templeImages = null;
 
-            // grabs all the image URLs for the given temple
-            try {
-                templeImages =new SmartCaching(getActivity().getBaseContext()).
-                        parseResponse(new JSONArray(temples.get(templeCenterIndex).getAsString("images")),
-                                "images").get("images");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            // iterates over all the URLs to load the images in the memory
-            for(int i=0; i<templeImages.size(); i++) {
-                String imageUrl = templeImages.get(i).getAsString("image");
-                final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+ File.separator + templeCenterIndex+"_"+ URLUtil.guessFileName(imageUrl, null, null));
-                Uri downloadUri = Uri.parse(imageUrl.replaceAll(" ", "%20"));
-                DataDownloadUtil.downloadImageFromServer(downloadUri, destination);
-            }
-        }
     }
 }

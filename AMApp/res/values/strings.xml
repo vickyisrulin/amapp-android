@@ -286,8 +286,9 @@
     <string name="nav_anoopam_events">Events</string>
     <string name="nav_video">Anoopam Video</string>
     <string name="nav_video_title">Anoopam Video</string>
-    <string name="nav_audio">Anoopam Audio (BETA)</string>
-    <string name="nav_audio_title">Anoopam Audio (BETA)</string>
+    <string name="nav_audio">Anoopam Audio </string>
+    <string name="nav_audio_title">Anoopam Audio </string>
+
     <string name="nav_contact_us">Contact Us</string>
     <string name="nav_contact_us_title">Contact Us</string>
     <string name="nav_about">About</string>
@@ -423,5 +424,6 @@
     <string name="empty_text">Jai Shri Swaminarayan</string>
     <string name="player_button">Album Art Screen</string>
     <string name="pause">Pause</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 
 </resources>

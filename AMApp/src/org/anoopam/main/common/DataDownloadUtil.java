@@ -158,11 +158,39 @@ public class DataDownloadUtil {
 
 
         if (checkfile.isFile()) {
-            SmartUtils.copyFile(fromDir, imageFilename, toDir);
+            SmartUtils.copyFile(fromDir, imageFilename, toDir,true,false);
         }
         //  MediaScannerConnection mediaScanner =  new MediaScannerConnection(getApplicationContext(),null);
         //  mediaScanner.scanFile(toDir+File.separator+downloadFileName, null);
     }
+
+
+    public static String saveSharedToGallery(String fromPathPrefix, String imageFilename) {
+        String fromDir = fromPathPrefix;
+        String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator+".SharedPictures"+File.separator;
+
+        File checkfile = new File(fromDir+imageFilename);
+
+
+        if (checkfile.isFile()) {
+            SmartUtils.copyFile(fromDir, imageFilename, toDir,false,false);
+        }
+
+        return toDir;
+        //  MediaScannerConnection mediaScanner =  new MediaScannerConnection(getApplicationContext(),null);
+        //  mediaScanner.scanFile(toDir+File.separator+downloadFileName, null);
+    }
+
+    public static void removeSharedDir() {
+        try{
+            String toDir = Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"AnoopamMission"+File.separator+".SharedPictures";
+            SmartUtils.deleteFileOrDirectoryRecursive(new File(toDir));
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * raises the sharing intent for the Image File located at fromPathPrefix + imageFilename
@@ -178,6 +206,7 @@ public class DataDownloadUtil {
         String fullImagePath = fromPathPrefix + imageFilename;
         try {
             String path = MediaStore.Images.Media.insertImage(callingActivity.getContentResolver(), fullImagePath, imageFilename, null);
+
             Uri imageUri = Uri.parse(path);
             shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
             callingActivity.startActivity(Intent.createChooser(shareIntent, "Share via"));

@@ -1,5 +1,6 @@
 package org.anoopam.main.thakorjitoday;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.os.Handler;
@@ -34,6 +35,7 @@ public class ImageFragment extends SmartFragment  {
 
     public ImageFragment() {}
 
+    @SuppressLint("ValidFragment")
     public ImageFragment(ContentValues imgageData,int pos) {
         super();
         this.imgageData = imgageData;
@@ -62,7 +64,7 @@ public class ImageFragment extends SmartFragment  {
 
         progress = (ProgressBar) currentView.findViewById(R.id.progress);
 
-        final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage()+File.separator + ((TempleGalleryActivity)getActivity()).getTempleID() +"_"+ URLUtil.guessFileName(imgageData.getAsString("image"), null, null));
+        final File destination = new File(SmartUtils.getAnoopamMissionDailyRefreshImageStorage(((TempleGalleryActivity)getActivity()).getTempleID())+File.separator + ((TempleGalleryActivity)getActivity()).getTempleID() +"_"+ URLUtil.guessFileName(imgageData.getAsString("image"), null, null));
         Uri downloadUri = Uri.parse(imgageData.getAsString("image").replaceAll(" ", "%20"));
         int hasImage = SmartApplication.REF_SMART_APPLICATION.readSharedPreferences().getInt(imgageData.getAsString("image"),0);
         if(destination.exists() && hasImage==1){
@@ -158,6 +160,7 @@ public class ImageFragment extends SmartFragment  {
             public void run() {
                 try{
                     if(((TempleGalleryActivity)getActivity()).getViewPager().getCurrentItem()==pos){
+
                         TempleGalleryActivity.itemDownload.setVisible(isImageAvailable);
                         TempleGalleryActivity.itemShare.setVisible(isImageAvailable);
                         ((TempleGalleryActivity)getActivity()).setDownloadPath(pos);
