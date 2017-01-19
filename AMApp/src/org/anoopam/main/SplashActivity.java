@@ -69,6 +69,16 @@ public class SplashActivity extends AMAppMasterActivity {
         super.onCreate(savedInstanceState);
         mLayout = (FrameLayout) findViewById(getLayoutID());
         splashImage = (ImageView) findViewById(R.id.splashscreen);
+        splashImage.setClickable(true);
+        splashImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.setData(Uri.parse("http://www.anoopam.org/amapp/misc/splash-redirect.php"));
+                startActivity(intent);
+            }
+        });
         setSplashScreenImage();
         CrashlyticsUtils.crashlyticsLog("Started Splash Screen");
     }

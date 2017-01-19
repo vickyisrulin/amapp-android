@@ -11,6 +11,7 @@
     android:layout_height="match_parent"
     android:src="@drawable/splash"
         android:scaleType="centerCrop"
+        android:clickable="true"
     android:layout_gravity="center"/>
 
 
