@@ -7,7 +7,7 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.20.1'
     }
 }
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
@@ -44,7 +44,7 @@ if(project.hasProperty("amapps.signing")
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "21.0.2"
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "org.anoopam.main"
@@ -54,9 +54,9 @@ android {
         // 9 - ALPHA, 7 - BETA
         // 10 - Google Play
         // e.g. 09 - Samsung App store, 08 - LG App Store, 11 - NEW-APP-STORE to override Google Play
-        versionCode 710000006
+        versionCode 710000007
         //versionName "1.0.000"
-        versionName "1.01"
+        versionName "1.02"
     }
 
     lintOptions {
