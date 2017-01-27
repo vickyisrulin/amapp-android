@@ -67,6 +67,9 @@ public class AMServiceRequest {
      */
     public void fetchUpdatedServerData() {
         //TODO: Optimize these calls to get the data in one server request
+        //To Store Device ID
+        AMServiceRequest.getInstance().storeDeviceIDToServer();
+
         AMServiceRequest.getInstance().startHomeScreenTilesUpdatesFromServer();
         AMServiceRequest.getInstance().startThakorjiTodayUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingAnoopamAudioFromServer();
@@ -75,6 +78,55 @@ public class AMServiceRequest {
         AMServiceRequest.getInstance().startNewsUpdatesFromServer();
         AMServiceRequest.getInstance().startFetchingNewSplashScreenFromServer();
         AMServiceRequest.getInstance().startFetchingAnoopamVideoFromServer();
+
+    }
+
+    /**
+     * invokes the request to Store Device ID
+     */
+    public void storeDeviceIDToServer(){
+
+        String token = AMApplication.getInstance().readSharedPreferences().getString("DeviceRegistrationId","");
+
+        Log.i(TAG,"---------storeDeviceIDToServer----------------------"+token);
+        Log.i(TAG,"-------------------------------------"+NotificationsUtil.getAndroidID(AMApplication.getInstance().getApplicationContext()));
+
+        String WEBSERVICE_URL = "http://anoopam.org/api/ams/v2/deviceRegistration.php?action=notification-registration&device_reg_id="+token+"&deviceid="+NotificationsUtil.getAndroidID(AMApplication.getInstance().getApplicationContext())+"&country="+AMApplication.getInstance().getApplicationContext().getResources().getConfiguration().locale.getCountry();
+
+        smartCaching = new SmartCaching(AMApplication.getInstance().getApplicationContext());
+        // TODO: Implement this method to send token to your app server.
+
+        HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.PARAMS, null);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_TYPES, SmartWebManager.REQUEST_TYPE.JSON_OBJECT);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.TAG, AMConstants.AMS_Request_Get_Audio_Cat_Tag);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.URL, WEBSERVICE_URL);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.REQUEST_METHOD, SmartWebManager.REQUEST_TYPE.GET);
+        requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.RESPONSE_LISTENER, new AMServiceResponseListener() {
+            @Override
+            public void onSuccess(JSONObject response) {
+                try {
+
+                    Log.i(TAG,">>>>>>>>>>>>>>>>>>>>>>>"+String.valueOf(response.toString()));
+
+                    /*   smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", true);
+                    smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", true);
+                    AMApplication.getInstance()
+                            .writeSharedPreferences(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, response
+                                    .getString(AMConstants.AMS_RequestParam_AnoopamAudio_LastUpdatedTimestamp));*/
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(String failureMessage) {
+                Log.e(TAG, "Error obtaining Audio metadata: " + failureMessage);
+            }
+        });
+        SmartWebManager.getInstance(AMApplication.getInstance().getApplicationContext()).addToRequestQueue(requestParams, null, false);
 
     }
 

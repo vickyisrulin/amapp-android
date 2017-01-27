@@ -8,8 +8,11 @@
 package org.anoopam.main.home;
 
 import android.content.ContentValues;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +26,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import org.anoopam.main.AMAppMasterActivity;
+import org.anoopam.main.MyFirebaseInstanceIDService;
 import org.anoopam.main.R;
 import org.anoopam.main.common.AMServiceRequest;
 import org.anoopam.main.common.crashlytics.CrashlyticsUtils;
@@ -244,5 +248,11 @@ public class HomeListActivity extends AMAppMasterActivity {
             default:
                 return;
         }
+    }
+
+    private String getDeviceID(){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String deviceRegistrationId = prefs.getString("DeviceRegistrationId", "");
+        return deviceRegistrationId;
     }
 }

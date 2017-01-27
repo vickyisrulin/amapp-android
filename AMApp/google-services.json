@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "574631367690",
+    "firebase_url": "https://durable-utility-792.firebaseio.com",
+    "project_id": "durable-utility-792",
+    "storage_bucket": "durable-utility-792.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574631367690:android:fe6a26e9d3b21fe8",
+        "android_client_info": {
+          "package_name": "org.anoopam.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574631367690-lg0veef0781egagqm21p8o181j01gmqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWbV0Q3eWLYbIj7aeGUMIHoGXsVfzWIHc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
 import org.anoopam.main.AMApplication;
@@ -38,5 +39,13 @@ public class NotificationsUtil {
         // hide the notification after its selected
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(0, notification);
+    }
+
+    public static String getAndroidID(Context context){
+
+        String android_id = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+        return android_id;
     }
 }
