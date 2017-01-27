@@ -76,6 +76,7 @@ public class SplashActivity extends AMAppMasterActivity {
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.setData(Uri.parse("http://www.anoopam.org/amapp/misc/splash-redirect.php"));
+                handler.removeCallbacksAndMessages(null);
                 startActivity(intent);
             }
         });
