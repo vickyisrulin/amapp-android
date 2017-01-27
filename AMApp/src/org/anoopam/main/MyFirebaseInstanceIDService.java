@@ -33,6 +33,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+
         Log.d(TAG, "Refreshed token: " + refreshedToken);
 
         // If you want to send messages to this application instance or
@@ -56,13 +57,14 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
 
-        Log.i(TAG,"---------sendRegistrationToServer--1-"+NotificationsUtil.getAndroidID(getApplicationContext()));
-        Log.i(TAG,"---------sendRegistrationToServer--2-"+token);
+        String deviceId = NotificationsUtil.getAndroidID(getApplicationContext());
+        String country = getApplicationContext().getResources().getConfiguration().locale.getCountry();
+        Log.i(TAG,"---------sendRegistrationToServer--deviceID-"+deviceId);
+        Log.i(TAG,"---------sendRegistrationToServer--Token-"+token);
 
-        String WEBSERVICE_URL = "http://anoopam.org/api/ams/v2/deviceRegistration.php?action=notification-registration&device_reg_id="+token+"&deviceid="+ NotificationsUtil.getAndroidID(getApplicationContext())+"&country="+getApplicationContext().getResources().getConfiguration().locale.getCountry();
+        String WEBSERVICE_URL = "http://anoopam.org/api/ams/v2/deviceRegistration.php?action=notification-registration&device_reg_id="+token+"&deviceid="+ deviceId+"&country="+country;
 
         smartCaching = new SmartCaching(AMApplication.getInstance().getApplicationContext());
-        // TODO: Implement this method to send token to your app server.
 
         HashMap<SmartWebManager.REQUEST_METHOD_PARAMS, Object> requestParams = new HashMap<>();
         requestParams.put(SmartWebManager.REQUEST_METHOD_PARAMS.CONTEXT,AMApplication.getInstance().getApplicationContext());
@@ -75,13 +77,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             @Override
             public void onSuccess(JSONObject response) {
                 try {
-
-                    Log.i(TAG,">>>>>>>>>>>>>>>>>>>>>>>"+String.valueOf(response.toString()));
-                 /*   smartCaching.cacheResponse(response.getJSONArray("categories"), "categories", true);
-                    smartCaching.cacheResponse(response.getJSONArray("audios"), "audios", true);*/
-                    /*AMApplication.getInstance()
-                            .writeSharedPreferences(AMConstants.KEY_AnoopamAudioLastUpdatedTimestamp, response
-                                    .getString(AMConstants.AMS_RequestParam_AnoopamAudio_LastUpdatedTimestamp));*/
+                    Log.i(TAG,"SUCCESS: >>>>>>>>>>>>"+String.valueOf(response.toString()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
