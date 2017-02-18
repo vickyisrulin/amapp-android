@@ -45,4 +45,5 @@ public class AMApplication extends SmartApplication {
         super.onLowMemory();
         //note that you can configure the max image cache count, see CONFIGURATION
     }
+//hello test1
 }
