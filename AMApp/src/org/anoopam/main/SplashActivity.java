@@ -71,6 +71,14 @@ public class SplashActivity extends AMAppMasterActivity {
         splashImage = (ImageView) findViewById(R.id.splashscreen);
         setSplashScreenImage();
         CrashlyticsUtils.crashlyticsLog("Started Splash Screen");
+        splashImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),WebviewActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
     private void setSplashScreenImage() {

@@ -223,6 +223,10 @@
             android:name="org.anoopam.main.news.NewsListActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="org.anoopam.main.WebviewActivity"
+            android:screenOrientation="portrait"/>
+
         <service
             android:name="org.anoopam.main.anoopamaudio.AudioService"
             android:exported="true"
